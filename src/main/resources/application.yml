@@ -5,6 +5,8 @@ geonetwork:
     url: http://localhost:9200
     indexPrefix: gn5-
     indexRecordName: gn5-records
+    username: elastic
+    password: changeme
     elasticsearch:
       settings:
         maxResultWindow: 50000
@@ -23,6 +25,11 @@ geonetwork:
     system:
       metadata:
         prefergrouplogo: true
+  security:
+    provider: database
+    passwordSalt: secret-hash-salt=
+    databaseUserAuthProperty: USERNAME_OR_EMAIL
+
 
 server:
   port: 7979
@@ -34,20 +41,38 @@ spring:
   application:
     name: GeoNetwork
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/gn
-    #    driverClassName: org.postgresql.Driver
-    #    url: jdbc:h2:mem:gn5
+#    url: jdbc:postgresql://localhost:5432/gn
+#    driverClassName: org.postgresql.Driver
+#    url: jdbc:h2:mem:gn5
     url: jdbc:h2:~/gn;AUTO_SERVER=TRUE
     driverClassName: org.h2.Driver
     username: www-data
     password: www-data
   jpa:
     open-in-view: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            clientId: github-client-id
+#            clientSecret: github-client-secret
+#          custom:
+#            client-id: custom-client-id
+#            client-secret: custom-client-secret
+#        provider:
+#          custom:
+#            authorization-uri: https://custom/auth/realms/test/protocol/openid-connect/auth
+#            token-uri: https://custom/auth/realms/test/protocol/openid-connect/token
+#            user-info-uri: https://custom/auth/realms/test/protocol/openid-connect/userinfo
+#            jwk-set-uri: https://custom/auth/realms/test/protocol/openid-connect/certs
+#            issuer-uri: https://custom/auth/realms/test
   cloud:
     gateway:
       mvc:
+
         routes:
           - id: geonetwork_proxy_redirect
             uri: ${geonetwork.openapi.url}
@@ -57,6 +82,8 @@ spring:
               - RewritePath=/geonetwork/(?<url>.*), /api/$\{url}
           - id: geonetwork_route
             uri: ${geonetwork.core.url}
+#            filters:
+#              -
             predicates:
               - Path=/geonetwork/**
 management:
@@ -78,4 +105,7 @@ debug: false
 logging:
   level:
     org.geonetwork.tasks.indexing: DEBUG
+    org.elasticsearch.client.RestClient: TRACE
+    org.apache.http.impl.client and org.apache.http.wire: TRACE
+    org.apache.http.headers: TRACE
 #    org.springframework.cache: TRACE
