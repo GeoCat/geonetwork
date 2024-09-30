@@ -1,0 +1,7 @@
+@if (search.hasMore()) {
+  <p-button
+    label="{{ buttonLabel() }}"
+    iconPos="right"
+    [disabled]="!search.hasMore()"
+    (onClick)="more()" />
+}

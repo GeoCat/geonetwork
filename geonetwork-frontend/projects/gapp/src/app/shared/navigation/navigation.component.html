@@ -1,0 +1,8 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="end">
+    <div class="flex gap-2">
+      <g-sign-in-form />
+      <p-dropdown gLanguagesLoader (onChange)="setLanguage($event)" />
+    </div>
+  </ng-template>
+</p-menubar>

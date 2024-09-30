@@ -1,0 +1,15 @@
+<div
+  gSearchContext="main"
+  filter="+isTemplate:n"
+  [size]="pageSize"
+  [score]="scoreConfig"
+  [aggregations]="aggregationConfig">
+  <gn-header></gn-header>
+  <gn-navigation></gn-navigation>
+
+  <div class="flex">
+    <router-outlet></router-outlet>
+
+    <p-scrollTop />
+  </div>
+</div>
