@@ -56,12 +56,12 @@ geonetwork:
         profileDefaults:
             - mimetype: application/geo+json
               defaultProfile: http://www.opengis.net/def/profile/OGC/0/ogc-record
+            - mimetype: application/json
+              defaultProfile: http://www.opengis.net/def/profile/OGC/0/ogc-record
             - mimetype: application/rdf+xml
               defaultProfile: http://geonetwork.net/def/profile/dcat
             - mimetype: application/xml
               defaultProfile: http://geonetwork.net/def/profile/raw-xml
-            - mimetype: application/json
-              defaultProfile: http://geonetwork.net/def/profile/elastic-json-index
     search:
       # This query filter is always added to all queries
       queryFilter: '+isTemplate:n'
@@ -114,13 +114,13 @@ spring:
   application:
     name: GeoNetwork
   datasource:
-    url: jdbc:postgresql://localhost:5432/gn
+    url: jdbc:postgresql://localhost:5432/geonetwork
     driverClassName: org.postgresql.Driver
     #    url: jdbc:h2:mem:gn5
     #    url: jdbc:h2:~/gn;AUTO_SERVER=TRUE
     #    driverClassName: org.h2.Driver
-    username: postgres
-    password: postgres
+    username: geonetwork
+    password: geonetwork
   jpa:
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
