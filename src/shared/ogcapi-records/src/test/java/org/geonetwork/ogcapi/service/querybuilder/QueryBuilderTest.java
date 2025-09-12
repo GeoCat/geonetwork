@@ -37,7 +37,7 @@ public class QueryBuilderTest {
     @BeforeEach
     public void setup() {
         queryBuilder = new QueryBuilder();
-        queryBuilder.queryablesService = new QueryablesService();
+        queryBuilder.queryablesService = new QueryablesService(null);
         queryBuilder.queryablesExtractor = new QueryablesExtractor();
         queryBuilder.queryablesExtractor.queryablesService = queryBuilder.queryablesService;
 
@@ -107,6 +107,9 @@ public class QueryBuilderTest {
                 ids,
                 externalids,
                 sortby,
+                null,
+                "cql2-text",
+                null,
                 parameterMap);
     }
 }

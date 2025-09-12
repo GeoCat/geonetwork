@@ -5,18 +5,20 @@
  */
 package org.geonetwork.ogcapi.service.ogcapi;
 
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.Set;
+import java.util.*;
 import org.geonetwork.index.model.record.IndexRecord;
 import org.geonetwork.ogcapi.controllerexceptions.NotFoundException;
-import org.geonetwork.ogcapi.records.generated.model.OgcApiRecordsGetRecords200ResponseDto;
-import org.geonetwork.ogcapi.records.generated.model.OgcApiRecordsRecordGeoJSONDto;
+import org.geonetwork.ogcapi.records.generated.model.*;
 import org.geonetwork.ogcapi.service.dataaccess.CatalogApi;
 import org.geonetwork.ogcapi.service.dataaccess.ElasticWithUserPermissions;
 import org.geonetwork.ogcapi.service.dataaccess.SimpleElastic;
+import org.geonetwork.ogcapi.service.facets.FacetsResponseInjector;
+import org.geonetwork.ogcapi.service.facets.RecordsFacetsElasticQueryBuilder;
 import org.geonetwork.ogcapi.service.indexConvert.OgcApiGeoJsonConverter;
 import org.geonetwork.ogcapi.service.links.FormatterApiRecordLinkAttacher;
 import org.geonetwork.ogcapi.service.links.ItemPageLinks;
@@ -30,6 +32,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 /** High level implementation for the ogcapi-records "Items" endpoints. */
 @Component
 public class OgcApiItemsApi {
+
+    @Autowired
+    FacetsResponseInjector facetsInjector;
 
     @Autowired
     CatalogApi catalogApi;
@@ -57,6 +62,9 @@ public class OgcApiItemsApi {
 
     @Autowired
     FormatterApiRecordLinkAttacher formatterApiRecordLinkAttacher;
+
+    @Autowired
+    RecordsFacetsElasticQueryBuilder recordsFacetsBuilder;
 
     /**
      * gets a record in a collection. collections/{collectionid}/items/{itemid} endpoint
@@ -114,6 +122,8 @@ public class OgcApiItemsApi {
             }
         });
 
+        facetsInjector.injectFacets(response, records);
+
         return response;
     }
 
@@ -131,10 +141,16 @@ public class OgcApiItemsApi {
         SearchResponse<IndexRecord> searchResponse = simpleElastic.search(
                 s -> {
                     recordsEsQueryBuilder.buildSearchRequest(s, ogcApiQuery, Set.of("*"));
-                    var query = recordsEsQueryBuilder.buildUnderlyingQuery(ogcApiQuery, collectionFilter);
+                    Query query = null;
+                    try {
+                        query = recordsEsQueryBuilder.buildUnderlyingQuery(ogcApiQuery, collectionFilter);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     query = elasticWithUserPermissions.createPermissionQuery(query);
                     s.query(query);
                     s.index(simpleElastic.getRecordIndexName());
+                    s.aggregations(recordsFacetsBuilder.createElasticAggregationsFromFacetsDefinition());
                     return s;
                 },
                 IndexRecord.class);
