@@ -64,7 +64,8 @@
               "buildTarget": "main:build:production"
             },
             "development": {
-              "buildTarget": "main:build:development"
+              "buildTarget": "main:build:development",
+              "proxyConfig": "proxy.config.js"
             }
           },
           "defaultConfiguration": "development"
@@ -146,6 +147,66 @@
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "projects/shared/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "gn4-api-client": {
+      "projectType": "library",
+      "root": "projects/gn4-api-client",
+      "sourceRoot": "projects/gn4-api-client/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gn4-api-client/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gn4-api-client/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/gn4-api-client/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "gn-api-client": {
+      "projectType": "library",
+      "root": "projects/gn-api-client",
+      "sourceRoot": "projects/gn-api-client/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gn-api-client/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gn-api-client/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/gn-api-client/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --project main",
+    "build": "ng build gn4-api-client && ng build gn-api-client && ng build main",
     "watch": "ng build --watch --configuration development",
+    "build-api-geonetwork4-client": "curl -H 'Accept: application/json' http://localhost:8080/geonetwork/srv/api/doc -o projects/gn4-api-client/openapi.json; openapi-generator-cli generate -i projects/gn4-api-client/openapi.json  -g typescript-angular -o  projects/gn4-api-client/src/lib  --skip-validate-spec",
+    "build-api-geonetwork-client": "curl http://localhost:7979/v3/api-docs -o projects/gn-api-client/openapi.json; openapi-generator-cli generate -i projects/gn-api-client/openapi.json  -g typescript-angular -o  projects/gn-api-client/src/lib  --skip-validate-spec",
     "test": "ng test"
   },
   "prettier": {
@@ -49,6 +51,7 @@
     "@angular/cli": "^20.3.1",
     "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.0",
+    "@openapitools/openapi-generator-cli": "^2.23.4",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
