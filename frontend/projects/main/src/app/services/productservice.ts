@@ -1220,4 +1220,4 @@ export class ProductService {
     getProductsWithOrders() {
         return Promise.resolve(this.getProductsWithOrdersData());
     }
-};
+}

@@ -2,6 +2,9 @@
 
   <app-search-component [(query)]="currentQuery"></app-search-component>
 
+  <p>Results: {{ store.results() | json }}</p>
+  <p>Loading: {{ store.isLoading() }}</p>
+
   <div class="flex flex-col md:flex-row min-h-screen gap-6" *ngIf="currentQuery">
     <div class="md:w-1/4 w-full">
       <app-facet-component></app-facet-component>
