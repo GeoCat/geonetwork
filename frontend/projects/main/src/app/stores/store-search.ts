@@ -10,11 +10,13 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { SearchService } from '../services/search.service';
-import { Result } from './result';
+import {elasticsearch, IndexRecord} from 'gn-api-client';
+
+
 
 type searchState = {
   searchQuery: string;
-  results: Result[];
+  results: elasticsearch.SearchHit<IndexRecord>[] | [];
   isLoading: boolean;
   filter: { query: string; order: 'asc' | 'desc' };
 };
@@ -28,16 +30,6 @@ const initialState: searchState = {
 
 export const SearchStore = signalStore(
   withState(initialState),
-  withComputed(({ results, filter }) => ({
-    resultCount: computed(() => results().length),
-    sortedResults: computed(() => {
-      const direction = filter.order() === 'asc' ? 1 : -1;
-
-      return results().slice().sort((a, b) =>
-        direction * a.title.localeCompare(b.title)
-      );
-    }),
-  })),
   withMethods((store, searchService = inject(SearchService)) => ({
     updateQuery(query: string): void {
       patchState(store, (state) => ({ filter: { ...state.filter, query } }));
@@ -54,7 +46,7 @@ export const SearchStore = signalStore(
           return searchService.getByQuery(query).pipe(
 
             tapResponse({
-              next: (results: Result[]) => patchState(store, { results }),
+              next: (results )=> patchState(store, { results }),
               error: console.error,
               finalize: () => patchState(store, { isLoading: false }),
             })

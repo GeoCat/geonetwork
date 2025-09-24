@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { DataView } from 'primeng/dataview';
 import { SelectButton } from 'primeng/selectbutton';
 import { SearchStore } from '../../stores/store-search';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-result-view',
@@ -14,8 +15,10 @@ import { SearchStore } from '../../stores/store-search';
   styleUrls: ['./result-view-component.scss']
 })
 export class ResultViewComponent {
-  layout: 'list' | 'grid' = 'grid';
+  layout: 'list' | 'grid' = 'list';
   options: ('list' | 'grid')[] = ['list', 'grid'];
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   readonly store = inject(SearchStore);
 
@@ -26,4 +29,13 @@ export class ResultViewComponent {
   get isLoading() {
     return this.store.isLoading();
   }
+
+  viewDetails(id: string) {
+    const currentQuery = this.route.snapshot.queryParamMap.get('q');
+    this.router.navigate(['/catalogue/record/', id], {
+      state: { searchQuery: currentQuery }
+    });
+  }
+
+
 }
