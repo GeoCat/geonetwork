@@ -1,0 +1,23 @@
+
+<div class="flex justify-between items-center pb-4 mb-4">
+  <div class="flex items-center gap-2">
+    <span class="font-semibold">
+      {{ totalCount }} total results
+      <span class="text-muted-color">(showing {{ currentCount }})</span>
+    </span>
+  </div>
+
+  <p-select-button
+    [ngModel]="layout"
+    (ngModelChange)="onLayoutChange($event)"
+    [options]="layoutOptions"
+    [allowEmpty]="false"
+    styleClass="layout-toggle">
+    <ng-template #item let-item>
+      <i class="pi" [ngClass]="{
+        'pi-bars': item === 'list',
+        'pi-table': item === 'grid'
+      }"></i>
+    </ng-template>
+  </p-select-button>
+</div>

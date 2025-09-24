@@ -14,6 +14,7 @@
       <ng-template pTemplate="header">
         <div class="p-4 bg-surface-50">
           <h1 class="text-2xl font-bold">{{ result()?._source?.resourceTitleObject?.['default'] }}</h1>
+          <h2 class="text-xl">{{ result()?._source?.resourceType }}</h2>
           <p class="text-surface-600 mt-2">ID: {{ result()?._source?.uuid }}</p>
         </div>
       </ng-template>

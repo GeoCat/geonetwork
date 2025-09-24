@@ -1,24 +1,31 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from "@angular/forms";
-import { DataView } from 'primeng/dataview';
-import { SelectButton } from 'primeng/selectbutton';
+import { Paginator } from 'primeng/paginator';
 import { SearchStore } from '../../stores/store-search';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Paginator } from 'primeng/paginator';
+import { ResultItemList } from '../result-item-list/result-item-list';
+import { ResultItemGrid } from '../result-item-grid/result-item-grid' ;
+import { ResultHeader } from '../result-header/result-header';
+import { LoadingComponent } from '../loading-component/loading-component';
+import { EmptyStateComponent } from '../empty-state/empty-state';
 
 @Component({
   selector: 'app-result-view',
   standalone: true,
-  imports: [DataView, ButtonModule, CommonModule, Paginator, FormsModule, SelectButton],
+  imports: [
+    CommonModule,
+    Paginator,
+    ResultItemGrid,
+    ResultItemList,
+    ResultHeader,
+    LoadingComponent,
+    EmptyStateComponent
+  ],
   templateUrl: './result-view-component.html',
   styleUrls: ['./result-view-component.scss']
 })
-
 export class ResultViewComponent implements OnInit {
   layout: 'list' | 'grid' = 'list';
-  options: ('list' | 'grid')[] = ['list', 'grid'];
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   currentPage = 0;
@@ -31,19 +38,13 @@ export class ResultViewComponent implements OnInit {
     return this.store.results();
   }
 
-  get isLoading() {
-    return this.store.isLoading();
+  trackByResultId(index: number, result: any): string {
+    return result._id;
   }
 
-  get totalCount() {
-    return this.store.totalCount();
-  }
-
-  viewDetails(id: string) {
-    const currentQuery = this.route.snapshot.queryParamMap.get('q');
-    this.router.navigate(['/catalogue/record/', id], {
-      state: { searchQuery: currentQuery }
-    });
+  // Add this method to handle layout changes
+  onLayoutChange(newLayout: 'list' | 'grid') {
+    this.layout = newLayout;
   }
 
   ngOnInit() {
@@ -58,6 +59,18 @@ export class ResultViewComponent implements OnInit {
         this.pageSize = parseInt(size, 10);
       }
     });
+  }
+
+  viewDetails(id: string) {
+    const currentQuery = this.route.snapshot.queryParamMap.get('q');
+    this.router.navigate(['/catalogue/record/', id], {
+      state: { searchQuery: currentQuery }
+    });
+  }
+
+  onDownload(id: string) {
+    // Implement download logic here
+    console.log('Download:', id);
   }
 
   onPageChange(event: any) {
