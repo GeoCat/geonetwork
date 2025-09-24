@@ -1,4 +1,3 @@
-
 import { inject, Injectable } from '@angular/core';
 import { Observable, of, map } from 'rxjs';
 import {IndexRecord, elasticsearch} from 'gn-api-client';
@@ -10,17 +9,14 @@ import { SearchService as ApiSearchService } from 'gn4-api-client';
 export class SearchService {
   searchService: ApiSearchService = inject(ApiSearchService);
 
-  // TODO: Here we can type object to Elasticsearch SearchResponse<IndexRecord>
-  // We can discuss what to put in the state. Can be only an IndexRecord[]
-  // and avoid to tight couple the state with ES response (we may use OGC API Records in the future)
-  getByQuery(query: string): Observable<elasticsearch.SearchHit<IndexRecord>[]> {
+  getByQuery(query: string, page: number = 0, size: number = 10): Observable<{results: elasticsearch.SearchHit<IndexRecord>[], totalCount: number}> {
     if (!query || !query.trim()) {
-      return of([]);
+      return of({results: [], totalCount: 0});
     }
 
     let searchRequest: elasticsearch.SearchRequest = {
-      from: 0,
-      size: 100,
+      from: page * size,
+      size: size,
       query: {
         multi_match: {
           query: query.trim(),
@@ -31,10 +27,21 @@ export class SearchService {
 
     return this.searchService.search(searchRequest).pipe(
       map((response: elasticsearch.SearchResponse<IndexRecord>) => {
-        return response.hits.hits
+        let totalCount = 0;
+        if (typeof response.hits.total === 'number') {
+          totalCount = response.hits.total;
+        } else if (response.hits.total && typeof response.hits.total === 'object' && 'value' in response.hits.total) {
+          totalCount = response.hits.total.value;
+        }
+
+        return {
+          results: response.hits.hits,
+          totalCount: totalCount
+        };
       })
     );
   }
+
   getById(id: string): Observable<elasticsearch.SearchHit<IndexRecord> | null > {
     let searchRequest: elasticsearch.SearchRequest = {
       query: {
@@ -57,5 +64,4 @@ export class SearchService {
       })
     );
   }
-
 }

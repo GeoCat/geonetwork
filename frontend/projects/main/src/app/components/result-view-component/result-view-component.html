@@ -1,3 +1,4 @@
+
 <div *ngIf="store.isLoading(); else elseBlock">
   <div class="text-center p-4">
     <i class="pi pi-spin pi-spinner text-2xl"></i>
@@ -11,7 +12,8 @@
       <ng-template #header>
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
-            <span class="font-semibold">{{ results.length }} results found</span>
+            <!-- Show total count instead of current results length -->
+            <span class="font-semibold">{{ store.totalCount() }} total results (showing {{ results.length }})</span>
             <i class="pi pi-spin pi-spinner" *ngIf="isLoading"></i>
           </div>
           <p-select-button [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
@@ -21,6 +23,7 @@
           </p-select-button>
         </div>
       </ng-template>
+
 
       <ng-template #list let-items>
         <div *ngFor="let result of items; let first = first">
@@ -45,7 +48,6 @@
                 <div class="flex flex-row-reverse md:flex-row gap-2">
                   <button pButton icon="pi pi-eye" label="View Details"
                           [outlined]="true" (click)="viewDetails(result._id)"></button>
-
                   <button pButton icon="pi pi-download" label="Download" class="flex-auto md:flex-initial whitespace-nowrap"></button>
                 </div>
               </div>
@@ -78,7 +80,6 @@
                     <button pButton icon="pi pi-eye" label="View Details"
                             class="flex-auto whitespace-nowrap" size="small"
                             (click)="viewDetails(result._id)"></button>
-
                     <button pButton icon="pi pi-download" [outlined]="true" size="small"></button>
                   </div>
                 </div>
@@ -89,10 +90,18 @@
       </ng-template>
     </p-dataView>
   </div>
-
 </ng-template>
 
-
-
-
-
+<div *ngIf="store.results() && store.results()!.length > 0 && store.totalCount() > pageSize" class="pagination-container mt-6 border-t pt-4">
+  <p-paginator
+    [first]="currentPage * pageSize"
+    [rows]="pageSize"
+    [totalRecords]="store.totalCount()"
+    [rowsPerPageOptions]="pageSizeOptions"
+    [showCurrentPageReport]="true"
+    [showJumpToPageDropdown]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    (onPageChange)="onPageChange($event)"
+    styleClass="p-paginator-bottom"
+  ></p-paginator>
+</div>

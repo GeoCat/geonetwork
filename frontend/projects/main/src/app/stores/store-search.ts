@@ -12,24 +12,33 @@ import { tapResponse } from '@ngrx/operators';
 import { SearchService } from '../services/search.service';
 import {elasticsearch, IndexRecord} from 'gn-api-client';
 
-
-
 type searchState = {
   searchQuery: string;
   results: elasticsearch.SearchHit<IndexRecord>[] | [];
+  totalCount: number;
   isLoading: boolean;
   filter: { query: string; order: 'asc' | 'desc' };
+  currentPage: number;
+  pageSize: number;
 };
 
 const initialState: searchState = {
   searchQuery: '',
   results: [],
+  totalCount: 0,
   isLoading: false,
   filter: { query: '', order: 'asc' },
+  currentPage: 0,
+  pageSize: 10
 };
 
 export const SearchStore = signalStore(
   withState(initialState),
+  withComputed((store) => ({
+    hasResults: computed(() => store.results() !== null && store.results()!.length > 0),
+    isEmpty: computed(() => store.results() !== null && store.results()!.length === 0),
+    totalPages: computed(() => Math.ceil(store.totalCount() / store.pageSize()))
+  })),
   withMethods((store, searchService = inject(SearchService)) => ({
     updateQuery(query: string): void {
       patchState(store, (state) => ({ filter: { ...state.filter, query } }));
@@ -37,16 +46,22 @@ export const SearchStore = signalStore(
     updateOrder(order: 'asc' | 'desc'): void {
       patchState(store, (state) => ({ filter: { ...state.filter, order } }));
     },
+
     loadByQuery: rxMethod<string>(
       pipe(
         debounceTime(300),
         distinctUntilChanged(),
         tap(() => patchState(store, { isLoading: true })),
         switchMap((query) => {
-          return searchService.getByQuery(query).pipe(
 
+          patchState(store, { currentPage: 0, pageSize: 10, searchQuery: query });
+
+          return searchService.getByQuery(query, 0, 10).pipe(
             tapResponse({
-              next: (results )=> patchState(store, { results }),
+              next: (response) => patchState(store, {
+                results: response.results,
+                totalCount: response.totalCount
+              }),
               error: console.error,
               finalize: () => patchState(store, { isLoading: false }),
             })
@@ -54,5 +69,32 @@ export const SearchStore = signalStore(
         })
       )
     ),
+
+
+    loadByQueryWithPagination: rxMethod<{query: string, page: number, size: number}>(
+      pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => patchState(store, { isLoading: true })),
+        switchMap(({query, page, size}) => {
+          patchState(store, { currentPage: page, pageSize: size, searchQuery: query });
+
+          return searchService.getByQuery(query, page, size).pipe(
+            tapResponse({
+              next: (response) => patchState(store, {
+                results: response.results,
+                totalCount: response.totalCount
+              }),
+              error: console.error,
+              finalize: () => patchState(store, { isLoading: false }),
+            })
+          );
+        })
+      )
+    ),
+
+    searchWithPagination(query: string, page: number = 0, size: number = 10): void {
+      this.loadByQueryWithPagination({ query, page, size });
+    }
   }))
 );

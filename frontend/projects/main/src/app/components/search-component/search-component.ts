@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './search-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class SearchComponent implements OnInit {
   @Input() query = '';
   @Output() queryChange = new EventEmitter<string>();
@@ -29,7 +30,7 @@ export class SearchComponent implements OnInit {
     if (urlQuery) {
       this.query = urlQuery;
       this.queryChange.emit(urlQuery);
-      this.store.loadByQuery(urlQuery);
+      this.store.searchWithPagination(urlQuery, 0, 10);
     }
 
     this.route.queryParamMap.subscribe(params => {
@@ -37,7 +38,7 @@ export class SearchComponent implements OnInit {
       if (newQuery !== this.query) {
         this.query = newQuery;
         this.queryChange.emit(newQuery);
-        this.store.loadByQuery(newQuery);
+        this.store.searchWithPagination(newQuery, 0, 10);
       }
     });
   }
@@ -70,10 +71,14 @@ export class SearchComponent implements OnInit {
   private updateUrlAndSearch(query: string) {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { q: query || null },
+      queryParams: {
+        q: query || null,
+        page: null,
+        size: null
+      },
       queryParamsHandling: 'merge'
     });
 
-    this.store.loadByQuery(query);
+    this.store.searchWithPagination(query, 0, 10);
   }
 }
