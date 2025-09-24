@@ -11,7 +11,7 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext
         }       from '@angular/common/http';
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
@@ -23,6 +23,7 @@ import { RelatedItemType } from '../model/relatedItemType';
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import { BaseService } from '../api.base.service';
+import { IndexRecord, elasticsearch } from 'gn-api-client';
 
 
 
@@ -39,15 +40,15 @@ export class SearchService extends BaseService {
      * Executes several searches with a Elasticsearch API request.
      * The multi search API executes several searches from a single API request. See https://www.elastic.co/guide/en/elasticsearch/reference/current/search-multi-search.html for search parameters, and https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html Query DSL.
      * @param body JSON request based on Elasticsearch API.
-     * @param bucket 
+     * @param bucket
      * @param relatedType Type of related resource. If none, no associated resource returned.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public msearch(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<string>;
-    public msearch(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
-    public msearch(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
-    public msearch(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public msearch(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<string>;
+    public msearch(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
+    public msearch(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
+    public msearch(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'application/x-ndjson', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling msearch.');
         }
@@ -100,7 +101,7 @@ export class SearchService extends BaseService {
 
         let localVarPath = `/search/records/_msearch`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<string>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<elasticsearch.SearchResponse<IndexRecord>>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: body,
@@ -119,15 +120,15 @@ export class SearchService extends BaseService {
      * Execute a search query and get back search hits that match the query.
      * The search API execute a search query with a JSON request body. For more information see https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html for search parameters, and https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html JSON Query DSL.
      * @param body JSON request based on Elasticsearch API.
-     * @param bucket 
+     * @param bucket
      * @param relatedType Type of related resource. If none, no associated resource returned.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public search(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<string>;
-    public search(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
-    public search(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
-    public search(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public search(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<elasticsearch.SearchResponse<IndexRecord>>;
+    // public search(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<elasticsearch.SearchResponse<IndexRecord>>>;
+    public search(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<elasticsearch.SearchResponse<IndexRecord>>>;
+    public search(body: elasticsearch.SearchRequest, bucket?: string, relatedType?: Array<RelatedItemType>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling search.');
         }
@@ -178,7 +179,7 @@ export class SearchService extends BaseService {
 
         let localVarPath = `/search/records/_search`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<string>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<elasticsearch.SearchResponse<IndexRecord>>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: body,

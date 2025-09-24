@@ -5,7 +5,7 @@ import {InputText} from 'primeng/inputtext';
 import {InputGroup} from 'primeng/inputgroup';
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {Button} from 'primeng/button';
-import { SearchService } from 'gn4-api-client';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-search-component',
@@ -26,11 +26,7 @@ export class SearchComponent {
 
   onSearch() {
     console.log('Search submitted:', this.query);
-    this.searchService.search("{\"from\": 1, \"size\": 10}").subscribe(
-      (response) => {
-        console.log(response);
-      }
-    )
+    this.searchService.getByQuery("");
   }
 
     onInput(event: Event) {

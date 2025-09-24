@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Result } from '../stores/result';
-import { IndexRecord} from 'gn-api-client';
+import { IndexRecord, elasticsearch} from 'gn-api-client';
 import { SearchService as ApiSearchService } from 'gn4-api-client';
 
 @Injectable()
@@ -12,9 +12,15 @@ export class SearchService {
   // We can discuss what to put in the state. Can be only an IndexRecord[]
   // and avoid to tight couple the state with ES response (we may use OGC API Records in the future)
   getByQuery(query: string): Observable<Result[]> {
-    this.searchService.search("{\"from\": 1, \"size\": 10}").subscribe(
-      (response) => {
-        console.log(response);
+
+    let searchRequest: elasticsearch.SearchRequest = {
+      from: 0,
+      size: 10
+    };
+
+    this.searchService.search(searchRequest).subscribe(
+      (response: elasticsearch.SearchResponse) => {
+        console.log(response.hits);
       }
     )
 

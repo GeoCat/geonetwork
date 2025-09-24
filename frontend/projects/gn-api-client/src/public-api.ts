@@ -3,3 +3,4 @@
  */
 
 export * from './lib/index';
+export * as elasticsearch from './lib/elasticsearch/types';
