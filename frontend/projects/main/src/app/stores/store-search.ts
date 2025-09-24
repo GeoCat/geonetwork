@@ -52,6 +52,7 @@ export const SearchStore = signalStore(
         tap(() => patchState(store, { isLoading: true })),
         switchMap((query) => {
           return searchService.getByQuery(query).pipe(
+
             tapResponse({
               next: (results: Result[]) => patchState(store, { results }),
               error: console.error,
