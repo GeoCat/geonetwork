@@ -30,6 +30,7 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+/.angular/cache/*
 .sass-cache/
 /connect.lock
 /coverage
@@ -40,3 +41,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/projects/main/.angular/cache/20.3.2/primeng-quickstart/.tsbuildinfo
+/frontend/projects/main/.angular/cache/20.3.2/primeng-quickstart/angular-compiler.db
+/frontend/projects/main/.angular/cache/20.3.2/primeng-quickstart/angular-compiler.db-lock
+/projects/main/.angular/cache/20.3.2/primeng-quickstart/angular-compiler.db
+/projects/main/.angular/cache/20.3.2/primeng-quickstart/angular-compiler.db-lock
