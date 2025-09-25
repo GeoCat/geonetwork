@@ -2,7 +2,15 @@
   <div class="bg-surface-50 flex justify-center rounded p-4 mb-4">
     <div class="relative mx-auto">
       <div class="bg-surface-200 rounded w-full h-32 flex items-center justify-center">
-        <i class="pi pi-file-o text-4xl text-surface-400"></i>
+        <img *ngIf="getOverviewImage(); else noImage"
+             [src]="getOverviewImage()"
+             [alt]="getOverviewImageName()"
+             class="w-full h-auto rounded shadow-md"
+             (error)="onImageError($event)">
+        <ng-template #noImage>
+          <i class="pi pi-file-o text-6xl text-surface-400"></i>
+          <p class="mt-2 text-sm text-surface-600">No preview available</p>
+        </ng-template>
       </div>
     </div>
   </div>

@@ -4,7 +4,15 @@
 >
   <div class="md:w-40 relative">
     <div class="bg-surface-100 rounded w-full h-32 flex items-center justify-center">
-      <i class="pi pi-file-o text-4xl text-surface-400"></i>
+      <img *ngIf="getOverviewImage(); else noImage"
+           [src]="getOverviewImage()"
+           [alt]="getOverviewImageName()"
+           class="w-full h-auto rounded shadow-md"
+           (error)="onImageError($event)">
+      <ng-template #noImage>
+        <i class="pi pi-file-o text-6xl text-surface-400"></i>
+        <p class="mt-2 text-sm text-surface-600">No preview available</p>
+      </ng-template>
     </div>
   </div>
   <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">

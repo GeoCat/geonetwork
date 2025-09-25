@@ -23,7 +23,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="md:col-span-1">
             <div class="bg-surface-100 rounded p-8 text-center">
-              <i class="pi pi-file-o text-6xl text-surface-400"></i>
+              <img *ngIf="getOverviewImage(); else noImage"
+                   [src]="getOverviewImage()"
+                   [alt]="getOverviewImageName()"
+                   class="w-full h-auto rounded shadow-md"
+                   (error)="$event.target.style.display='none'">
+              <ng-template #noImage>
+                <i class="pi pi-file-o text-6xl text-surface-400"></i>
+                <p class="mt-2 text-sm text-surface-600">No preview available</p>
+              </ng-template>
             </div>
           </div>
 
