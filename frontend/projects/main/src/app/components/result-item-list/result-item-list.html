@@ -3,7 +3,7 @@
   [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !isFirst }"
 >
   <div class="md:w-40 relative">
-    <div class="bg-surface-100 rounded w-full h-32 flex items-center justify-center">
+    <div class="rounded w-full md:h-32 flex items-center justify-center">
       <img *ngIf="getOverviewImage(); else noImage"
            [src]="getOverviewImage()"
            [alt]="getOverviewImageName()"

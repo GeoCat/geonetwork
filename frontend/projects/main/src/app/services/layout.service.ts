@@ -14,14 +14,12 @@ export interface AppState {
 export class LayoutService {
     _appState: AppState = {
         preset: 'Aura',
-        primary: 'emerald',
+        primary: 'sextant',
         surface: null,
         darkMode: false,
     };
 
     appState = signal<AppState>(this._appState);
-
-    transitionComplete: WritableSignal<boolean> = signal<boolean>(false);
 
     private initialized = false;
 
@@ -45,50 +43,11 @@ export class LayoutService {
                 return;
             }
 
-            this.handleDarkModeTransition(state);
-        });
-    }
-
-    private handleDarkModeTransition(config: AppState): void {
-        if ((document as any).startViewTransition) {
-            this.startViewTransition(config);
-        } else {
-            this.toggleDarkMode(config);
-            this.onTransitionEnd();
-        }
-    }
-
-    private startViewTransition(config: AppState): void {
-        const transition = (document as any).startViewTransition(() => {
-            this.toggleDarkMode(config);
-        });
-
-        transition.ready
-            .then(() => {
-                this.onTransitionEnd();
-            })
-            .catch(() => {});
-    }
-
-    toggleDarkMode(appState?: AppState): void {
-        const _appState = appState || this.appState();
-        if (_appState.darkMode) {
-            document.documentElement.classList.add('p-dark');
-        } else {
-            document.documentElement.classList.remove('p-dark');
-        }
-    }
-
-    private onTransitionEnd() {
-        this.transitionComplete.set(true);
-        setTimeout(() => {
-            this.transitionComplete.set(false);
         });
     }
 
     onAppStateUpdate() {
         this._appState = { ...this.appState() };
         this.appStateUpdate.next(this.appState());
-        this.toggleDarkMode();
     }
 }

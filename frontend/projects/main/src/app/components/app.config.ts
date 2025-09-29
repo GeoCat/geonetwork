@@ -13,10 +13,10 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { LayoutService } from '../services/layout.service';
+import { getColorDefinitions } from '../constants/colors';
 
 const presets = {
-  Aura,
-  Lara,
+  Aura
 } as const;
 
 declare type KeyOfType<T> = keyof T extends infer U ? U : never;
@@ -280,39 +280,10 @@ export class AppConfig {
   selectedSurface = computed(() => this.layoutService.appState().surface);
 
   primaryColors = computed<SurfacesType[]>(() => {
-    const presetPalette =
-      presets[this.layoutService.appState().preset as KeyOfType<typeof presets>]
-        .primitive;
-    const colors = [
-      'emerald',
-      'green',
-      'lime',
-      'orange',
-      'amber',
-      'yellow',
-      'teal',
-      'cyan',
-      'sky',
-      'blue',
-      'indigo',
-      'violet',
-      'purple',
-      'fuchsia',
-      'pink',
-      'rose',
-    ];
-    const palettes: SurfacesType[] = [];
-
-    colors.forEach((color) => {
-      palettes.push({
-        name: color,
-        palette: presetPalette?.[
-          color as KeyOfType<typeof presetPalette>
-        ] as SurfacesType['palette'],
-      });
-    });
-
-    return palettes;
+    return getColorDefinitions().map(color => ({
+      name: color.name,
+      palette: color.palette
+    }));
   });
 
   getPresetExt() {
