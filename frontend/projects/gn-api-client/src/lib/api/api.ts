@@ -18,4 +18,15 @@ export * from './searchController.service';
 import { SearchControllerService } from './searchController.service';
 export * from './sortables.service';
 import { SortablesService } from './sortables.service';
-export const APIS = [CapabilitiesService, CollectionService, CollectionsService, ConformanceService, IndexingControllerService, MeApiService, RecordService, RecordsService, SearchControllerService, SortablesService];
+export const APIS = [
+  CapabilitiesService,
+  CollectionService,
+  CollectionsService,
+  ConformanceService,
+  IndexingControllerService,
+  MeApiService,
+  RecordService,
+  RecordsService,
+  SearchControllerService,
+  SortablesService,
+];

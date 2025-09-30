@@ -11,18 +11,16 @@ import { PageableObject } from './pageableObject';
 import { SortObject } from './sortObject';
 import { Link } from './link';
 
-
-export interface PageLink { 
-    content?: Array<Link>;
-    empty?: boolean;
-    first?: boolean;
-    last?: boolean;
-    number?: number;
-    numberOfElements?: number;
-    pageable?: PageableObject;
-    size?: number;
-    sort?: Array<SortObject>;
-    totalElements?: number;
-    totalPages?: number;
+export interface PageLink {
+  content?: Array<Link>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  size?: number;
+  sort?: Array<SortObject>;
+  totalElements?: number;
+  totalPages?: number;
 }
-

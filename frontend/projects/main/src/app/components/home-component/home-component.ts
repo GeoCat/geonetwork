@@ -1,4 +1,3 @@
-
 import { SearchComponent } from '../search-component/search-component';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SearchStore } from '../../stores/store-search';

@@ -8,25 +8,23 @@
  * Do not edit the class manually.
  */
 
-
-export interface UserFeedbackDTO { 
-    approverName?: string;
-    authorEmail?: string;
-    authorName?: string;
-    authorOrganization?: string;
-    authorUserId?: number;
-    captcha?: string;
-    comment?: string;
-    date?: string;
-    keywords?: Array<string>;
-    metadataTitle?: string;
-    metadataUUID?: string;
-    optionPrivacy?: boolean;
-    parentUuid?: string;
-    published?: boolean;
-    rating?: { [key: string]: number; };
-    ratingAVG?: number;
-    showApproveButton?: boolean;
-    uuid?: string;
+export interface UserFeedbackDTO {
+  approverName?: string;
+  authorEmail?: string;
+  authorName?: string;
+  authorOrganization?: string;
+  authorUserId?: number;
+  captcha?: string;
+  comment?: string;
+  date?: string;
+  keywords?: Array<string>;
+  metadataTitle?: string;
+  metadataUUID?: string;
+  optionPrivacy?: boolean;
+  parentUuid?: string;
+  published?: boolean;
+  rating?: { [key: string]: number };
+  ratingAVG?: number;
+  showApproveButton?: boolean;
+  uuid?: string;
 }
-

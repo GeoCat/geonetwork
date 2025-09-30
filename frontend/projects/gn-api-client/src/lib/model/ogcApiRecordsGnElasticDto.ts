@@ -8,33 +8,33 @@
  * Do not edit the class manually.
  */
 
-
-export interface OgcApiRecordsGnElasticDto { 
-    elasticPath?: string;
-    elasticColumnType?: OgcApiRecordsGnElasticDto.ElasticColumnTypeEnum;
-    elasticColumnFormat?: OgcApiRecordsGnElasticDto.ElasticColumnFormatEnum;
-    elasticQueryType?: OgcApiRecordsGnElasticDto.ElasticQueryTypeEnum;
+export interface OgcApiRecordsGnElasticDto {
+  elasticPath?: string;
+  elasticColumnType?: OgcApiRecordsGnElasticDto.ElasticColumnTypeEnum;
+  elasticColumnFormat?: OgcApiRecordsGnElasticDto.ElasticColumnFormatEnum;
+  elasticQueryType?: OgcApiRecordsGnElasticDto.ElasticQueryTypeEnum;
 }
 export namespace OgcApiRecordsGnElasticDto {
-    export const ElasticColumnTypeEnum = {
-        Keyword: 'KEYWORD',
-        Text: 'TEXT',
-        Other: 'OTHER',
-        Date: 'DATE',
-        Geo: 'GEO',
-        Daterange: 'DATERANGE'
-    } as const;
-    export type ElasticColumnTypeEnum = typeof ElasticColumnTypeEnum[keyof typeof ElasticColumnTypeEnum];
-    export const ElasticColumnFormatEnum = {
-        Normal: 'NORMAL',
-        Lowercase: 'LOWERCASE'
-    } as const;
-    export type ElasticColumnFormatEnum = typeof ElasticColumnFormatEnum[keyof typeof ElasticColumnFormatEnum];
-    export const ElasticQueryTypeEnum = {
-        Nested: 'NESTED',
-        Multimatch: 'MULTIMATCH'
-    } as const;
-    export type ElasticQueryTypeEnum = typeof ElasticQueryTypeEnum[keyof typeof ElasticQueryTypeEnum];
+  export const ElasticColumnTypeEnum = {
+    Keyword: 'KEYWORD',
+    Text: 'TEXT',
+    Other: 'OTHER',
+    Date: 'DATE',
+    Geo: 'GEO',
+    Daterange: 'DATERANGE',
+  } as const;
+  export type ElasticColumnTypeEnum =
+    (typeof ElasticColumnTypeEnum)[keyof typeof ElasticColumnTypeEnum];
+  export const ElasticColumnFormatEnum = {
+    Normal: 'NORMAL',
+    Lowercase: 'LOWERCASE',
+  } as const;
+  export type ElasticColumnFormatEnum =
+    (typeof ElasticColumnFormatEnum)[keyof typeof ElasticColumnFormatEnum];
+  export const ElasticQueryTypeEnum = {
+    Nested: 'NESTED',
+    Multimatch: 'MULTIMATCH',
+  } as const;
+  export type ElasticQueryTypeEnum =
+    (typeof ElasticQueryTypeEnum)[keyof typeof ElasticQueryTypeEnum];
 }
-
-

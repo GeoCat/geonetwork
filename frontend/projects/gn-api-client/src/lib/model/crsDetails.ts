@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface CrsDetails { 
-    code?: string;
-    codeSpace?: string;
-    name?: string;
-    url?: string;
+export interface CrsDetails {
+  code?: string;
+  codeSpace?: string;
+  name?: string;
+  url?: string;
 }
-

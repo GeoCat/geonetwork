@@ -8,16 +8,14 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Identifier template details
  */
-export interface MetadataIdentifierTemplate { 
-    id?: number;
-    name?: string;
-    systemDefault?: boolean;
-    systemProvided?: boolean;
-    systemProvided_JPAWorkaround?: string;
-    template?: string;
+export interface MetadataIdentifierTemplate {
+  id?: number;
+  name?: string;
+  systemDefault?: boolean;
+  systemProvided?: boolean;
+  systemProvided_JPAWorkaround?: string;
+  template?: string;
 }
-

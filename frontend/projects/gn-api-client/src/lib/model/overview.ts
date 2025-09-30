@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface Overview { 
-    url?: string;
-    data?: string;
-    nameObject?: { [key: string]: string; };
+export interface Overview {
+  url?: string;
+  data?: string;
+  nameObject?: { [key: string]: string };
 }
-

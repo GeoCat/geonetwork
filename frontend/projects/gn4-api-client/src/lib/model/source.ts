@@ -9,30 +9,27 @@
  */
 import { ISODate } from './iSODate';
 
-
-export interface Source { 
-    creationDate?: ISODate;
-    datahubConfiguration?: string;
-    datahubEnabled?: boolean;
-    filter?: string;
-    groupOwner?: number;
-    label?: { [key: string]: string; };
-    listableInHeaderSelector?: boolean;
-    logo?: string;
-    name?: string;
-    serviceRecord?: string;
-    type?: Source.TypeEnum;
-    uiConfig?: string;
-    uuid?: string;
+export interface Source {
+  creationDate?: ISODate;
+  datahubConfiguration?: string;
+  datahubEnabled?: boolean;
+  filter?: string;
+  groupOwner?: number;
+  label?: { [key: string]: string };
+  listableInHeaderSelector?: boolean;
+  logo?: string;
+  name?: string;
+  serviceRecord?: string;
+  type?: Source.TypeEnum;
+  uiConfig?: string;
+  uuid?: string;
 }
 export namespace Source {
-    export const TypeEnum = {
-        Portal: 'portal',
-        Subportal: 'subportal',
-        Externalportal: 'externalportal',
-        Harvester: 'harvester'
-    } as const;
-    export type TypeEnum = typeof TypeEnum[keyof typeof TypeEnum];
+  export const TypeEnum = {
+    Portal: 'portal',
+    Subportal: 'subportal',
+    Externalportal: 'externalportal',
+    Harvester: 'harvester',
+  } as const;
+  export type TypeEnum = (typeof TypeEnum)[keyof typeof TypeEnum];
 }
-
-

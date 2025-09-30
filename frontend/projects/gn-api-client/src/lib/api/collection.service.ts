@@ -9,12 +9,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
-        }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable }                                        from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpParameterCodec,
+  HttpContext,
+} from '@angular/common/http';
+import { CustomHttpParameterCodec } from '../encoder';
+import { Observable } from 'rxjs';
 
 // @ts-ignore
 import { OgcApiRecordsCatalogDto } from '../model/ogcApiRecordsCatalogDto';
@@ -32,488 +38,812 @@ import { OgcApiRecordsJsonSchemaDto } from '../model/ogcApiRecordsJsonSchemaDto'
 import { OgcApiRecordsRecordGeoJSONDto } from '../model/ogcApiRecordsRecordGeoJSONDto';
 
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 import { BaseService } from '../api.base.service';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CollectionService extends BaseService {
+  constructor(
+    protected httpClient: HttpClient,
+    @Optional() @Inject(BASE_PATH) basePath: string | string[],
+    @Optional() configuration?: Configuration,
+  ) {
+    super(basePath, configuration);
+  }
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
-        super(basePath, configuration);
+  /**
+   * describe the record collection with id &#x60;catalogId&#x60;
+   * Fetch a detailed description of the catalog with id &#x60;catalogId&#x60;.
+   * @param catalogId local identifier of a catalog
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public describeCollection(
+    catalogId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsCatalogDto>;
+  public describeCollection(
+    catalogId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsCatalogDto>>;
+  public describeCollection(
+    catalogId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsCatalogDto>>;
+  public describeCollection(
+    catalogId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error(
+        'Required parameter catalogId was null or undefined when calling describeCollection.',
+      );
     }
 
-    /**
-     * describe the record collection with id &#x60;catalogId&#x60;
-     * Fetch a detailed description of the catalog with id &#x60;catalogId&#x60;.
-     * @param catalogId local identifier of a catalog
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public describeCollection(catalogId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsCatalogDto>;
-    public describeCollection(catalogId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsCatalogDto>>;
-    public describeCollection(catalogId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsCatalogDto>>;
-    public describeCollection(catalogId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling describeCollection.');
-        }
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json', 'text/html']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json',
-            'text/html'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsCatalogDto>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
+  /**
+   * the record collections
+   * Fetch list of catalogs offered by this API
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getCollections(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsGetCollections200ResponseDto>;
+  public getCollections(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsGetCollections200ResponseDto>>;
+  public getCollections(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsGetCollections200ResponseDto>>;
+  public getCollections(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsCatalogDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['application/json', 'text/html']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/ogcapi-records/collections`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsGetCollections200ResponseDto>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
+   * @param catalogId local identifier of a catalog
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getFacets(
+    catalogId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsFacetsDto>;
+  public getFacets(
+    catalogId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsFacetsDto>>;
+  public getFacets(
+    catalogId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsFacetsDto>>;
+  public getFacets(
+    catalogId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error('Required parameter catalogId was null or undefined when calling getFacets.');
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json', 'text/html']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/facets`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsFacetsDto>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * @param catalogId local identifier of a catalog
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getQueryables(
+    catalogId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsJsonSchemaDto>;
+  public getQueryables(
+    catalogId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsJsonSchemaDto>>;
+  public getQueryables(
+    catalogId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsJsonSchemaDto>>;
+  public getQueryables(
+    catalogId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error(
+        'Required parameter catalogId was null or undefined when calling getQueryables.',
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json', 'text/html']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/queryables`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsJsonSchemaDto>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
+   * fetch a single record
+   * Fetch the record with id &#x60;recordId&#x60; in the record collection with id &#x60;catalogId&#x60;.  Use content negotiation to request HTML or GeoJSON.
+   * @param catalogId local identifier of a catalog
+   * @param recordId local identifier of a record
+   * @param profile One or more identifiers that provide information about additional semantics (constraints, conventions, extensions), in addition to those defined by the media type, that are associated with the target resource.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecord(
+    catalogId: string,
+    recordId: string,
+    profile?: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsRecordGeoJSONDto>;
+  public getRecord(
+    catalogId: string,
+    recordId: string,
+    profile?: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsRecordGeoJSONDto>>;
+  public getRecord(
+    catalogId: string,
+    recordId: string,
+    profile?: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsRecordGeoJSONDto>>;
+  public getRecord(
+    catalogId: string,
+    recordId: string,
+    profile?: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error('Required parameter catalogId was null or undefined when calling getRecord.');
+    }
+    if (recordId === null || recordId === undefined) {
+      throw new Error('Required parameter recordId was null or undefined when calling getRecord.');
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (profile) {
+      profile.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'profile',
         );
+      });
     }
 
-    /**
-     * the record collections
-     * Fetch list of catalogs offered by this API
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getCollections(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsGetCollections200ResponseDto>;
-    public getCollections(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsGetCollections200ResponseDto>>;
-    public getCollections(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsGetCollections200ResponseDto>>;
-    public getCollections(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept([
+        '*/*',
+        'application/geo+json',
+        'text/html',
+        'application/json',
+      ]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json',
-            'text/html'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/items/${this.configuration.encodeParam({ name: 'recordId', value: recordId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsRecordGeoJSONDto>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
+  /**
+   * fetch records
+   * Fetch records of the record collection with id &#x60;catalogId&#x60;.  Every record in a dataset belongs to a collection. A dataset may consist of multiple record collections. A record collection is often a collection of records of a similar type, based on a common schema.  Use content negotiation to request HTML or GeoJSON.
+   * @param catalogId local identifier of a catalog
+   * @param bbox Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):  * Lower left corner, coordinate axis 1 * Lower left corner, coordinate axis 2 * Minimum value, coordinate axis 3 (optional) * Upper right corner, coordinate axis 1 * Upper right corner, coordinate axis 2 * Maximum value, coordinate axis 3 (optional)  If the value consists of four numbers, the coordinate reference system is WGS 84 longitude/latitude (http://www.opengis.net/def/crs/OGC/1.3/CRS84) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  If the value consists of six numbers, the coordinate reference system is WGS 84 longitude/latitude/ellipsoidal height (http://www.opengis.net/def/crs/OGC/0/CRS84h) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  The query parameter &#x60;bbox-crs&#x60; is specified in OGC API - Features - Part 2: Coordinate Reference Systems by Reference.  For WGS 84 longitude/latitude the values are in most cases the sequence of minimum longitude, minimum latitude, maximum longitude and maximum latitude. However, in cases where the box spans the antimeridian the first value (west-most box edge) is larger than the third value (east-most box edge).  If the vertical axis is included, the third and the sixth number are the bottom and the top of the 3-dimensional bounding box.  If a feature has multiple spatial geometry properties, it is the decision of the server whether only a single spatial geometry property is used to determine the extent or all relevant geometries.
+   * @param datetime Either a date-time or an interval. Date and time expressions adhere to RFC 3339. Intervals may be bounded or half-bounded (double-dots at start or end).  Examples:  * A date-time: \&quot;2018-02-12T23:20:50Z\&quot; * A bounded interval: \&quot;2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\&quot; * Half-bounded intervals: \&quot;2018-02-12T00:00:00Z/..\&quot; or \&quot;../2018-03-18T12:31:12Z\&quot;  Only features that have a temporal property that intersects the value of &#x60;datetime&#x60; are selected.  If a feature has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.
+   * @param limit The optional limit parameter limits the number of items that are presented in the response document.  Only items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.  Minimum &#x3D; 1. Maximum &#x3D; 10000. Default &#x3D; 10.
+   * @param offset Minimum &#x3D; 0.   Default &#x3D; 0.
+   * @param q The optional q parameter supports keyword searching.  Only records whose text fields contain one or more of the specified search terms are selected.  The specific set of text keys/fields/properties of a record to which the q operator is applied is up to the description of the server.   Implementations should, however, apply the q operator to the title, description and keywords keys/fields/properties.
+   * @param type The optional type parameter supports searching by resource type.  Only records whose type, as indicated by the value of the type core queryable, is equal to one of the listed values shall be selected.
+   * @param externalIds The optional externalId parameter supports searching by an identifier that was not assigned by the catalog (i.e. an external identifier). Only records with an external identifer, as indicated by the value of the externalId core queryable array, that is equal to one of the listed values shall be selected.
+   * @param ids The optional ids parameter allows a specified of records to be fetched from a catalog using their identifiers.
+   * @param sortby Specifies a comma-separated list of property names by which the response shall be sorted.  If the property name is preceded by a plus (+) sign it indicates an ascending sort for that property.  If the property name is preceded by a minus (-) sign it indicates a descending sort for that property.  If the property is not preceded by a plus or minus, then the default sort order implied is ascending (+).
+   * @param filter
+   * @param filterLang
+   * @param filterCrs
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsGetRecords200ResponseDto>;
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsGetRecords200ResponseDto>>;
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsGetRecords200ResponseDto>>;
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error(
+        'Required parameter catalogId was null or undefined when calling getRecords.',
+      );
+    }
 
-        let localVarPath = `/ogcapi-records/collections`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsGetCollections200ResponseDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (bbox) {
+      bbox.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'bbox',
         );
+      });
     }
-
-    /**
-     * @param catalogId local identifier of a catalog
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getFacets(catalogId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsFacetsDto>;
-    public getFacets(catalogId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsFacetsDto>>;
-    public getFacets(catalogId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsFacetsDto>>;
-    public getFacets(catalogId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling getFacets.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json',
-            'text/html'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/facets`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsFacetsDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>datetime,
+      'datetime',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>limit, 'limit');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>offset, 'offset');
+    if (q) {
+      q.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>element, 'q');
+      });
+    }
+    if (type) {
+      type.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'type',
         );
+      });
     }
-
-    /**
-     * @param catalogId local identifier of a catalog
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getQueryables(catalogId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsJsonSchemaDto>;
-    public getQueryables(catalogId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsJsonSchemaDto>>;
-    public getQueryables(catalogId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsJsonSchemaDto>>;
-    public getQueryables(catalogId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling getQueryables.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json',
-            'text/html'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/queryables`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsJsonSchemaDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (externalIds) {
+      externalIds.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'externalIds',
         );
+      });
     }
-
-    /**
-     * fetch a single record
-     * Fetch the record with id &#x60;recordId&#x60; in the record collection with id &#x60;catalogId&#x60;.  Use content negotiation to request HTML or GeoJSON.
-     * @param catalogId local identifier of a catalog
-     * @param recordId local identifier of a record
-     * @param profile One or more identifiers that provide information about additional semantics (constraints, conventions, extensions), in addition to those defined by the media type, that are associated with the target resource.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecord(catalogId: string, recordId: string, profile?: Array<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsRecordGeoJSONDto>;
-    public getRecord(catalogId: string, recordId: string, profile?: Array<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsRecordGeoJSONDto>>;
-    public getRecord(catalogId: string, recordId: string, profile?: Array<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsRecordGeoJSONDto>>;
-    public getRecord(catalogId: string, recordId: string, profile?: Array<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling getRecord.');
-        }
-        if (recordId === null || recordId === undefined) {
-            throw new Error('Required parameter recordId was null or undefined when calling getRecord.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (profile) {
-            profile.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'profile');
-            })
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/geo+json',
-            'text/html',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/items/${this.configuration.encodeParam({name: "recordId", value: recordId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsRecordGeoJSONDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (ids) {
+      ids.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'ids',
         );
+      });
     }
-
-    /**
-     * fetch records
-     * Fetch records of the record collection with id &#x60;catalogId&#x60;.  Every record in a dataset belongs to a collection. A dataset may consist of multiple record collections. A record collection is often a collection of records of a similar type, based on a common schema.  Use content negotiation to request HTML or GeoJSON.
-     * @param catalogId local identifier of a catalog
-     * @param bbox Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):  * Lower left corner, coordinate axis 1 * Lower left corner, coordinate axis 2 * Minimum value, coordinate axis 3 (optional) * Upper right corner, coordinate axis 1 * Upper right corner, coordinate axis 2 * Maximum value, coordinate axis 3 (optional)  If the value consists of four numbers, the coordinate reference system is WGS 84 longitude/latitude (http://www.opengis.net/def/crs/OGC/1.3/CRS84) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  If the value consists of six numbers, the coordinate reference system is WGS 84 longitude/latitude/ellipsoidal height (http://www.opengis.net/def/crs/OGC/0/CRS84h) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  The query parameter &#x60;bbox-crs&#x60; is specified in OGC API - Features - Part 2: Coordinate Reference Systems by Reference.  For WGS 84 longitude/latitude the values are in most cases the sequence of minimum longitude, minimum latitude, maximum longitude and maximum latitude. However, in cases where the box spans the antimeridian the first value (west-most box edge) is larger than the third value (east-most box edge).  If the vertical axis is included, the third and the sixth number are the bottom and the top of the 3-dimensional bounding box.  If a feature has multiple spatial geometry properties, it is the decision of the server whether only a single spatial geometry property is used to determine the extent or all relevant geometries.
-     * @param datetime Either a date-time or an interval. Date and time expressions adhere to RFC 3339. Intervals may be bounded or half-bounded (double-dots at start or end).  Examples:  * A date-time: \&quot;2018-02-12T23:20:50Z\&quot; * A bounded interval: \&quot;2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\&quot; * Half-bounded intervals: \&quot;2018-02-12T00:00:00Z/..\&quot; or \&quot;../2018-03-18T12:31:12Z\&quot;  Only features that have a temporal property that intersects the value of &#x60;datetime&#x60; are selected.  If a feature has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.
-     * @param limit The optional limit parameter limits the number of items that are presented in the response document.  Only items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.  Minimum &#x3D; 1. Maximum &#x3D; 10000. Default &#x3D; 10.
-     * @param offset Minimum &#x3D; 0.   Default &#x3D; 0.
-     * @param q The optional q parameter supports keyword searching.  Only records whose text fields contain one or more of the specified search terms are selected.  The specific set of text keys/fields/properties of a record to which the q operator is applied is up to the description of the server.   Implementations should, however, apply the q operator to the title, description and keywords keys/fields/properties.
-     * @param type The optional type parameter supports searching by resource type.  Only records whose type, as indicated by the value of the type core queryable, is equal to one of the listed values shall be selected.
-     * @param externalIds The optional externalId parameter supports searching by an identifier that was not assigned by the catalog (i.e. an external identifier). Only records with an external identifer, as indicated by the value of the externalId core queryable array, that is equal to one of the listed values shall be selected.
-     * @param ids The optional ids parameter allows a specified of records to be fetched from a catalog using their identifiers.
-     * @param sortby Specifies a comma-separated list of property names by which the response shall be sorted.  If the property name is preceded by a plus (+) sign it indicates an ascending sort for that property.  If the property name is preceded by a minus (-) sign it indicates a descending sort for that property.  If the property is not preceded by a plus or minus, then the default sort order implied is ascending (+).
-     * @param filter 
-     * @param filterLang 
-     * @param filterCrs 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsGetRecords200ResponseDto>;
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsGetRecords200ResponseDto>>;
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsGetRecords200ResponseDto>>;
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling getRecords.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (bbox) {
-            bbox.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'bbox');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>datetime, 'datetime');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>limit, 'limit');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>offset, 'offset');
-        if (q) {
-            q.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'q');
-            })
-        }
-        if (type) {
-            type.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'type');
-            })
-        }
-        if (externalIds) {
-            externalIds.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'externalIds');
-            })
-        }
-        if (ids) {
-            ids.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'ids');
-            })
-        }
-        if (sortby) {
-            sortby.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'sortby');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filterLang, 'filter-lang');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filterCrs, 'filter-crs');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/geo+json',
-            'text/html',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/items`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsGetRecords200ResponseDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (sortby) {
+      sortby.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'sortby',
         );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>filter, 'filter');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>filterLang,
+      'filter-lang',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>filterCrs,
+      'filter-crs',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept([
+        '*/*',
+        'application/geo+json',
+        'text/html',
+        'application/json',
+      ]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * get the list of sortable properties
-     * Fetch the list of properties which can be used to sort the getRecords response.
-     * @param catalogId local identifier of a catalog
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getSortables(catalogId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<object>;
-    public getSortables(catalogId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<object>>;
-    public getSortables(catalogId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<object>>;
-    public getSortables(catalogId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json' | 'text/html', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling getSortables.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json',
-            'text/html'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/sortables`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<object>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
     }
 
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/items`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsGetRecords200ResponseDto>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
+   * get the list of sortable properties
+   * Fetch the list of properties which can be used to sort the getRecords response.
+   * @param catalogId local identifier of a catalog
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getSortables(
+    catalogId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<object>;
+  public getSortables(
+    catalogId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<object>>;
+  public getSortables(
+    catalogId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<object>>;
+  public getSortables(
+    catalogId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json' | 'text/html';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error(
+        'Required parameter catalogId was null or undefined when calling getSortables.',
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json', 'text/html']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/sortables`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<object>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 }

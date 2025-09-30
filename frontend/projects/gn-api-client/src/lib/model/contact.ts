@@ -12,55 +12,53 @@ import { OgcApiRecordsPhoneDto } from './ogcApiRecordsPhoneDto';
 import { OgcApiRecordsEmailDto } from './ogcApiRecordsEmailDto';
 import { OgcApiRecordsLinkDto } from './ogcApiRecordsLinkDto';
 
-
 /**
  * Identification of, and means of communication with, person responsible for the resource.
  */
-export interface Contact { 
-    /**
-     * A value uniquely identifying a contact.
-     */
-    identifier?: string;
-    /**
-     * The name of the responsible person.
-     */
-    name?: string;
-    /**
-     * The name of the role or position of the responsible person taken from the organization\'s formal organizational hierarchy or chart.
-     */
-    position?: string;
-    /**
-     * Organization/affiliation of the contact.
-     */
-    organization?: string;
-    logo?: OgcApiRecordsLinkDto;
-    /**
-     * Telephone numbers at which contact can be made.
-     */
-    phones?: Array<OgcApiRecordsPhoneDto>;
-    /**
-     * Email addresses at which contact can be made.
-     */
-    emails?: Array<OgcApiRecordsEmailDto>;
-    /**
-     * Physical location at which contact can be made.
-     */
-    addresses?: Array<OgcApiRecordsAddressDto>;
-    /**
-     * On-line information about the contact.
-     */
-    links?: Array<OgcApiRecordsLinkDto>;
-    /**
-     * Time period when the contact can be contacted.
-     */
-    hoursOfService?: string;
-    /**
-     * Supplemental instructions on how or when to contact the responsible party.
-     */
-    contactInstructions?: string;
-    /**
-     * The set of named duties, job functions and/or permissions associated with this contact. (e.g. developer, administrator, etc.).
-     */
-    roles?: Array<string>;
+export interface Contact {
+  /**
+   * A value uniquely identifying a contact.
+   */
+  identifier?: string;
+  /**
+   * The name of the responsible person.
+   */
+  name?: string;
+  /**
+   * The name of the role or position of the responsible person taken from the organization\'s formal organizational hierarchy or chart.
+   */
+  position?: string;
+  /**
+   * Organization/affiliation of the contact.
+   */
+  organization?: string;
+  logo?: OgcApiRecordsLinkDto;
+  /**
+   * Telephone numbers at which contact can be made.
+   */
+  phones?: Array<OgcApiRecordsPhoneDto>;
+  /**
+   * Email addresses at which contact can be made.
+   */
+  emails?: Array<OgcApiRecordsEmailDto>;
+  /**
+   * Physical location at which contact can be made.
+   */
+  addresses?: Array<OgcApiRecordsAddressDto>;
+  /**
+   * On-line information about the contact.
+   */
+  links?: Array<OgcApiRecordsLinkDto>;
+  /**
+   * Time period when the contact can be contacted.
+   */
+  hoursOfService?: string;
+  /**
+   * Supplemental instructions on how or when to contact the responsible party.
+   */
+  contactInstructions?: string;
+  /**
+   * The set of named duties, job functions and/or permissions associated with this contact. (e.g. developer, administrator, etc.).
+   */
+  roles?: Array<string>;
 }
-

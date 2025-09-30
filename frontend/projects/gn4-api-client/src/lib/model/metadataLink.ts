@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface MetadataLink { 
-    metadataId?: number;
-    metadataUuid?: string;
+export interface MetadataLink {
+  metadataId?: number;
+  metadataUuid?: string;
 }
-

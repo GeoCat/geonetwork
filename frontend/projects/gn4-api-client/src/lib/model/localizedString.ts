@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface LocalizedString { 
-    href?: string;
-    lang?: string;
-    value?: string;
+export interface LocalizedString {
+  href?: string;
+  lang?: string;
+  value?: string;
 }
-

@@ -9,10 +9,8 @@
  */
 import { Entry } from './entry';
 
-
-export interface Codelist { 
-    alias?: string;
-    entry?: Array<Entry>;
-    name?: string;
+export interface Codelist {
+  alias?: string;
+  entry?: Array<Entry>;
+  name?: string;
 }
-

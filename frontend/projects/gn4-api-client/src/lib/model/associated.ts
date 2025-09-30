@@ -9,8 +9,6 @@
  */
 import { AssociatedSiblingMetadataItem } from './associatedSiblingMetadataItem';
 
-
-export interface Associated { 
-    item?: Array<AssociatedSiblingMetadataItem>;
+export interface Associated {
+  item?: Array<AssociatedSiblingMetadataItem>;
 }
-

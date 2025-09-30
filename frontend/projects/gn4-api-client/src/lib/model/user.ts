@@ -11,38 +11,35 @@ import { UserSecurity } from './userSecurity';
 import { Address } from './address';
 import { GrantedAuthority } from './grantedAuthority';
 
-
-export interface User { 
-    accountNonExpired?: boolean;
-    accountNonLocked?: boolean;
-    addresses?: Set<Address>;
-    authorities?: Array<GrantedAuthority>;
-    credentialsNonExpired?: boolean;
-    email?: string;
-    emailAddresses?: Set<string>;
-    enabled?: boolean;
-    id?: number;
-    kind?: string;
-    lastLoginDate?: string;
-    name?: string;
-    organisation?: string;
-    primaryAddress?: Address;
-    profile?: User.ProfileEnum;
-    security?: UserSecurity;
-    surname?: string;
-    username?: string;
+export interface User {
+  accountNonExpired?: boolean;
+  accountNonLocked?: boolean;
+  addresses?: Set<Address>;
+  authorities?: Array<GrantedAuthority>;
+  credentialsNonExpired?: boolean;
+  email?: string;
+  emailAddresses?: Set<string>;
+  enabled?: boolean;
+  id?: number;
+  kind?: string;
+  lastLoginDate?: string;
+  name?: string;
+  organisation?: string;
+  primaryAddress?: Address;
+  profile?: User.ProfileEnum;
+  security?: UserSecurity;
+  surname?: string;
+  username?: string;
 }
 export namespace User {
-    export const ProfileEnum = {
-        Administrator: 'Administrator',
-        UserAdmin: 'UserAdmin',
-        Reviewer: 'Reviewer',
-        Editor: 'Editor',
-        RegisteredUser: 'RegisteredUser',
-        Guest: 'Guest',
-        Monitor: 'Monitor'
-    } as const;
-    export type ProfileEnum = typeof ProfileEnum[keyof typeof ProfileEnum];
+  export const ProfileEnum = {
+    Administrator: 'Administrator',
+    UserAdmin: 'UserAdmin',
+    Reviewer: 'Reviewer',
+    Editor: 'Editor',
+    RegisteredUser: 'RegisteredUser',
+    Guest: 'Guest',
+    Monitor: 'Monitor',
+  } as const;
+  export type ProfileEnum = (typeof ProfileEnum)[keyof typeof ProfileEnum];
 }
-
-

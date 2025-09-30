@@ -9,12 +9,10 @@
  */
 import { GroupOperations } from './groupOperations';
 
-
 /**
  * Privileges
  */
-export interface SharingParameter { 
-    clear?: boolean;
-    privileges?: Array<GroupOperations>;
+export interface SharingParameter {
+  clear?: boolean;
+  privileges?: Array<GroupOperations>;
 }
-

@@ -4,7 +4,7 @@ import { Paginator } from 'primeng/paginator';
 import { SearchStore } from '../../stores/store-search';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResultItemList } from '../result-item-list/result-item-list';
-import { ResultItemGrid } from '../result-item-grid/result-item-grid' ;
+import { ResultItemGrid } from '../result-item-grid/result-item-grid';
 import { ResultHeader } from '../result-header/result-header';
 import { LoadingComponent } from '../loading-component/loading-component';
 import { EmptyStateComponent } from '../empty-state/empty-state';
@@ -18,10 +18,10 @@ import { EmptyStateComponent } from '../empty-state/empty-state';
     ResultItemList,
     ResultHeader,
     LoadingComponent,
-    EmptyStateComponent
-],
+    EmptyStateComponent,
+  ],
   templateUrl: './result-view-component.html',
-  styleUrls: ['./result-view-component.scss']
+  styleUrls: ['./result-view-component.scss'],
 })
 export class ResultViewComponent implements OnInit {
   layout: 'list' | 'grid' = 'list';
@@ -47,7 +47,7 @@ export class ResultViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
+    this.route.queryParamMap.subscribe((params) => {
       const page = params.get('page');
       const size = params.get('size');
 
@@ -63,7 +63,7 @@ export class ResultViewComponent implements OnInit {
   viewDetails(id: string) {
     const currentQuery = this.route.snapshot.queryParamMap.get('q');
     this.router.navigate(['/catalogue/record/', id], {
-      state: { searchQuery: currentQuery }
+      state: { searchQuery: currentQuery },
     });
   }
 
@@ -80,9 +80,9 @@ export class ResultViewComponent implements OnInit {
       relativeTo: this.route,
       queryParams: {
         page: this.currentPage > 0 ? this.currentPage : null,
-        size: this.pageSize !== 10 ? this.pageSize : null
+        size: this.pageSize !== 10 ? this.pageSize : null,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
 
     const query = this.route.snapshot.queryParamMap.get('q') || '';

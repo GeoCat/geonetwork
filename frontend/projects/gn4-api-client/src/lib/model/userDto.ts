@@ -9,23 +9,21 @@
  */
 import { Address } from './address';
 
-
-export interface UserDto { 
-    addresses?: Array<Address>;
-    email?: UserDto;
-    emailAddresses?: Array<string>;
-    enabled?: boolean;
-    groupsEditor?: Array<string>;
-    groupsRegisteredUser?: Array<string>;
-    groupsReviewer?: Array<string>;
-    groupsUserAdmin?: Array<string>;
-    id?: string;
-    kind?: string;
-    name?: string;
-    organisation?: string;
-    password?: string;
-    profile?: string;
-    surname?: string;
-    username?: string;
+export interface UserDto {
+  addresses?: Array<Address>;
+  email?: UserDto;
+  emailAddresses?: Array<string>;
+  enabled?: boolean;
+  groupsEditor?: Array<string>;
+  groupsRegisteredUser?: Array<string>;
+  groupsReviewer?: Array<string>;
+  groupsUserAdmin?: Array<string>;
+  id?: string;
+  kind?: string;
+  name?: string;
+  organisation?: string;
+  password?: string;
+  profile?: string;
+  surname?: string;
+  username?: string;
 }
-

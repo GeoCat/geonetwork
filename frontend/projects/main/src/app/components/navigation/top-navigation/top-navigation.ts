@@ -11,7 +11,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './top-navigation.scss',
   standalone: true,
   imports: [ButtonModule, StyleClassModule, RouterLink],
-
 })
 export class TopNavigation {
   layoutService: LayoutService = inject(LayoutService);

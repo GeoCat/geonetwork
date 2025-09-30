@@ -8,14 +8,12 @@
  * Do not edit the class manually.
  */
 
-
-export interface IProcessingReport { 
-    ellapsedTimeInSeconds?: number;
-    endIsoDateTime?: string;
-    running?: boolean;
-    startIsoDateTime?: string;
-    totalTimeInSeconds?: number;
-    type?: string;
-    uuid?: string;
+export interface IProcessingReport {
+  ellapsedTimeInSeconds?: number;
+  endIsoDateTime?: string;
+  running?: boolean;
+  startIsoDateTime?: string;
+  totalTimeInSeconds?: number;
+  type?: string;
+  uuid?: string;
 }
-

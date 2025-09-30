@@ -8,17 +8,15 @@
  * Do not edit the class manually.
  */
 
-
-export interface SystemInfo { 
-    buildDate?: string;
-    buildJavaVendor?: string;
-    buildJavaVersion?: string;
-    buildOsInfo?: string;
-    devMode?: boolean;
-    scmRevision?: string;
-    scmUrl?: string;
-    stagingProfile?: string;
-    subVersion?: string;
-    version?: string;
+export interface SystemInfo {
+  buildDate?: string;
+  buildJavaVendor?: string;
+  buildJavaVersion?: string;
+  buildOsInfo?: string;
+  devMode?: boolean;
+  scmRevision?: string;
+  scmUrl?: string;
+  stagingProfile?: string;
+  subVersion?: string;
+  version?: string;
 }
-

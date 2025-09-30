@@ -8,18 +8,16 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Email addresses at which contact can be made.
  */
-export interface OgcApiRecordsEmailDto { 
-    /**
-     * The value is the email number itself.
-     */
-    value: string;
-    /**
-     * The type of email (e.g. home, work, etc.).
-     */
-    roles?: Array<string>;
+export interface OgcApiRecordsEmailDto {
+  /**
+   * The value is the email number itself.
+   */
+  value: string;
+  /**
+   * The type of email (e.g. home, work, etc.).
+   */
+  roles?: Array<string>;
 }
-

@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface Values { 
-    code?: string;
-    definition?: string;
-    label?: string;
+export interface Values {
+  code?: string;
+  definition?: string;
+  label?: string;
 }
-

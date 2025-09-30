@@ -9,37 +9,35 @@
  */
 import { OgcApiRecordsFacetDto } from './ogcApiRecordsFacetDto';
 
-
-export interface OgcApiRecordsFacetHistogramDto extends OgcApiRecordsFacetDto { 
-    /**
-     * Name of the property
-     */
-    property?: string;
-    'x-elastic-property'?: string;
-    bucketCount?: number;
-    sortedBy?: OgcApiRecordsFacetHistogramDto.SortedByEnum;
-    bucketType?: OgcApiRecordsFacetHistogramDto.BucketTypeEnum;
-    'x-elastic-datatype'?: OgcApiRecordsFacetHistogramDto.XElasticDatatypeEnum;
-    'x-interval-number'?: number;
-    'x-interval-calendar-interval'?: string;
-    'x-minimum-doc-count'?: number;
+export interface OgcApiRecordsFacetHistogramDto extends OgcApiRecordsFacetDto {
+  /**
+   * Name of the property
+   */
+  property?: string;
+  'x-elastic-property'?: string;
+  bucketCount?: number;
+  sortedBy?: OgcApiRecordsFacetHistogramDto.SortedByEnum;
+  bucketType?: OgcApiRecordsFacetHistogramDto.BucketTypeEnum;
+  'x-elastic-datatype'?: OgcApiRecordsFacetHistogramDto.XElasticDatatypeEnum;
+  'x-interval-number'?: number;
+  'x-interval-calendar-interval'?: string;
+  'x-minimum-doc-count'?: number;
 }
 export namespace OgcApiRecordsFacetHistogramDto {
-    export const SortedByEnum = {
-        Count: 'count',
-        Value: 'value'
-    } as const;
-    export type SortedByEnum = typeof SortedByEnum[keyof typeof SortedByEnum];
-    export const BucketTypeEnum = {
-        FixedInterval: 'fixedInterval',
-        FixedBucketCount: 'fixedBucketCount'
-    } as const;
-    export type BucketTypeEnum = typeof BucketTypeEnum[keyof typeof BucketTypeEnum];
-    export const XElasticDatatypeEnum = {
-        Number: 'number',
-        Date: 'date'
-    } as const;
-    export type XElasticDatatypeEnum = typeof XElasticDatatypeEnum[keyof typeof XElasticDatatypeEnum];
+  export const SortedByEnum = {
+    Count: 'count',
+    Value: 'value',
+  } as const;
+  export type SortedByEnum = (typeof SortedByEnum)[keyof typeof SortedByEnum];
+  export const BucketTypeEnum = {
+    FixedInterval: 'fixedInterval',
+    FixedBucketCount: 'fixedBucketCount',
+  } as const;
+  export type BucketTypeEnum = (typeof BucketTypeEnum)[keyof typeof BucketTypeEnum];
+  export const XElasticDatatypeEnum = {
+    Number: 'number',
+    Date: 'date',
+  } as const;
+  export type XElasticDatatypeEnum =
+    (typeof XElasticDatatypeEnum)[keyof typeof XElasticDatatypeEnum];
 }
-
-

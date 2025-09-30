@@ -11,24 +11,21 @@ import { Group } from './group';
 import { User } from './user';
 import { UserGroupId } from './userGroupId';
 
-
-export interface UserGroup { 
-    group?: Group;
-    id?: UserGroupId;
-    profile?: UserGroup.ProfileEnum;
-    user?: User;
+export interface UserGroup {
+  group?: Group;
+  id?: UserGroupId;
+  profile?: UserGroup.ProfileEnum;
+  user?: User;
 }
 export namespace UserGroup {
-    export const ProfileEnum = {
-        Administrator: 'Administrator',
-        UserAdmin: 'UserAdmin',
-        Reviewer: 'Reviewer',
-        Editor: 'Editor',
-        RegisteredUser: 'RegisteredUser',
-        Guest: 'Guest',
-        Monitor: 'Monitor'
-    } as const;
-    export type ProfileEnum = typeof ProfileEnum[keyof typeof ProfileEnum];
+  export const ProfileEnum = {
+    Administrator: 'Administrator',
+    UserAdmin: 'UserAdmin',
+    Reviewer: 'Reviewer',
+    Editor: 'Editor',
+    RegisteredUser: 'RegisteredUser',
+    Guest: 'Guest',
+    Monitor: 'Monitor',
+  } as const;
+  export type ProfileEnum = (typeof ProfileEnum)[keyof typeof ProfileEnum];
 }
-
-

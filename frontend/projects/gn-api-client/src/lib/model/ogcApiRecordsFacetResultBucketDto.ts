@@ -8,15 +8,13 @@
  * Do not edit the class manually.
  */
 
-
-export interface OgcApiRecordsFacetResultBucketDto { 
-    value?: string;
-    min?: string;
-    max?: string;
-    /**
-     * for histogram buckets, true -> this is the highest-value bucket.  To get records, use \"property <= max\" instead of the usual  \"property <= max\".  Typically, this is only needed for fixed-number-of-buckets histograms.  Client should be able to compute this, but its here to make the client simplier.
-     */
-    'x-highest-bucket'?: boolean;
-    count?: number;
+export interface OgcApiRecordsFacetResultBucketDto {
+  value?: string;
+  min?: string;
+  max?: string;
+  /**
+   * for histogram buckets, true -> this is the highest-value bucket.  To get records, use \"property <= max\" instead of the usual  \"property <= max\".  Typically, this is only needed for fixed-number-of-buckets histograms.  Client should be able to compute this, but its here to make the client simplier.
+   */
+  'x-highest-bucket'?: boolean;
+  count?: number;
 }
-

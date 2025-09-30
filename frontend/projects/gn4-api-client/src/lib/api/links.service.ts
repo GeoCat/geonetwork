@@ -9,12 +9,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
-        }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable }                                        from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpParameterCodec,
+  HttpContext,
+} from '@angular/common/http';
+import { CustomHttpParameterCodec } from '../encoder';
+import { Observable } from 'rxjs';
 
 // @ts-ignore
 import { LinkFilter } from '../model/linkFilter';
@@ -24,463 +30,783 @@ import { PageLink } from '../model/pageLink';
 import { SimpleMetadataProcessingReport } from '../model/simpleMetadataProcessingReport';
 
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 import { BaseService } from '../api.base.service';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LinksService extends BaseService {
+  constructor(
+    protected httpClient: HttpClient,
+    @Optional() @Inject(BASE_PATH) basePath: string | string[],
+    @Optional() configuration?: Configuration,
+  ) {
+    super(basePath, configuration);
+  }
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
-        super(basePath, configuration);
-    }
-
-    /**
-     * Analyze one or more links
-     * @param url URL
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public analyzeLinks(url?: Array<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public analyzeLinks(url?: Array<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public analyzeLinks(url?: Array<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public analyzeLinks(url?: Array<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (url) {
-            url.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'url');
-            })
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/records/links/analyzeurl`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+  /**
+   * Analyze one or more links
+   * @param url URL
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public analyzeLinks(
+    url?: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public analyzeLinks(
+    url?: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public analyzeLinks(
+    url?: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public analyzeLinks(
+    url?: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (url) {
+      url.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'url',
         );
+      });
     }
 
-    /**
-     * Analyze records links
-     * One of uuids or bucket parameter is required if not an Administrator. Only records that you can edit will be validated.
-     * @param uuids Record UUIDs. If null current selection is used.
-     * @param bucket Selection bucket name
-     * @param removeFirst Only allowed if Administrator.
-     * @param analyze 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public analyzeRecordLinks(uuids?: Array<string>, bucket?: string, removeFirst?: boolean, analyze?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SimpleMetadataProcessingReport>;
-    public analyzeRecordLinks(uuids?: Array<string>, bucket?: string, removeFirst?: boolean, analyze?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SimpleMetadataProcessingReport>>;
-    public analyzeRecordLinks(uuids?: Array<string>, bucket?: string, removeFirst?: boolean, analyze?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SimpleMetadataProcessingReport>>;
-    public analyzeRecordLinks(uuids?: Array<string>, bucket?: string, removeFirst?: boolean, analyze?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (uuids) {
-            uuids.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'uuids');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>bucket, 'bucket');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>removeFirst, 'removeFirst');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>analyze, 'analyze');
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
+    let localVarPath = `/records/links/analyzeurl`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('post', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/records/links/analyze`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<SimpleMetadataProcessingReport>('post', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+  /**
+   * Analyze records links
+   * One of uuids or bucket parameter is required if not an Administrator. Only records that you can edit will be validated.
+   * @param uuids Record UUIDs. If null current selection is used.
+   * @param bucket Selection bucket name
+   * @param removeFirst Only allowed if Administrator.
+   * @param analyze
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public analyzeRecordLinks(
+    uuids?: Array<string>,
+    bucket?: string,
+    removeFirst?: boolean,
+    analyze?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<SimpleMetadataProcessingReport>;
+  public analyzeRecordLinks(
+    uuids?: Array<string>,
+    bucket?: string,
+    removeFirst?: boolean,
+    analyze?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<SimpleMetadataProcessingReport>>;
+  public analyzeRecordLinks(
+    uuids?: Array<string>,
+    bucket?: string,
+    removeFirst?: boolean,
+    analyze?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<SimpleMetadataProcessingReport>>;
+  public analyzeRecordLinks(
+    uuids?: Array<string>,
+    bucket?: string,
+    removeFirst?: boolean,
+    analyze?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (uuids) {
+      uuids.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'uuids',
         );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>bucket, 'bucket');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>removeFirst,
+      'removeFirst',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>analyze,
+      'analyze',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Get record links
-     * @param filter Filter, e.g. \&quot;{url: \&#39;png\&#39;, lastState: \&#39;ko\&#39;, records: \&#39;e421\&#39;}\&quot;, lastState being \&#39;ok\&#39;/\&#39;ko\&#39;/\&#39;unknown\&#39;
-     * @param groupIdFilter Optional, filter links to records published in that group.
-     * @param groupOwnerIdFilter Optional, filter links to records created in that group.
-     * @param httpErrorStatusValueFilter Optional, filter links to http status.
-     * @param excludeHarvestedMetadataFilter Optional, filter links excluding harvested metadata.
-     * @param page Results page you want to retrieve (0..N)
-     * @param size Number of records per page.
-     * @param sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecordLinks(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpErrorStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PageLink>;
-    public getRecordLinks(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpErrorStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PageLink>>;
-    public getRecordLinks(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpErrorStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PageLink>>;
-    public getRecordLinks(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpErrorStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter');
-        if (groupIdFilter) {
-            groupIdFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'groupIdFilter');
-            })
-        }
-        if (groupOwnerIdFilter) {
-            groupOwnerIdFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'groupOwnerIdFilter');
-            })
-        }
-        if (httpErrorStatusValueFilter) {
-            httpErrorStatusValueFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'httpErrorStatusValueFilter');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>excludeHarvestedMetadataFilter, 'excludeHarvestedMetadataFilter');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>page, 'page');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>size, 'size');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>sort, 'sort');
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        let localVarHeaders = this.defaultHeaders;
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    let localVarPath = `/records/links/analyze`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<SimpleMetadataProcessingReport>(
+      'post',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/records/links`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<PageLink>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+  /**
+   * Get record links
+   * @param filter Filter, e.g. \&quot;{url: \&#39;png\&#39;, lastState: \&#39;ko\&#39;, records: \&#39;e421\&#39;}\&quot;, lastState being \&#39;ok\&#39;/\&#39;ko\&#39;/\&#39;unknown\&#39;
+   * @param groupIdFilter Optional, filter links to records published in that group.
+   * @param groupOwnerIdFilter Optional, filter links to records created in that group.
+   * @param httpErrorStatusValueFilter Optional, filter links to http status.
+   * @param excludeHarvestedMetadataFilter Optional, filter links excluding harvested metadata.
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page.
+   * @param sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecordLinks(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpErrorStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<PageLink>;
+  public getRecordLinks(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpErrorStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<PageLink>>;
+  public getRecordLinks(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpErrorStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<PageLink>>;
+  public getRecordLinks(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpErrorStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>filter, 'filter');
+    if (groupIdFilter) {
+      groupIdFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'groupIdFilter',
         );
+      });
     }
-
-    /**
-     * Get record links as CSV
-     * @param filter Filter, e.g. \&quot;{url: \&#39;png\&#39;, lastState: \&#39;ko\&#39;, records: \&#39;e421\&#39;}\&quot;, lastState being \&#39;ok\&#39;/\&#39;ko\&#39;/\&#39;unknown\&#39;
-     * @param groupIdFilter Optional, filter links to records published in that group.
-     * @param groupOwnerIdFilter Optional, filter links to records created in that group.
-     * @param httpStatusValueFilter Optional, filter links to http status.
-     * @param excludeHarvestedMetadataFilter Optional, filter links excluding harvested metadata.
-     * @param page Results page you want to retrieve (0..N)
-     * @param size Number of records per page.
-     * @param sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecordLinksAsCsv(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public getRecordLinksAsCsv(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public getRecordLinksAsCsv(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public getRecordLinksAsCsv(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter');
-        if (groupIdFilter) {
-            groupIdFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'groupIdFilter');
-            })
-        }
-        if (groupOwnerIdFilter) {
-            groupOwnerIdFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'groupOwnerIdFilter');
-            })
-        }
-        if (httpStatusValueFilter) {
-            httpStatusValueFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'httpStatusValueFilter');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>excludeHarvestedMetadataFilter, 'excludeHarvestedMetadataFilter');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>page, 'page');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>size, 'size');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>sort, 'sort');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/records/links/csv`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (groupOwnerIdFilter) {
+      groupOwnerIdFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'groupOwnerIdFilter',
         );
+      });
     }
-
-    /**
-     * Get record links
-     * @param filter Filter, e.g. \&quot;{url: \&#39;png\&#39;, lastState: \&#39;ko\&#39;, records: \&#39;e421\&#39;}\&quot;, lastState being \&#39;ok\&#39;/\&#39;ko\&#39;/\&#39;unknown\&#39;
-     * @param groupIdFilter Optional, filter links to records published in that group.
-     * @param groupOwnerIdFilter Optional, filter links to records created in that group.
-     * @param httpStatusValueFilter Optional, filter links to http status.
-     * @param excludeHarvestedMetadataFilter Optional, filter links excluding harvested metadata.
-     * @param page Results page you want to retrieve (0..N)
-     * @param size Number of records per page.
-     * @param sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecordLinksPost(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PageLink>;
-    public getRecordLinksPost(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PageLink>>;
-    public getRecordLinksPost(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PageLink>>;
-    public getRecordLinksPost(filter?: LinkFilter, groupIdFilter?: Array<number>, groupOwnerIdFilter?: Array<number>, httpStatusValueFilter?: Array<number>, excludeHarvestedMetadataFilter?: boolean, page?: number, size?: number, sort?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter');
-        if (groupIdFilter) {
-            groupIdFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'groupIdFilter');
-            })
-        }
-        if (groupOwnerIdFilter) {
-            groupOwnerIdFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'groupOwnerIdFilter');
-            })
-        }
-        if (httpStatusValueFilter) {
-            httpStatusValueFilter.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'httpStatusValueFilter');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>excludeHarvestedMetadataFilter, 'excludeHarvestedMetadataFilter');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>page, 'page');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>size, 'size');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>sort, 'sort');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/records/links`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<PageLink>('post', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (httpErrorStatusValueFilter) {
+      httpErrorStatusValueFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'httpErrorStatusValueFilter',
         );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>excludeHarvestedMetadataFilter,
+      'excludeHarvestedMetadataFilter',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>page, 'page');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>size, 'size');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>sort, 'sort');
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Remove all links and status history
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public purgeAll(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public purgeAll(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public purgeAll(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public purgeAll(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    let localVarPath = `/records/links`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<PageLink>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/records/links`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+  /**
+   * Get record links as CSV
+   * @param filter Filter, e.g. \&quot;{url: \&#39;png\&#39;, lastState: \&#39;ko\&#39;, records: \&#39;e421\&#39;}\&quot;, lastState being \&#39;ok\&#39;/\&#39;ko\&#39;/\&#39;unknown\&#39;
+   * @param groupIdFilter Optional, filter links to records published in that group.
+   * @param groupOwnerIdFilter Optional, filter links to records created in that group.
+   * @param httpStatusValueFilter Optional, filter links to http status.
+   * @param excludeHarvestedMetadataFilter Optional, filter links excluding harvested metadata.
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page.
+   * @param sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecordLinksAsCsv(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public getRecordLinksAsCsv(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public getRecordLinksAsCsv(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public getRecordLinksAsCsv(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>filter, 'filter');
+    if (groupIdFilter) {
+      groupIdFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'groupIdFilter',
         );
+      });
+    }
+    if (groupOwnerIdFilter) {
+      groupOwnerIdFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'groupOwnerIdFilter',
+        );
+      });
+    }
+    if (httpStatusValueFilter) {
+      httpStatusValueFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'httpStatusValueFilter',
+        );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>excludeHarvestedMetadataFilter,
+      'excludeHarvestedMetadataFilter',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>page, 'page');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>size, 'size');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>sort, 'sort');
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/records/links/csv`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get record links
+   * @param filter Filter, e.g. \&quot;{url: \&#39;png\&#39;, lastState: \&#39;ko\&#39;, records: \&#39;e421\&#39;}\&quot;, lastState being \&#39;ok\&#39;/\&#39;ko\&#39;/\&#39;unknown\&#39;
+   * @param groupIdFilter Optional, filter links to records published in that group.
+   * @param groupOwnerIdFilter Optional, filter links to records created in that group.
+   * @param httpStatusValueFilter Optional, filter links to http status.
+   * @param excludeHarvestedMetadataFilter Optional, filter links excluding harvested metadata.
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page.
+   * @param sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecordLinksPost(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<PageLink>;
+  public getRecordLinksPost(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<PageLink>>;
+  public getRecordLinksPost(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<PageLink>>;
+  public getRecordLinksPost(
+    filter?: LinkFilter,
+    groupIdFilter?: Array<number>,
+    groupOwnerIdFilter?: Array<number>,
+    httpStatusValueFilter?: Array<number>,
+    excludeHarvestedMetadataFilter?: boolean,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>filter, 'filter');
+    if (groupIdFilter) {
+      groupIdFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'groupIdFilter',
+        );
+      });
+    }
+    if (groupOwnerIdFilter) {
+      groupOwnerIdFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'groupOwnerIdFilter',
+        );
+      });
+    }
+    if (httpStatusValueFilter) {
+      httpStatusValueFilter.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'httpStatusValueFilter',
+        );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>excludeHarvestedMetadataFilter,
+      'excludeHarvestedMetadataFilter',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>page, 'page');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>size, 'size');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>sort, 'sort');
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/records/links`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<PageLink>('post', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Remove all links and status history
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public purgeAll(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public purgeAll(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public purgeAll(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public purgeAll(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/records/links`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 }

@@ -8,22 +8,19 @@
  * Do not edit the class manually.
  */
 
-
-export interface RecordLink { 
-    type?: string;
-    origin?: RecordLink.OriginEnum;
-    to?: string;
-    title?: string;
-    url?: string;
-    associationType?: string;
-    initiativeType?: string;
+export interface RecordLink {
+  type?: string;
+  origin?: RecordLink.OriginEnum;
+  to?: string;
+  title?: string;
+  url?: string;
+  associationType?: string;
+  initiativeType?: string;
 }
 export namespace RecordLink {
-    export const OriginEnum = {
-        Remote: 'remote',
-        Catalog: 'catalog'
-    } as const;
-    export type OriginEnum = typeof OriginEnum[keyof typeof OriginEnum];
+  export const OriginEnum = {
+    Remote: 'remote',
+    Catalog: 'catalog',
+  } as const;
+  export type OriginEnum = (typeof OriginEnum)[keyof typeof OriginEnum];
 }
-
-

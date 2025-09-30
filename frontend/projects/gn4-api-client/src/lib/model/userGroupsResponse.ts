@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface UserGroupsResponse { 
-    groupId?: number;
-    groupName?: string;
-    userId?: number;
-    userName?: string;
-    userProfile?: string;
+export interface UserGroupsResponse {
+  groupId?: number;
+  groupName?: string;
+  userId?: number;
+  userName?: string;
+  userProfile?: string;
 }
-

@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * The new password and a valid change key
  */
-export interface PasswordUpdateParameter { 
-    changeKey?: string;
-    password?: string;
+export interface PasswordUpdateParameter {
+  changeKey?: string;
+  password?: string;
 }
-

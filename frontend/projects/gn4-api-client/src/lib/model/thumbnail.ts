@@ -9,8 +9,6 @@
  */
 import { RelatedThumbnailItem } from './relatedThumbnailItem';
 
-
-export interface Thumbnail { 
-    item?: Array<RelatedThumbnailItem>;
+export interface Thumbnail {
+  item?: Array<RelatedThumbnailItem>;
 }
-

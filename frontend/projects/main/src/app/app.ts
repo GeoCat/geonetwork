@@ -6,15 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { Gn4ApiModule } from 'gn4-api-client';
 import { ThemeManagerService } from './services/theme-manager.service';
 
-
 @Component({
   selector: 'app-root',
   imports: [TopNavigation, BottomNavigation, RouterOutlet, FormsModule, Gn4ApiModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('main');
   private _themeManager = inject(ThemeManagerService);
-
 }

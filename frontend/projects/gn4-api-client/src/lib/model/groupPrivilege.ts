@@ -8,37 +8,34 @@
  * Do not edit the class manually.
  */
 
-
-export interface GroupPrivilege { 
-    group?: number;
-    operations?: { [key: string]: boolean; };
-    reserved?: boolean;
-    restricted?: boolean;
-    userGroup?: boolean;
-    userProfile?: Array<GroupPrivilege.UserProfileEnum>;
-    userProfiles?: Array<GroupPrivilege.UserProfilesEnum>;
+export interface GroupPrivilege {
+  group?: number;
+  operations?: { [key: string]: boolean };
+  reserved?: boolean;
+  restricted?: boolean;
+  userGroup?: boolean;
+  userProfile?: Array<GroupPrivilege.UserProfileEnum>;
+  userProfiles?: Array<GroupPrivilege.UserProfilesEnum>;
 }
 export namespace GroupPrivilege {
-    export const UserProfileEnum = {
-        Administrator: 'Administrator',
-        UserAdmin: 'UserAdmin',
-        Reviewer: 'Reviewer',
-        Editor: 'Editor',
-        RegisteredUser: 'RegisteredUser',
-        Guest: 'Guest',
-        Monitor: 'Monitor'
-    } as const;
-    export type UserProfileEnum = typeof UserProfileEnum[keyof typeof UserProfileEnum];
-    export const UserProfilesEnum = {
-        Administrator: 'Administrator',
-        UserAdmin: 'UserAdmin',
-        Reviewer: 'Reviewer',
-        Editor: 'Editor',
-        RegisteredUser: 'RegisteredUser',
-        Guest: 'Guest',
-        Monitor: 'Monitor'
-    } as const;
-    export type UserProfilesEnum = typeof UserProfilesEnum[keyof typeof UserProfilesEnum];
+  export const UserProfileEnum = {
+    Administrator: 'Administrator',
+    UserAdmin: 'UserAdmin',
+    Reviewer: 'Reviewer',
+    Editor: 'Editor',
+    RegisteredUser: 'RegisteredUser',
+    Guest: 'Guest',
+    Monitor: 'Monitor',
+  } as const;
+  export type UserProfileEnum = (typeof UserProfileEnum)[keyof typeof UserProfileEnum];
+  export const UserProfilesEnum = {
+    Administrator: 'Administrator',
+    UserAdmin: 'UserAdmin',
+    Reviewer: 'Reviewer',
+    Editor: 'Editor',
+    RegisteredUser: 'RegisteredUser',
+    Guest: 'Guest',
+    Monitor: 'Monitor',
+  } as const;
+  export type UserProfilesEnum = (typeof UserProfilesEnum)[keyof typeof UserProfilesEnum];
 }
-
-

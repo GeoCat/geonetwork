@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Selection { 
-    id?: number;
-    label?: { [key: string]: string; };
-    name?: string;
-    watchable?: boolean;
+export interface Selection {
+  id?: number;
+  label?: { [key: string]: string };
+  name?: string;
+  watchable?: boolean;
 }
-

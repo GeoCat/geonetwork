@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface ReplaceEntryChange { 
-    changedVal?: string;
-    fieldId?: string;
-    originalVal?: string;
+export interface ReplaceEntryChange {
+  changedVal?: string;
+  fieldId?: string;
+  originalVal?: string;
 }
-

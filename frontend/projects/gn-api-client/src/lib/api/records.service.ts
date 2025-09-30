@@ -9,12 +9,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
-        }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable }                                        from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpParameterCodec,
+  HttpContext,
+} from '@angular/common/http';
+import { CustomHttpParameterCodec } from '../encoder';
+import { Observable } from 'rxjs';
 
 // @ts-ignore
 import { BatchEditParameter } from '../model/batchEditParameter';
@@ -30,1020 +36,1736 @@ import { OgcApiRecordsExceptionDto } from '../model/ogcApiRecordsExceptionDto';
 import { OgcApiRecordsGetRecords200ResponseDto } from '../model/ogcApiRecordsGetRecords200ResponseDto';
 
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 import { BaseService } from '../api.base.service';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecordsService extends BaseService {
+  constructor(
+    protected httpClient: HttpClient,
+    @Optional() @Inject(BASE_PATH) basePath: string | string[],
+    @Optional() configuration?: Configuration,
+  ) {
+    super(basePath, configuration);
+  }
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
-        super(basePath, configuration);
+  /**
+   * Batch edit one or more records
+   * Batch editing API allows to apply multiple edits to one or more record.  **Warning: You can break things here. When defining xpath and using delete or replace mode, be sure to test on a single record before applying changes to a lot of records. If needed, back up your record first and use the preview mode to check the processing.**  Changes are defined on a per standard basis so it is recommended to apply changes on records which are encoded using the same standard.  When applying changes, user privileges apply, so if the user cannot edit a selected record, batch edits will not be applied to that record.  This operations applies the &#x60;update-fixed-info.xsl&#x60; transformation for the metadata schema and  updates the change date if the parameter &#x60;updateDateStamp&#x60; is set to &#x60;true&#x60;.  ## Changes with GeoNetwork 4  * &#x60;diffType&#x60; not yet supported.  &#x60;&#x60;&#x60;
+   * @param batchEditParameter The edits to apply to the records. The body is a list of &#x60;BatchEditParameter&#x60; objects. XML snippet MUST declare namespace they are using to be valid.
+   * @param uuids Record UUIDs. If null current selection is used.
+   * @param bucket Selection bucket name (not supported in GeoNetwork 5)
+   * @param updateDateStamp If true updates the record date stamp with the current time of the operation. Date stamp element in each standards can be different. eg. In ISO19139 it is &#x60;gmd:dateStamp&#x60;, in ISO19115-3 it is the revision date of the metadata.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public batchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    updateDateStamp?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<object>;
+  public batchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    updateDateStamp?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<object>>;
+  public batchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    updateDateStamp?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<object>>;
+  public batchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    updateDateStamp?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (batchEditParameter === null || batchEditParameter === undefined) {
+      throw new Error(
+        'Required parameter batchEditParameter was null or undefined when calling batchEdit.',
+      );
     }
 
-    /**
-     * Batch edit one or more records
-     * Batch editing API allows to apply multiple edits to one or more record.  **Warning: You can break things here. When defining xpath and using delete or replace mode, be sure to test on a single record before applying changes to a lot of records. If needed, back up your record first and use the preview mode to check the processing.**  Changes are defined on a per standard basis so it is recommended to apply changes on records which are encoded using the same standard.  When applying changes, user privileges apply, so if the user cannot edit a selected record, batch edits will not be applied to that record.  This operations applies the &#x60;update-fixed-info.xsl&#x60; transformation for the metadata schema and  updates the change date if the parameter &#x60;updateDateStamp&#x60; is set to &#x60;true&#x60;.  ## Changes with GeoNetwork 4  * &#x60;diffType&#x60; not yet supported.  &#x60;&#x60;&#x60; 
-     * @param batchEditParameter The edits to apply to the records. The body is a list of &#x60;BatchEditParameter&#x60; objects. XML snippet MUST declare namespace they are using to be valid. 
-     * @param uuids Record UUIDs. If null current selection is used.
-     * @param bucket Selection bucket name (not supported in GeoNetwork 5)
-     * @param updateDateStamp If true updates the record date stamp with the current time of the operation. Date stamp element in each standards can be different. eg. In ISO19139 it is &#x60;gmd:dateStamp&#x60;, in ISO19115-3 it is the revision date of the metadata. 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public batchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, updateDateStamp?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<object>;
-    public batchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, updateDateStamp?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<object>>;
-    public batchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, updateDateStamp?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<object>>;
-    public batchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, updateDateStamp?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (batchEditParameter === null || batchEditParameter === undefined) {
-            throw new Error('Required parameter batchEditParameter was null or undefined when calling batchEdit.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (uuids) {
-            uuids.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'uuids');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>bucket, 'bucket');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>updateDateStamp, 'updateDateStamp');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/batchediting`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<object>('put', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: batchEditParameter,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (uuids) {
+      uuids.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'uuids',
         );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>bucket, 'bucket');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>updateDateStamp,
+      'updateDateStamp',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Delete a metadata resource
-     * @param metadataUuid The metadata UUID
-     * @param resourceId The resource identifier (ie. filename)
-     * @param approved Use approved version or not
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public delResource(metadataUuid: string, resourceId: string, approved?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public delResource(metadataUuid: string, resourceId: string, approved?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public delResource(metadataUuid: string, resourceId: string, approved?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public delResource(metadataUuid: string, resourceId: string, approved?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling delResource.');
-        }
-        if (resourceId === null || resourceId === undefined) {
-            throw new Error('Required parameter resourceId was null or undefined when calling delResource.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        let localVarHeaders = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+    }
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    let localVarPath = `/api/records/batchediting`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<object>('put', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      body: batchEditParameter,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
+  /**
+   * Delete a metadata resource
+   * @param metadataUuid The metadata UUID
+   * @param resourceId The resource identifier (ie. filename)
+   * @param approved Use approved version or not
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public delResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public delResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public delResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public delResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling delResource.',
+      );
+    }
+    if (resourceId === null || resourceId === undefined) {
+      throw new Error(
+        'Required parameter resourceId was null or undefined when calling delResource.',
+      );
+    }
 
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments/${this.configuration.encodeParam({name: "resourceId", value: resourceId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['*/*']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments/${this.configuration.encodeParam({ name: 'resourceId', value: resourceId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Delete all uploaded metadata resources
+   * @param metadataUuid The metadata UUID
+   * @param approved Use approved version or not
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public delResources(
+    metadataUuid: string,
+    approved?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public delResources(
+    metadataUuid: string,
+    approved?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public delResources(
+    metadataUuid: string,
+    approved?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public delResources(
+    metadataUuid: string,
+    approved?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling delResources.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['*/*']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get all available formatters and their mime types.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getAllFormatters(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<{ [key: string]: { [key: string]: FormatterInfo } }>;
+  public getAllFormatters(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<{ [key: string]: { [key: string]: FormatterInfo } }>>;
+  public getAllFormatters(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<{ [key: string]: { [key: string]: FormatterInfo } }>>;
+  public getAllFormatters(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/formatters`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<{
+      [key: string]: { [key: string]: FormatterInfo };
+    }>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * List all metadata attachments
+   * &lt;a href&#x3D;\&#39;https://docs.geonetwork-opensource.org/latest/user-guide/associating-resources/using-filestore/\&#39;&gt;More info&lt;/a&gt;
+   * @param metadataUuid The metadata UUID
+   * @param sort Sort by
+   * @param approved Use approved version or not
+   * @param filter
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getAllResources(
+    metadataUuid: string,
+    sort?: 'type' | 'name',
+    approved?: boolean,
+    filter?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<Array<MetadataResource>>;
+  public getAllResources(
+    metadataUuid: string,
+    sort?: 'type' | 'name',
+    approved?: boolean,
+    filter?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<Array<MetadataResource>>>;
+  public getAllResources(
+    metadataUuid: string,
+    sort?: 'type' | 'name',
+    approved?: boolean,
+    filter?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<Array<MetadataResource>>>;
+  public getAllResources(
+    metadataUuid: string,
+    sort?: 'type' | 'name',
+    approved?: boolean,
+    filter?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling getAllResources.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>sort, 'sort');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>filter, 'filter');
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<Array<MetadataResource>>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get a metadata record in a specific format.
+   * @param formatterId Formatter type to use.
+   * @param metadataUuid Record UUID.
+   * @param mdpath
+   * @param language Optional language ISO 3 letters code to override HTTP Accept-language header.
+   * @param approved Download the approved version
+   * @param profile format to use
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecordFormattedBy(
+    formatterId: string,
+    metadataUuid: string,
+    mdpath?: string,
+    language?: string,
+    approved?: boolean,
+    profile?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public getRecordFormattedBy(
+    formatterId: string,
+    metadataUuid: string,
+    mdpath?: string,
+    language?: string,
+    approved?: boolean,
+    profile?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public getRecordFormattedBy(
+    formatterId: string,
+    metadataUuid: string,
+    mdpath?: string,
+    language?: string,
+    approved?: boolean,
+    profile?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public getRecordFormattedBy(
+    formatterId: string,
+    metadataUuid: string,
+    mdpath?: string,
+    language?: string,
+    approved?: boolean,
+    profile?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (formatterId === null || formatterId === undefined) {
+      throw new Error(
+        'Required parameter formatterId was null or undefined when calling getRecordFormattedBy.',
+      );
+    }
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling getRecordFormattedBy.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>mdpath, 'mdpath');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>language,
+      'language',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>profile,
+      'profile',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['*/*']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/formatters/${this.configuration.encodeParam({ name: 'formatterId', value: formatterId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get available formatter for the metadata record depending on the metadata schema.
+   * @param metadataUuid Record UUID.
+   * @param approved
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecordFormatterList(
+    metadataUuid: string,
+    approved?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<Array<Formatter>>;
+  public getRecordFormatterList(
+    metadataUuid: string,
+    approved?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<Array<Formatter>>>;
+  public getRecordFormatterList(
+    metadataUuid: string,
+    approved?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<Array<Formatter>>>;
+  public getRecordFormatterList(
+    metadataUuid: string,
+    approved?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling getRecordFormatterList.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/formatters`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<Array<Formatter>>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get available formatter for the metadata record depending on the metadata schema.
+   * @param schemaId Record UUID.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecordFormatterListForSchema(
+    schemaId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<Array<Formatter>>;
+  public getRecordFormatterListForSchema(
+    schemaId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<Array<Formatter>>>;
+  public getRecordFormatterListForSchema(
+    schemaId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<Array<Formatter>>>;
+  public getRecordFormatterListForSchema(
+    schemaId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schemaId === null || schemaId === undefined) {
+      throw new Error(
+        'Required parameter schemaId was null or undefined when calling getRecordFormatterListForSchema.',
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/formatters/${this.configuration.encodeParam({ name: 'schemaId', value: schemaId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<Array<Formatter>>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * fetch records
+   * Fetch records of the record collection with id &#x60;catalogId&#x60;.  Every record in a dataset belongs to a collection. A dataset may consist of multiple record collections. A record collection is often a collection of records of a similar type, based on a common schema.  Use content negotiation to request HTML or GeoJSON.
+   * @param catalogId local identifier of a catalog
+   * @param bbox Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):  * Lower left corner, coordinate axis 1 * Lower left corner, coordinate axis 2 * Minimum value, coordinate axis 3 (optional) * Upper right corner, coordinate axis 1 * Upper right corner, coordinate axis 2 * Maximum value, coordinate axis 3 (optional)  If the value consists of four numbers, the coordinate reference system is WGS 84 longitude/latitude (http://www.opengis.net/def/crs/OGC/1.3/CRS84) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  If the value consists of six numbers, the coordinate reference system is WGS 84 longitude/latitude/ellipsoidal height (http://www.opengis.net/def/crs/OGC/0/CRS84h) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  The query parameter &#x60;bbox-crs&#x60; is specified in OGC API - Features - Part 2: Coordinate Reference Systems by Reference.  For WGS 84 longitude/latitude the values are in most cases the sequence of minimum longitude, minimum latitude, maximum longitude and maximum latitude. However, in cases where the box spans the antimeridian the first value (west-most box edge) is larger than the third value (east-most box edge).  If the vertical axis is included, the third and the sixth number are the bottom and the top of the 3-dimensional bounding box.  If a feature has multiple spatial geometry properties, it is the decision of the server whether only a single spatial geometry property is used to determine the extent or all relevant geometries.
+   * @param datetime Either a date-time or an interval. Date and time expressions adhere to RFC 3339. Intervals may be bounded or half-bounded (double-dots at start or end).  Examples:  * A date-time: \&quot;2018-02-12T23:20:50Z\&quot; * A bounded interval: \&quot;2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\&quot; * Half-bounded intervals: \&quot;2018-02-12T00:00:00Z/..\&quot; or \&quot;../2018-03-18T12:31:12Z\&quot;  Only features that have a temporal property that intersects the value of &#x60;datetime&#x60; are selected.  If a feature has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.
+   * @param limit The optional limit parameter limits the number of items that are presented in the response document.  Only items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.  Minimum &#x3D; 1. Maximum &#x3D; 10000. Default &#x3D; 10.
+   * @param offset Minimum &#x3D; 0.   Default &#x3D; 0.
+   * @param q The optional q parameter supports keyword searching.  Only records whose text fields contain one or more of the specified search terms are selected.  The specific set of text keys/fields/properties of a record to which the q operator is applied is up to the description of the server.   Implementations should, however, apply the q operator to the title, description and keywords keys/fields/properties.
+   * @param type The optional type parameter supports searching by resource type.  Only records whose type, as indicated by the value of the type core queryable, is equal to one of the listed values shall be selected.
+   * @param externalIds The optional externalId parameter supports searching by an identifier that was not assigned by the catalog (i.e. an external identifier). Only records with an external identifer, as indicated by the value of the externalId core queryable array, that is equal to one of the listed values shall be selected.
+   * @param ids The optional ids parameter allows a specified of records to be fetched from a catalog using their identifiers.
+   * @param sortby Specifies a comma-separated list of property names by which the response shall be sorted.  If the property name is preceded by a plus (+) sign it indicates an ascending sort for that property.  If the property name is preceded by a minus (-) sign it indicates a descending sort for that property.  If the property is not preceded by a plus or minus, then the default sort order implied is ascending (+).
+   * @param filter
+   * @param filterLang
+   * @param filterCrs
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<OgcApiRecordsGetRecords200ResponseDto>;
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<OgcApiRecordsGetRecords200ResponseDto>>;
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<OgcApiRecordsGetRecords200ResponseDto>>;
+  public getRecords(
+    catalogId: string,
+    bbox?: Array<number>,
+    datetime?: string,
+    limit?: number,
+    offset?: number,
+    q?: Array<string>,
+    type?: Array<string>,
+    externalIds?: Array<string>,
+    ids?: Array<string>,
+    sortby?: Array<string>,
+    filter?: string,
+    filterLang?: string,
+    filterCrs?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (catalogId === null || catalogId === undefined) {
+      throw new Error(
+        'Required parameter catalogId was null or undefined when calling getRecords.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (bbox) {
+      bbox.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'bbox',
         );
+      });
     }
-
-    /**
-     * Delete all uploaded metadata resources
-     * @param metadataUuid The metadata UUID
-     * @param approved Use approved version or not
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public delResources(metadataUuid: string, approved?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public delResources(metadataUuid: string, approved?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public delResources(metadataUuid: string, approved?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public delResources(metadataUuid: string, approved?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling delResources.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>datetime,
+      'datetime',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>limit, 'limit');
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>offset, 'offset');
+    if (q) {
+      q.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>element, 'q');
+      });
+    }
+    if (type) {
+      type.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'type',
         );
+      });
     }
-
-    /**
-     * Get all available formatters and their mime types.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllFormatters(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: { [key: string]: FormatterInfo; }; }>;
-    public getAllFormatters(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: { [key: string]: FormatterInfo; }; }>>;
-    public getAllFormatters(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: { [key: string]: FormatterInfo; }; }>>;
-    public getAllFormatters(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/formatters`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<{ [key: string]: { [key: string]: FormatterInfo; }; }>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (externalIds) {
+      externalIds.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'externalIds',
         );
+      });
     }
-
-    /**
-     * List all metadata attachments
-     * &lt;a href&#x3D;\&#39;https://docs.geonetwork-opensource.org/latest/user-guide/associating-resources/using-filestore/\&#39;&gt;More info&lt;/a&gt;
-     * @param metadataUuid The metadata UUID
-     * @param sort Sort by
-     * @param approved Use approved version or not
-     * @param filter 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getAllResources(metadataUuid: string, sort?: 'type' | 'name', approved?: boolean, filter?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MetadataResource>>;
-    public getAllResources(metadataUuid: string, sort?: 'type' | 'name', approved?: boolean, filter?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MetadataResource>>>;
-    public getAllResources(metadataUuid: string, sort?: 'type' | 'name', approved?: boolean, filter?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MetadataResource>>>;
-    public getAllResources(metadataUuid: string, sort?: 'type' | 'name', approved?: boolean, filter?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling getAllResources.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>sort, 'sort');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<MetadataResource>>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (ids) {
+      ids.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'ids',
         );
+      });
     }
-
-    /**
-     * Get a metadata record in a specific format.
-     * @param formatterId Formatter type to use.
-     * @param metadataUuid Record UUID.
-     * @param mdpath 
-     * @param language Optional language ISO 3 letters code to override HTTP Accept-language header.
-     * @param approved Download the approved version
-     * @param profile format to use
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecordFormattedBy(formatterId: string, metadataUuid: string, mdpath?: string, language?: string, approved?: boolean, profile?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public getRecordFormattedBy(formatterId: string, metadataUuid: string, mdpath?: string, language?: string, approved?: boolean, profile?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public getRecordFormattedBy(formatterId: string, metadataUuid: string, mdpath?: string, language?: string, approved?: boolean, profile?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public getRecordFormattedBy(formatterId: string, metadataUuid: string, mdpath?: string, language?: string, approved?: boolean, profile?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (formatterId === null || formatterId === undefined) {
-            throw new Error('Required parameter formatterId was null or undefined when calling getRecordFormattedBy.');
-        }
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling getRecordFormattedBy.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>mdpath, 'mdpath');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>language, 'language');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>profile, 'profile');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/formatters/${this.configuration.encodeParam({name: "formatterId", value: formatterId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    if (sortby) {
+      sortby.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'sortby',
         );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>filter, 'filter');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>filterLang,
+      'filter-lang',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>filterCrs,
+      'filter-crs',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept([
+        '*/*',
+        'application/geo+json',
+        'text/html',
+        'application/json',
+      ]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Get available formatter for the metadata record depending on the metadata schema.
-     * @param metadataUuid Record UUID.
-     * @param approved 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecordFormatterList(metadataUuid: string, approved?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<Formatter>>;
-    public getRecordFormatterList(metadataUuid: string, approved?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Formatter>>>;
-    public getRecordFormatterList(metadataUuid: string, approved?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Formatter>>>;
-    public getRecordFormatterList(metadataUuid: string, approved?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling getRecordFormatterList.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        let localVarHeaders = this.defaultHeaders;
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({ name: 'catalogId', value: catalogId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/items`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<OgcApiRecordsGetRecords200ResponseDto>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+  /**
+   * Get a metadata resource
+   * @param metadataUuid The metadata UUID
+   * @param resourceId The resource identifier (ie. filename)
+   * @param approved Use approved version or not
+   * @param size Size (only applies to images). From 1px to 2048px.
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    size?: number,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<Blob>;
+  public getResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    size?: number,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<Blob>>;
+  public getResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    size?: number,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<Blob>>;
+  public getResource(
+    metadataUuid: string,
+    resourceId: string,
+    approved?: boolean,
+    size?: number,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling getResource.',
+      );
+    }
+    if (resourceId === null || resourceId === undefined) {
+      throw new Error(
+        'Required parameter resourceId was null or undefined when calling getResource.',
+      );
+    }
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>size, 'size');
 
+    let localVarHeaders = this.defaultHeaders;
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['*/*']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
 
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/formatters`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<Formatter>>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments/${this.configuration.encodeParam({ name: 'resourceId', value: resourceId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: 'blob',
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Update the metadata resource visibility
+   * @param metadataUuid The metadata UUID
+   * @param resourceId The resource identifier (ie. filename)
+   * @param visibility The visibility
+   * @param approved Use approved version or not
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public patchResource(
+    metadataUuid: string,
+    resourceId: string,
+    visibility: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<MetadataResource>;
+  public patchResource(
+    metadataUuid: string,
+    resourceId: string,
+    visibility: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<MetadataResource>>;
+  public patchResource(
+    metadataUuid: string,
+    resourceId: string,
+    visibility: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<MetadataResource>>;
+  public patchResource(
+    metadataUuid: string,
+    resourceId: string,
+    visibility: 'public' | 'private',
+    approved?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling patchResource.',
+      );
+    }
+    if (resourceId === null || resourceId === undefined) {
+      throw new Error(
+        'Required parameter resourceId was null or undefined when calling patchResource.',
+      );
+    }
+    if (visibility === null || visibility === undefined) {
+      throw new Error(
+        'Required parameter visibility was null or undefined when calling patchResource.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>visibility,
+      'visibility',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments/${this.configuration.encodeParam({ name: 'resourceId', value: resourceId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<MetadataResource>('patch', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Preview batch editing results.
+   * Batch editing API allows to apply multiple edits to one or more record.  **Warning: You can break things here. When defining xpath and using delete or replace mode, be sure to test on a single record before applying changes to a lot of records. If needed, back up your record first and use the preview mode to check the processing.**  Changes are defined on a per standard basis so it is recommended to apply changes on records which are encoded using the same standard.  When applying changes, user privileges apply, so if the user cannot edit a selected record, batch edits will not be applied to that record.  This operations applies the &#x60;update-fixed-info.xsl&#x60; transformation for the metadata schema and  updates the change date if the parameter &#x60;updateDateStamp&#x60; is set to &#x60;true&#x60;.  ## Changes with GeoNetwork 4  * &#x60;diffType&#x60; not yet supported.  &#x60;&#x60;&#x60;
+   * @param batchEditParameter The edits to apply to the records. The body is a list of &#x60;BatchEditParameter&#x60; objects. XML snippet MUST declare namespace they are using to be valid.
+   * @param uuids Record UUIDs. If null current selection is used.
+   * @param bucket Selection bucket name (not supported in GeoNetwork 5)
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public previewBatchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<string>;
+  public previewBatchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<string>>;
+  public previewBatchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<string>>;
+  public previewBatchEdit(
+    batchEditParameter: Array<BatchEditParameter>,
+    uuids?: Array<string>,
+    bucket?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (batchEditParameter === null || batchEditParameter === undefined) {
+      throw new Error(
+        'Required parameter batchEditParameter was null or undefined when calling previewBatchEdit.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (uuids) {
+      uuids.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'uuids',
         );
+      });
+    }
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>bucket, 'bucket');
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/xml']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Get available formatter for the metadata record depending on the metadata schema.
-     * @param schemaId Record UUID.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecordFormatterListForSchema(schemaId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<Formatter>>;
-    public getRecordFormatterListForSchema(schemaId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Formatter>>>;
-    public getRecordFormatterListForSchema(schemaId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Formatter>>>;
-    public getRecordFormatterListForSchema(schemaId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schemaId === null || schemaId === undefined) {
-            throw new Error('Required parameter schemaId was null or undefined when calling getRecordFormatterListForSchema.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/formatters/${this.configuration.encodeParam({name: "schemaId", value: schemaId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<Formatter>>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
     }
 
-    /**
-     * fetch records
-     * Fetch records of the record collection with id &#x60;catalogId&#x60;.  Every record in a dataset belongs to a collection. A dataset may consist of multiple record collections. A record collection is often a collection of records of a similar type, based on a common schema.  Use content negotiation to request HTML or GeoJSON.
-     * @param catalogId local identifier of a catalog
-     * @param bbox Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):  * Lower left corner, coordinate axis 1 * Lower left corner, coordinate axis 2 * Minimum value, coordinate axis 3 (optional) * Upper right corner, coordinate axis 1 * Upper right corner, coordinate axis 2 * Maximum value, coordinate axis 3 (optional)  If the value consists of four numbers, the coordinate reference system is WGS 84 longitude/latitude (http://www.opengis.net/def/crs/OGC/1.3/CRS84) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  If the value consists of six numbers, the coordinate reference system is WGS 84 longitude/latitude/ellipsoidal height (http://www.opengis.net/def/crs/OGC/0/CRS84h) unless a different coordinate reference system is specified in the parameter &#x60;bbox-crs&#x60;.  The query parameter &#x60;bbox-crs&#x60; is specified in OGC API - Features - Part 2: Coordinate Reference Systems by Reference.  For WGS 84 longitude/latitude the values are in most cases the sequence of minimum longitude, minimum latitude, maximum longitude and maximum latitude. However, in cases where the box spans the antimeridian the first value (west-most box edge) is larger than the third value (east-most box edge).  If the vertical axis is included, the third and the sixth number are the bottom and the top of the 3-dimensional bounding box.  If a feature has multiple spatial geometry properties, it is the decision of the server whether only a single spatial geometry property is used to determine the extent or all relevant geometries.
-     * @param datetime Either a date-time or an interval. Date and time expressions adhere to RFC 3339. Intervals may be bounded or half-bounded (double-dots at start or end).  Examples:  * A date-time: \&quot;2018-02-12T23:20:50Z\&quot; * A bounded interval: \&quot;2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\&quot; * Half-bounded intervals: \&quot;2018-02-12T00:00:00Z/..\&quot; or \&quot;../2018-03-18T12:31:12Z\&quot;  Only features that have a temporal property that intersects the value of &#x60;datetime&#x60; are selected.  If a feature has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.
-     * @param limit The optional limit parameter limits the number of items that are presented in the response document.  Only items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.  Minimum &#x3D; 1. Maximum &#x3D; 10000. Default &#x3D; 10.
-     * @param offset Minimum &#x3D; 0.   Default &#x3D; 0.
-     * @param q The optional q parameter supports keyword searching.  Only records whose text fields contain one or more of the specified search terms are selected.  The specific set of text keys/fields/properties of a record to which the q operator is applied is up to the description of the server.   Implementations should, however, apply the q operator to the title, description and keywords keys/fields/properties.
-     * @param type The optional type parameter supports searching by resource type.  Only records whose type, as indicated by the value of the type core queryable, is equal to one of the listed values shall be selected.
-     * @param externalIds The optional externalId parameter supports searching by an identifier that was not assigned by the catalog (i.e. an external identifier). Only records with an external identifer, as indicated by the value of the externalId core queryable array, that is equal to one of the listed values shall be selected.
-     * @param ids The optional ids parameter allows a specified of records to be fetched from a catalog using their identifiers.
-     * @param sortby Specifies a comma-separated list of property names by which the response shall be sorted.  If the property name is preceded by a plus (+) sign it indicates an ascending sort for that property.  If the property name is preceded by a minus (-) sign it indicates a descending sort for that property.  If the property is not preceded by a plus or minus, then the default sort order implied is ascending (+).
-     * @param filter 
-     * @param filterLang 
-     * @param filterCrs 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OgcApiRecordsGetRecords200ResponseDto>;
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OgcApiRecordsGetRecords200ResponseDto>>;
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OgcApiRecordsGetRecords200ResponseDto>>;
-    public getRecords(catalogId: string, bbox?: Array<number>, datetime?: string, limit?: number, offset?: number, q?: Array<string>, type?: Array<string>, externalIds?: Array<string>, ids?: Array<string>, sortby?: Array<string>, filter?: string, filterLang?: string, filterCrs?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/geo+json' | 'text/html' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (catalogId === null || catalogId === undefined) {
-            throw new Error('Required parameter catalogId was null or undefined when calling getRecords.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (bbox) {
-            bbox.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'bbox');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>datetime, 'datetime');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>limit, 'limit');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>offset, 'offset');
-        if (q) {
-            q.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'q');
-            })
-        }
-        if (type) {
-            type.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'type');
-            })
-        }
-        if (externalIds) {
-            externalIds.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'externalIds');
-            })
-        }
-        if (ids) {
-            ids.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'ids');
-            })
-        }
-        if (sortby) {
-            sortby.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'sortby');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filterLang, 'filter-lang');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filterCrs, 'filter-crs');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/geo+json',
-            'text/html',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/ogcapi-records/collections/${this.configuration.encodeParam({name: "catalogId", value: catalogId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/items`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OgcApiRecordsGetRecords200ResponseDto>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
     }
 
-    /**
-     * Get a metadata resource
-     * @param metadataUuid The metadata UUID
-     * @param resourceId The resource identifier (ie. filename)
-     * @param approved Use approved version or not
-     * @param size Size (only applies to images). From 1px to 2048px.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getResource(metadataUuid: string, resourceId: string, approved?: boolean, size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<Blob>;
-    public getResource(metadataUuid: string, resourceId: string, approved?: boolean, size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Blob>>;
-    public getResource(metadataUuid: string, resourceId: string, approved?: boolean, size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Blob>>;
-    public getResource(metadataUuid: string, resourceId: string, approved?: boolean, size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling getResource.');
-        }
-        if (resourceId === null || resourceId === undefined) {
-            throw new Error('Required parameter resourceId was null or undefined when calling getResource.');
-        }
+    let localVarPath = `/api/records/batchediting/preview`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<string>('post', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      body: batchEditParameter,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>size, 'size');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments/${this.configuration.encodeParam({name: "resourceId", value: resourceId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: "blob",
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+  /**
+   * Create a new resource for a given metadata
+   * @param metadataUuid The metadata UUID
+   * @param file The file to upload
+   * @param visibility The sharing policy
+   * @param approved Use approved version or not
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public putResource(
+    metadataUuid: string,
+    file: Blob,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<MetadataResource>;
+  public putResource(
+    metadataUuid: string,
+    file: Blob,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<MetadataResource>>;
+  public putResource(
+    metadataUuid: string,
+    file: Blob,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<MetadataResource>>;
+  public putResource(
+    metadataUuid: string,
+    file: Blob,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*' | 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling putResource.',
+      );
+    }
+    if (file === null || file === undefined) {
+      throw new Error('Required parameter file was null or undefined when calling putResource.');
     }
 
-    /**
-     * Update the metadata resource visibility
-     * @param metadataUuid The metadata UUID
-     * @param resourceId The resource identifier (ie. filename)
-     * @param visibility The visibility
-     * @param approved Use approved version or not
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public patchResource(metadataUuid: string, resourceId: string, visibility: 'public' | 'private', approved?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MetadataResource>;
-    public patchResource(metadataUuid: string, resourceId: string, visibility: 'public' | 'private', approved?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MetadataResource>>;
-    public patchResource(metadataUuid: string, resourceId: string, visibility: 'public' | 'private', approved?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MetadataResource>>;
-    public patchResource(metadataUuid: string, resourceId: string, visibility: 'public' | 'private', approved?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling patchResource.');
-        }
-        if (resourceId === null || resourceId === undefined) {
-            throw new Error('Required parameter resourceId was null or undefined when calling patchResource.');
-        }
-        if (visibility === null || visibility === undefined) {
-            throw new Error('Required parameter visibility was null or undefined when calling patchResource.');
-        }
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>visibility,
+      'visibility',
+    );
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>visibility, 'visibility');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments/${this.configuration.encodeParam({name: "resourceId", value: resourceId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<MetadataResource>('patch', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['*/*', 'application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Preview batch editing results.
-     * Batch editing API allows to apply multiple edits to one or more record.  **Warning: You can break things here. When defining xpath and using delete or replace mode, be sure to test on a single record before applying changes to a lot of records. If needed, back up your record first and use the preview mode to check the processing.**  Changes are defined on a per standard basis so it is recommended to apply changes on records which are encoded using the same standard.  When applying changes, user privileges apply, so if the user cannot edit a selected record, batch edits will not be applied to that record.  This operations applies the &#x60;update-fixed-info.xsl&#x60; transformation for the metadata schema and  updates the change date if the parameter &#x60;updateDateStamp&#x60; is set to &#x60;true&#x60;.  ## Changes with GeoNetwork 4  * &#x60;diffType&#x60; not yet supported.  &#x60;&#x60;&#x60; 
-     * @param batchEditParameter The edits to apply to the records. The body is a list of &#x60;BatchEditParameter&#x60; objects. XML snippet MUST declare namespace they are using to be valid. 
-     * @param uuids Record UUIDs. If null current selection is used.
-     * @param bucket Selection bucket name (not supported in GeoNetwork 5)
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public previewBatchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<string>;
-    public previewBatchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
-    public previewBatchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
-    public previewBatchEdit(batchEditParameter: Array<BatchEditParameter>, uuids?: Array<string>, bucket?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (batchEditParameter === null || batchEditParameter === undefined) {
-            throw new Error('Required parameter batchEditParameter was null or undefined when calling previewBatchEdit.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (uuids) {
-            uuids.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'uuids');
-            })
-        }
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>bucket, 'bucket');
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        let localVarHeaders = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = ['multipart/form-data'];
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/xml'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    const canConsumeForm = this.canConsumeForm(consumes);
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/batchediting/preview`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<string>('post', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: batchEditParameter,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    let localVarFormParams: { append(param: string, value: any): any };
+    let localVarUseForm = false;
+    let localVarConvertFormParamsToString = false;
+    // use FormData to transmit files using content-type "multipart/form-data"
+    // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+    localVarUseForm = canConsumeForm;
+    if (localVarUseForm) {
+      localVarFormParams = new FormData();
+    } else {
+      localVarFormParams = new HttpParams({ encoder: this.encoder });
     }
 
-    /**
-     * Create a new resource for a given metadata
-     * @param metadataUuid The metadata UUID
-     * @param file The file to upload
-     * @param visibility The sharing policy
-     * @param approved Use approved version or not
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public putResource(metadataUuid: string, file: Blob, visibility?: 'public' | 'private', approved?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MetadataResource>;
-    public putResource(metadataUuid: string, file: Blob, visibility?: 'public' | 'private', approved?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MetadataResource>>;
-    public putResource(metadataUuid: string, file: Blob, visibility?: 'public' | 'private', approved?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MetadataResource>>;
-    public putResource(metadataUuid: string, file: Blob, visibility?: 'public' | 'private', approved?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling putResource.');
-        }
-        if (file === null || file === undefined) {
-            throw new Error('Required parameter file was null or undefined when calling putResource.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>visibility, 'visibility');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*',
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'multipart/form-data'
-        ];
-
-        const canConsumeForm = this.canConsumeForm(consumes);
-
-        let localVarFormParams: { append(param: string, value: any): any; };
-        let localVarUseForm = false;
-        let localVarConvertFormParamsToString = false;
-        // use FormData to transmit files using content-type "multipart/form-data"
-        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
-        localVarUseForm = canConsumeForm;
-        if (localVarUseForm) {
-            localVarFormParams = new FormData();
-        } else {
-            localVarFormParams = new HttpParams({encoder: this.encoder});
-        }
-
-        if (file !== undefined) {
-            localVarFormParams = localVarFormParams.append('file', <any>file) as any || localVarFormParams;
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<MetadataResource>('post', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    if (file !== undefined) {
+      localVarFormParams =
+        (localVarFormParams.append('file', <any>file) as any) || localVarFormParams;
     }
 
-    /**
-     * Create a new resource from a URL for a given metadata
-     * @param metadataUuid The metadata UUID
-     * @param url The URL to load in the store
-     * @param visibility The sharing policy
-     * @param approved Use approved version or not
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public putResourceFromURL(metadataUuid: string, url: string, visibility?: 'public' | 'private', approved?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<MetadataResource>;
-    public putResourceFromURL(metadataUuid: string, url: string, visibility?: 'public' | 'private', approved?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MetadataResource>>;
-    public putResourceFromURL(metadataUuid: string, url: string, visibility?: 'public' | 'private', approved?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MetadataResource>>;
-    public putResourceFromURL(metadataUuid: string, url: string, visibility?: 'public' | 'private', approved?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (metadataUuid === null || metadataUuid === undefined) {
-            throw new Error('Required parameter metadataUuid was null or undefined when calling putResourceFromURL.');
-        }
-        if (url === null || url === undefined) {
-            throw new Error('Required parameter url was null or undefined when calling putResourceFromURL.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>visibility, 'visibility');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>url, 'url');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>approved, 'approved');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            '*/*'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/records/${this.configuration.encodeParam({name: "metadataUuid", value: metadataUuid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/attachments`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<MetadataResource>('put', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
     }
 
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<MetadataResource>('post', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Create a new resource from a URL for a given metadata
+   * @param metadataUuid The metadata UUID
+   * @param url The URL to load in the store
+   * @param visibility The sharing policy
+   * @param approved Use approved version or not
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public putResourceFromURL(
+    metadataUuid: string,
+    url: string,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<MetadataResource>;
+  public putResourceFromURL(
+    metadataUuid: string,
+    url: string,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<MetadataResource>>;
+  public putResourceFromURL(
+    metadataUuid: string,
+    url: string,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<MetadataResource>>;
+  public putResourceFromURL(
+    metadataUuid: string,
+    url: string,
+    visibility?: 'public' | 'private',
+    approved?: boolean,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: '*/*';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (metadataUuid === null || metadataUuid === undefined) {
+      throw new Error(
+        'Required parameter metadataUuid was null or undefined when calling putResourceFromURL.',
+      );
+    }
+    if (url === null || url === undefined) {
+      throw new Error(
+        'Required parameter url was null or undefined when calling putResourceFromURL.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>visibility,
+      'visibility',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>url, 'url');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>approved,
+      'approved',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['*/*']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/records/${this.configuration.encodeParam({ name: 'metadataUuid', value: metadataUuid, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/attachments`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<MetadataResource>('put', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 }

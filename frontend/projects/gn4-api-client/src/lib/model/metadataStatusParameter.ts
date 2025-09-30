@@ -8,25 +8,22 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Metadata status
  */
-export interface MetadataStatusParameter { 
-    changeMessage?: string;
-    closeDate?: string;
-    dueDate?: string;
-    owner?: number;
-    status?: number;
-    type?: MetadataStatusParameter.TypeEnum;
+export interface MetadataStatusParameter {
+  changeMessage?: string;
+  closeDate?: string;
+  dueDate?: string;
+  owner?: number;
+  status?: number;
+  type?: MetadataStatusParameter.TypeEnum;
 }
 export namespace MetadataStatusParameter {
-    export const TypeEnum = {
-        Workflow: 'workflow',
-        Task: 'task',
-        Event: 'event'
-    } as const;
-    export type TypeEnum = typeof TypeEnum[keyof typeof TypeEnum];
+  export const TypeEnum = {
+    Workflow: 'workflow',
+    Task: 'task',
+    Event: 'event',
+  } as const;
+  export type TypeEnum = (typeof TypeEnum)[keyof typeof TypeEnum];
 }
-
-

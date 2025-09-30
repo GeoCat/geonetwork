@@ -9,13 +9,11 @@
  */
 import { Option } from './option';
 
-
-export interface Helper { 
-    displayIf?: string;
-    editorMode?: string;
-    option: Array<Option>;
-    rel?: string;
-    relAtt?: string;
-    sort?: boolean;
+export interface Helper {
+  displayIf?: string;
+  editorMode?: string;
+  option: Array<Option>;
+  rel?: string;
+  relAtt?: string;
+  sort?: boolean;
 }
-

@@ -9,8 +9,6 @@
  */
 import { LocalizedString } from './localizedString';
 
-
-export interface MultilingualValue { 
-    value?: Array<LocalizedString>;
+export interface MultilingualValue {
+  value?: Array<LocalizedString>;
 }
-

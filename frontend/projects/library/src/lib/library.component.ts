@@ -4,13 +4,7 @@ import { Component } from '@angular/core';
   selector: 'lib-library',
   standalone: true,
   imports: [],
-  template: `
-    <p>
-      library works!
-    </p>
-  `,
-  styles: ``
+  template: ` <p>library works!</p> `,
+  styles: ``,
 })
-export class LibraryComponent {
-
-}
+export class LibraryComponent {}

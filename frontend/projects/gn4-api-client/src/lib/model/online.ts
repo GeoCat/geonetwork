@@ -9,8 +9,6 @@
  */
 import { RelatedLinkItem } from './relatedLinkItem';
 
-
-export interface Online { 
-    item?: Array<RelatedLinkItem>;
+export interface Online {
+  item?: Array<RelatedLinkItem>;
 }
-

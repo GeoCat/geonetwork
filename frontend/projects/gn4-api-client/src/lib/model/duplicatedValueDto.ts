@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Metadata field information to check
  */
-export interface DuplicatedValueDto { 
-    field?: string;
-    value?: string;
+export interface DuplicatedValueDto {
+  field?: string;
+  value?: string;
 }
-

@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface SpecificationConformance { 
-    link?: string;
-    title?: string;
-    explanation?: string;
-    date?: string;
-    pass?: string;
+export interface SpecificationConformance {
+  link?: string;
+  title?: string;
+  explanation?: string;
+  date?: string;
+  pass?: string;
 }
-

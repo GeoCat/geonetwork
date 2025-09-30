@@ -8,8 +8,6 @@
  * Do not edit the class manually.
  */
 
-
-export interface JsonNullableOgcApiRecordsGeometryGeoJSONDto { 
-    present?: boolean;
+export interface JsonNullableOgcApiRecordsGeometryGeoJSONDto {
+  present?: boolean;
 }
-

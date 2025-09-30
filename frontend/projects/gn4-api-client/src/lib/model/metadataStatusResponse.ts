@@ -10,36 +10,34 @@
 import { ISODate } from './iSODate';
 import { StatusValue } from './statusValue';
 
-
-export interface MetadataStatusResponse { 
-    authorEmail?: string;
-    authorName?: string;
-    authorProfile?: string;
-    changeDate?: ISODate;
-    changeMessage?: string;
-    closeDate?: ISODate;
-    currentState?: string;
-    currentStateEmpty?: boolean;
-    currentStatus?: string;
-    dateChange?: string;
-    dateClose?: string;
-    dateDue?: string;
-    dueDate?: ISODate;
-    id?: number;
-    metadataId?: number;
-    owner?: number;
-    ownerEmail?: string;
-    ownerName?: string;
-    ownerProfile?: string;
-    previousState?: string;
-    previousStateEmpty?: boolean;
-    previousStatus?: string;
-    relatedMetadataStatusId?: number;
-    statusId?: number;
-    statusValue?: StatusValue;
-    title?: string;
-    titles?: { [key: string]: string; };
-    userId?: number;
-    uuid?: string;
+export interface MetadataStatusResponse {
+  authorEmail?: string;
+  authorName?: string;
+  authorProfile?: string;
+  changeDate?: ISODate;
+  changeMessage?: string;
+  closeDate?: ISODate;
+  currentState?: string;
+  currentStateEmpty?: boolean;
+  currentStatus?: string;
+  dateChange?: string;
+  dateClose?: string;
+  dateDue?: string;
+  dueDate?: ISODate;
+  id?: number;
+  metadataId?: number;
+  owner?: number;
+  ownerEmail?: string;
+  ownerName?: string;
+  ownerProfile?: string;
+  previousState?: string;
+  previousStateEmpty?: boolean;
+  previousStatus?: string;
+  relatedMetadataStatusId?: number;
+  statusId?: number;
+  statusValue?: StatusValue;
+  title?: string;
+  titles?: { [key: string]: string };
+  userId?: number;
+  uuid?: string;
 }
-

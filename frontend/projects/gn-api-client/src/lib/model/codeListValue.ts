@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface CodeListValue { 
-    label?: string;
-    definition?: string;
-    code?: string;
+export interface CodeListValue {
+  label?: string;
+  definition?: string;
+  code?: string;
 }
-

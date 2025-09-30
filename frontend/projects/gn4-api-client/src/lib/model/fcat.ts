@@ -9,8 +9,6 @@
  */
 import { FCRelatedMetadataItem } from './fCRelatedMetadataItem';
 
-
-export interface Fcat { 
-    item?: Array<FCRelatedMetadataItem>;
+export interface Fcat {
+  item?: Array<FCRelatedMetadataItem>;
 }
-

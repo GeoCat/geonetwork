@@ -9,8 +9,6 @@
  */
 import { Rule } from './rule';
 
-
-export interface Rules { 
-    rule?: Array<Rule>;
+export interface Rules {
+  rule?: Array<Rule>;
 }
-

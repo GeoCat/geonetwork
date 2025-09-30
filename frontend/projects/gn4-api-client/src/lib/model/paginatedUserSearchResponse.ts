@@ -9,9 +9,7 @@
  */
 import { UserSearchDto } from './userSearchDto';
 
-
-export interface PaginatedUserSearchResponse { 
-    rows?: Array<UserSearchDto>;
-    total?: number;
+export interface PaginatedUserSearchResponse {
+  rows?: Array<UserSearchDto>;
+  total?: number;
 }
-

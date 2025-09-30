@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface Crs { 
-    authority?: string;
-    code?: string;
-    codeSpace?: string;
-    description?: string;
-    version?: string;
+export interface Crs {
+  authority?: string;
+  code?: string;
+  codeSpace?: string;
+  description?: string;
+  version?: string;
 }
-

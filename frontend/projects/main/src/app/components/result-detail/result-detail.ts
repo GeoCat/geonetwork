@@ -4,8 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SearchService } from '../../services/search.service';
-import {elasticsearch, IndexRecord} from 'gn-api-client';
-
+import { elasticsearch, IndexRecord } from 'gn-api-client';
 
 @Component({
   selector: 'app-result-detail',
@@ -13,13 +12,12 @@ import {elasticsearch, IndexRecord} from 'gn-api-client';
   imports: [ButtonModule, CardModule],
   templateUrl: './result-detail.html',
 })
-
 export class ResultDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private searchService = inject(SearchService);
 
-  result = signal<elasticsearch.SearchHit<IndexRecord> | null >  (null);
+  result = signal<elasticsearch.SearchHit<IndexRecord> | null>(null);
   isLoading = signal(true);
 
   ngOnInit() {
@@ -41,7 +39,7 @@ export class ResultDetailComponent implements OnInit {
         console.error('Error loading result:', error);
         this.result.set(null);
         this.isLoading.set(false);
-      }
+      },
     });
   }
 
@@ -70,5 +68,4 @@ export class ResultDetailComponent implements OnInit {
     }
     return 'Preview Image';
   }
-
 }

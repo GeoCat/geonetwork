@@ -10,14 +10,10 @@
 import { ReservedOperation } from './reservedOperation';
 import { ReservedGroup } from './reservedGroup';
 
-
-export interface PublicationOption { 
-    additionalPublications?: { [key: string]: Array<ReservedOperation>; };
-    name?: string;
-    publicationGroup?: ReservedGroup;
-    publicationOperations?: Array<ReservedOperation>;
+export interface PublicationOption {
+  additionalPublications?: { [key: string]: Array<ReservedOperation> };
+  name?: string;
+  publicationGroup?: ReservedGroup;
+  publicationOperations?: Array<ReservedOperation>;
 }
-export namespace PublicationOption {
-}
-
-
+export namespace PublicationOption {}

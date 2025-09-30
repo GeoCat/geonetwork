@@ -8,8 +8,6 @@
  * Do not edit the class manually.
  */
 
-
-export interface CategoryResponse { 
-    label?: { [key: string]: string; };
+export interface CategoryResponse {
+  label?: { [key: string]: string };
 }
-

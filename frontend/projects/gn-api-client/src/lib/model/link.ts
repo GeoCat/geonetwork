@@ -8,18 +8,16 @@
  * Do not edit the class manually.
  */
 
-
-export interface Link { 
-    protocol?: string;
-    'function'?: string;
-    applicationProfile?: string;
-    group?: string;
-    mimeType?: string;
-    nilReason?: string;
-    hash?: string;
-    idx?: string;
-    urlObject?: { [key: string]: string; };
-    nameObject?: { [key: string]: string; };
-    descriptionObject?: { [key: string]: string; };
+export interface Link {
+  protocol?: string;
+  function?: string;
+  applicationProfile?: string;
+  group?: string;
+  mimeType?: string;
+  nilReason?: string;
+  hash?: string;
+  idx?: string;
+  urlObject?: { [key: string]: string };
+  nameObject?: { [key: string]: string };
+  descriptionObject?: { [key: string]: string };
 }
-

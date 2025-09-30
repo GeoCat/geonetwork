@@ -9,8 +9,6 @@
  */
 import { RelatedMetadataItem } from './relatedMetadataItem';
 
-
-export interface Dataset { 
-    item?: Array<RelatedMetadataItem>;
+export interface Dataset {
+  item?: Array<RelatedMetadataItem>;
 }
-

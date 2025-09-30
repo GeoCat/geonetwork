@@ -8,8 +8,6 @@
  * Do not edit the class manually.
  */
 
-
-export interface FeatureResponse { 
-    decodeMap?: { [key: string]: Array<string>; };
+export interface FeatureResponse {
+  decodeMap?: { [key: string]: Array<string> };
 }
-

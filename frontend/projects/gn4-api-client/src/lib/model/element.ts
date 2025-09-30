@@ -9,16 +9,14 @@
  */
 import { Helper } from './helper';
 
-
-export interface Element { 
-    condition?: string;
-    context?: string;
-    description?: string;
-    example?: string;
-    help?: string;
-    helper?: Helper;
-    id?: number;
-    label: string;
-    name?: string;
+export interface Element {
+  condition?: string;
+  context?: string;
+  description?: string;
+  example?: string;
+  help?: string;
+  helper?: Helper;
+  id?: number;
+  label: string;
+  name?: string;
 }
-

@@ -8,18 +8,16 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Telephone numbers at which contact can be made.
  */
-export interface OgcApiRecordsPhoneDto { 
-    /**
-     * The value is the phone number itself.
-     */
-    value: string;
-    /**
-     * The type of phone number (e.g. home, work, fax, etc.).
-     */
-    roles?: Array<string>;
+export interface OgcApiRecordsPhoneDto {
+  /**
+   * The value is the phone number itself.
+   */
+  value: string;
+  /**
+   * The type of phone number (e.g. home, work, fax, etc.).
+   */
+  roles?: Array<string>;
 }
-

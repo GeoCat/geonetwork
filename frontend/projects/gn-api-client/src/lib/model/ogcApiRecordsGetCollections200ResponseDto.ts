@@ -11,10 +11,8 @@ import { OgcApiRecordsLinkTemplateDto } from './ogcApiRecordsLinkTemplateDto';
 import { OgcApiRecordsCatalogDto } from './ogcApiRecordsCatalogDto';
 import { OgcApiRecordsLinkDto } from './ogcApiRecordsLinkDto';
 
-
-export interface OgcApiRecordsGetCollections200ResponseDto { 
-    links: Array<OgcApiRecordsLinkDto>;
-    collections: Array<OgcApiRecordsCatalogDto>;
-    linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
+export interface OgcApiRecordsGetCollections200ResponseDto {
+  links: Array<OgcApiRecordsLinkDto>;
+  collections: Array<OgcApiRecordsCatalogDto>;
+  linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
 }
-

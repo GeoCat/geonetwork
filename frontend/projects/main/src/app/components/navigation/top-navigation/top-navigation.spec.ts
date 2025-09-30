@@ -8,9 +8,8 @@ describe('TopNavigation', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TopNavigation]
-    })
-    .compileComponents();
+      imports: [TopNavigation],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TopNavigation);
     component = fixture.componentInstance;

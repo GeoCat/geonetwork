@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface OwnerResponse { 
-    id?: number;
-    name?: string;
-    records?: number;
+export interface OwnerResponse {
+  id?: number;
+  name?: string;
+  records?: number;
 }
-

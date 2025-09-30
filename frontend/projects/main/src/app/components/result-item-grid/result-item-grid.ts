@@ -9,7 +9,7 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
   standalone: true,
   imports: [ButtonModule, TooltipModule],
   templateUrl: './result-item-grid.html',
-  styleUrl: './result-item-grid.scss'
+  styleUrl: './result-item-grid.scss',
 })
 export class ResultItemGrid {
   @Input() result!: elasticsearch.SearchHit<IndexRecord>;

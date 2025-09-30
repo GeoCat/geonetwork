@@ -8,15 +8,13 @@
  * Do not edit the class manually.
  */
 
-
-export interface RegionResponse { 
-    categoryId?: string;
-    east?: number;
-    hasGeom?: boolean;
-    id?: string;
-    label?: { [key: string]: string; };
-    north?: number;
-    south?: number;
-    west?: number;
+export interface RegionResponse {
+  categoryId?: string;
+  east?: number;
+  hasGeom?: boolean;
+  id?: string;
+  label?: { [key: string]: string };
+  north?: number;
+  south?: number;
+  west?: number;
 }
-

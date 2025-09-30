@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface TransferRequest { 
-    sourceGroup?: number;
-    sourceUser?: number;
-    targetGroup?: number;
-    targetUser?: number;
+export interface TransferRequest {
+  sourceGroup?: number;
+  sourceUser?: number;
+  targetGroup?: number;
+  targetUser?: number;
 }
-

@@ -8,14 +8,12 @@
  * Do not edit the class manually.
  */
 
-
-export interface Rule { 
-    details: string;
-    group?: string;
-    id?: string;
-    msg?: string;
-    ref?: string;
-    test?: string;
-    type?: string;
+export interface Rule {
+  details: string;
+  group?: string;
+  id?: string;
+  msg?: string;
+  ref?: string;
+  test?: string;
+  type?: string;
 }
-

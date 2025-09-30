@@ -1,7 +1,12 @@
 <div class="container mx-auto p-4">
   <div class="mb-4">
-    <button pButton icon="pi pi-arrow-left" label="Back to Results"
-    (click)="goBack()" [outlined]="true"></button>
+    <button
+      pButton
+      icon="pi pi-arrow-left"
+      label="Back to Results"
+      (click)="goBack()"
+      [outlined]="true"
+    ></button>
   </div>
 
   @if (isLoading()) {
@@ -10,13 +15,14 @@
       <p class="mt-2">Loading details...</p>
     </div>
   }
-
   @if (result() && !isLoading()) {
     <div>
       <p-card>
         <ng-template pTemplate="header">
           <div class="p-4 bg-surface-50">
-            <h1 class="text-2xl font-bold">{{ result()?._source?.resourceTitleObject?.['default'] }}</h1>
+            <h1 class="text-2xl font-bold">
+              {{ result()?._source?.resourceTitleObject?.['default'] }}
+            </h1>
             <h2 class="text-xl">{{ result()?._source?.resourceType }}</h2>
             <p class="text-surface-600 mt-2">ID: {{ result()?._source?.uuid }}</p>
           </div>
@@ -30,7 +36,8 @@
                     [src]="getOverviewImage()"
                     [alt]="getOverviewImageName()"
                     class="w-full h-auto rounded shadow-md"
-                    (error)="$event.target.style.display='none'">
+                    (error)="$event.target.style.display = 'none'"
+                  />
                 } @else {
                   <i class="pi pi-file-o text-6xl text-surface-400"></i>
                   <p class="mt-2 text-sm text-surface-600">No preview available</p>
@@ -40,13 +47,20 @@
             <div class="md:col-span-2">
               <h3 class="text-xl font-semibold mb-3">Description</h3>
               <p class="text-surface-700 leading-relaxed mb-6">
-                {{ result()?._source?.resourceAbstractObject?.['default'] || 'No description available' }}
+                {{
+                  result()?._source?.resourceAbstractObject?.['default'] ||
+                    'No
+              description available'
+                }}
               </p>
               <div class="flex gap-3">
-                <button pButton icon="pi pi-download" label="Download"
-                class="flex-auto md:flex-initial"></button>
-                <button pButton icon="pi pi-share-alt" label="Share"
-                [outlined]="true"></button>
+                <button
+                  pButton
+                  icon="pi pi-download"
+                  label="Download"
+                  class="flex-auto md:flex-initial"
+                ></button>
+                <button pButton icon="pi pi-share-alt" label="Share" [outlined]="true"></button>
               </div>
             </div>
           </div>
@@ -54,7 +68,6 @@
       </p-card>
     </div>
   }
-
   @if (!result() && !isLoading()) {
     <div class="text-center p-8">
       <i class="pi pi-exclamation-triangle text-4xl text-orange-500"></i>

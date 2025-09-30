@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface RatingAverage { 
-    lastComment?: string;
-    ratingAverages?: { [key: string]: number; };
-    ratingCount?: number;
-    userfeedbackCount?: number;
+export interface RatingAverage {
+  lastComment?: string;
+  ratingAverages?: { [key: string]: number };
+  ratingCount?: number;
+  userfeedbackCount?: number;
 }
-

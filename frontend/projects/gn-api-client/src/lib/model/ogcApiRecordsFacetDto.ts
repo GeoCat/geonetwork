@@ -8,8 +8,6 @@
  * Do not edit the class manually.
  */
 
-
-export interface OgcApiRecordsFacetDto { 
-    type: string;
+export interface OgcApiRecordsFacetDto {
+  type: string;
 }
-

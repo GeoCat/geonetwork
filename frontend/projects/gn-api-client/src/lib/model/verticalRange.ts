@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface VerticalRange { 
-    gte?: number;
-    lte?: number;
-    unit?: string;
+export interface VerticalRange {
+  gte?: number;
+  lte?: number;
+  unit?: string;
 }
-

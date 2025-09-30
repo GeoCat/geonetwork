@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
 export const ReservedGroup = {
-    All: 'all',
-    Intranet: 'intranet',
-    Guest: 'guest'
+  All: 'all',
+  Intranet: 'intranet',
+  Guest: 'guest',
 } as const;
-export type ReservedGroup = typeof ReservedGroup[keyof typeof ReservedGroup];
-
+export type ReservedGroup = (typeof ReservedGroup)[keyof typeof ReservedGroup];

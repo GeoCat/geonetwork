@@ -8,19 +8,17 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * User search details
  */
-export interface UserSearchDto { 
-    creationDate?: string;
-    creator?: string;
-    creatorId?: number;
-    featuredType?: string;
-    groups?: Array<number>;
-    id?: number;
-    logo?: string;
-    names?: { [key: string]: string; };
-    url?: string;
+export interface UserSearchDto {
+  creationDate?: string;
+  creator?: string;
+  creatorId?: number;
+  featuredType?: string;
+  groups?: Array<number>;
+  id?: number;
+  logo?: string;
+  names?: { [key: string]: string };
+  url?: string;
 }
-

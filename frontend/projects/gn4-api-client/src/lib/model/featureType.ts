@@ -9,8 +9,6 @@
  */
 import { AttributeTable } from './attributeTable';
 
-
-export interface FeatureType { 
-    attributeTable?: AttributeTable;
+export interface FeatureType {
+  attributeTable?: AttributeTable;
 }
-

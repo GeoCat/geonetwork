@@ -10,16 +10,14 @@
 import { MultilingualValue } from './multilingualValue';
 import { Description } from './description';
 
-
-export interface RelatedMetadataItem { 
-    description: Description;
-    hash?: string;
-    id?: string;
-    idx?: string;
-    mdType: Array<string>;
-    origin?: string;
-    title: MultilingualValue;
-    type?: string;
-    url?: MultilingualValue;
+export interface RelatedMetadataItem {
+  description: Description;
+  hash?: string;
+  id?: string;
+  idx?: string;
+  mdType: Array<string>;
+  origin?: string;
+  title: MultilingualValue;
+  type?: string;
+  url?: MultilingualValue;
 }
-

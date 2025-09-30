@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * A list of available distributions of the resource.
  */
-export interface OgcApiRecordsFormatDto { 
-    name?: string;
-    mediaType?: string;
+export interface OgcApiRecordsFormatDto {
+  name?: string;
+  mediaType?: string;
 }
-

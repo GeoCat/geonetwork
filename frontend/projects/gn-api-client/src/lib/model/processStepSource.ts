@@ -8,8 +8,6 @@
  * Do not edit the class manually.
  */
 
-
-export interface ProcessStepSource { 
-    descriptionObject?: { [key: string]: string; };
+export interface ProcessStepSource {
+  descriptionObject?: { [key: string]: string };
 }
-

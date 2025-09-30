@@ -9,24 +9,21 @@
  */
 import { OgcApiRecordsJsonPropertyDto } from './ogcApiRecordsJsonPropertyDto';
 
-
-export interface OgcApiRecordsJsonSchemaDto { 
-    type?: OgcApiRecordsJsonSchemaDto.TypeEnum;
-    title?: string;
-    description?: string;
-    properties?: { [key: string]: OgcApiRecordsJsonPropertyDto; };
-    $schema?: OgcApiRecordsJsonSchemaDto.SchemaEnum;
-    $id?: string;
+export interface OgcApiRecordsJsonSchemaDto {
+  type?: OgcApiRecordsJsonSchemaDto.TypeEnum;
+  title?: string;
+  description?: string;
+  properties?: { [key: string]: OgcApiRecordsJsonPropertyDto };
+  $schema?: OgcApiRecordsJsonSchemaDto.SchemaEnum;
+  $id?: string;
 }
 export namespace OgcApiRecordsJsonSchemaDto {
-    export const TypeEnum = {
-        Object: 'object'
-    } as const;
-    export type TypeEnum = typeof TypeEnum[keyof typeof TypeEnum];
-    export const SchemaEnum = {
-        HttpsJsonSchemaOrgDraft202012Schema: 'https://json-schema.org/draft/2020-12/schema'
-    } as const;
-    export type SchemaEnum = typeof SchemaEnum[keyof typeof SchemaEnum];
+  export const TypeEnum = {
+    Object: 'object',
+  } as const;
+  export type TypeEnum = (typeof TypeEnum)[keyof typeof TypeEnum];
+  export const SchemaEnum = {
+    HttpsJsonSchemaOrgDraft202012Schema: 'https://json-schema.org/draft/2020-12/schema',
+  } as const;
+  export type SchemaEnum = (typeof SchemaEnum)[keyof typeof SchemaEnum];
 }
-
-

@@ -31,7 +31,7 @@ export class ThemeManagerService {
   }
 
   private subscribeToLayoutChanges() {
-    this.layoutService.appStateUpdate$.subscribe(state => {
+    this.layoutService.appStateUpdate$.subscribe((state) => {
       this.applyTheme(state);
     });
   }
@@ -76,9 +76,6 @@ export class ThemeManagerService {
       },
     };
 
-    $t()
-      .preset(preset)
-      .preset(presetExtension)
-      .use({ useDefaultOptions: true });
+    $t().preset(preset).preset(presetExtension).use({ useDefaultOptions: true });
   }
 }

@@ -9,11 +9,9 @@
  */
 import { OgcApiRecordsFacetsDtoFacetsValue } from './ogcApiRecordsFacetsDtoFacetsValue';
 
-
-export interface OgcApiRecordsFacetsDto { 
-    id: string;
-    title?: string;
-    defaultBucketCount?: number;
-    facets?: { [key: string]: OgcApiRecordsFacetsDtoFacetsValue; };
+export interface OgcApiRecordsFacetsDto {
+  id: string;
+  title?: string;
+  defaultBucketCount?: number;
+  facets?: { [key: string]: OgcApiRecordsFacetsDtoFacetsValue };
 }
-

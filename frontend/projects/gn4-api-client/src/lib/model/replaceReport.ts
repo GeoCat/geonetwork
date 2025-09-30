@@ -9,13 +9,11 @@
  */
 import { ReplaceEntryChange } from './replaceEntryChange';
 
-
-export interface ReplaceReport { 
-    approved?: boolean;
-    date?: string;
-    draft?: boolean;
-    elementChanges?: Array<ReplaceEntryChange>;
-    message?: string;
-    uuid?: string;
+export interface ReplaceReport {
+  approved?: boolean;
+  date?: string;
+  draft?: boolean;
+  elementChanges?: Array<ReplaceEntryChange>;
+  message?: string;
+  uuid?: string;
 }
-

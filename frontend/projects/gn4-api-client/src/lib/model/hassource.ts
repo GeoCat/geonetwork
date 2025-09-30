@@ -9,8 +9,6 @@
  */
 import { RelatedMetadataItem } from './relatedMetadataItem';
 
-
-export interface Hassource { 
-    item?: Array<RelatedMetadataItem>;
+export interface Hassource {
+  item?: Array<RelatedMetadataItem>;
 }
-

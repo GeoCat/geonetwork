@@ -9,8 +9,6 @@
  */
 import { ValidationReport } from './validationReport';
 
-
-export interface Reports { 
-    report?: Array<ValidationReport>;
+export interface Reports {
+  report?: Array<ValidationReport>;
 }
-

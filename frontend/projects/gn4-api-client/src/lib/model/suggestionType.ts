@@ -8,14 +8,12 @@
  * Do not edit the class manually.
  */
 
-
-export interface SuggestionType { 
-    category?: string;
-    id?: string;
-    name: string;
-    operational: string;
-    params?: string;
-    process?: string;
-    target?: string;
+export interface SuggestionType {
+  category?: string;
+  id?: string;
+  name: string;
+  operational: string;
+  params?: string;
+  process?: string;
+  target?: string;
 }
-

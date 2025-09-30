@@ -8,18 +8,16 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Thesaurus information
  */
-export interface ThesaurusInfo { 
-    defaultNamespace?: string;
-    description?: string;
-    dname?: string;
-    filename?: string;
-    multilingualDescriptions?: { [key: string]: string; };
-    multilingualTitles?: { [key: string]: string; };
-    title?: string;
-    type?: string;
+export interface ThesaurusInfo {
+  defaultNamespace?: string;
+  description?: string;
+  dname?: string;
+  filename?: string;
+  multilingualDescriptions?: { [key: string]: string };
+  multilingualTitles?: { [key: string]: string };
+  title?: string;
+  type?: string;
 }
-

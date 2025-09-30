@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface MapService { 
-    authType?: string;
-    url?: string;
-    urlType?: string;
-    useProxy?: boolean;
+export interface MapService {
+  authType?: string;
+  url?: string;
+  urlType?: string;
+  useProxy?: boolean;
 }
-

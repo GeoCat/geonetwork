@@ -10,16 +10,14 @@
 import { Report } from './report';
 import { InfoReport } from './infoReport';
 
-
-export interface ProcessingReport { 
-    ellapsedTimeInSeconds?: number;
-    endIsoDateTime?: string;
-    errors?: Array<Report>;
-    infos?: Array<InfoReport>;
-    running?: boolean;
-    startIsoDateTime?: string;
-    totalTimeInSeconds?: number;
-    type?: string;
-    uuid?: string;
+export interface ProcessingReport {
+  ellapsedTimeInSeconds?: number;
+  endIsoDateTime?: string;
+  errors?: Array<Report>;
+  infos?: Array<InfoReport>;
+  running?: boolean;
+  startIsoDateTime?: string;
+  totalTimeInSeconds?: number;
+  type?: string;
+  uuid?: string;
 }
-

@@ -9,11 +9,9 @@
  */
 import { OgcApiRecordsFacetResultBucketDto } from './ogcApiRecordsFacetResultBucketDto';
 
-
-export interface OgcApiRecordsFacetSummaryDto { 
-    type?: string;
-    property?: string;
-    buckets?: Array<OgcApiRecordsFacetResultBucketDto>;
-    more?: boolean;
+export interface OgcApiRecordsFacetSummaryDto {
+  type?: string;
+  property?: string;
+  buckets?: Array<OgcApiRecordsFacetResultBucketDto>;
+  more?: boolean;
 }
-

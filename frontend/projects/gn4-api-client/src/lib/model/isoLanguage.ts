@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface IsoLanguage { 
-    code?: string;
-    id?: number;
-    label?: { [key: string]: string; };
-    shortCode?: string;
+export interface IsoLanguage {
+  code?: string;
+  id?: number;
+  label?: { [key: string]: string };
+  shortCode?: string;
 }
-

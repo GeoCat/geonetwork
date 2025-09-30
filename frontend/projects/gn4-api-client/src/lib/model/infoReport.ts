@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface InfoReport { 
-    approved?: boolean;
-    date?: string;
-    draft?: boolean;
-    message?: string;
-    uuid?: string;
+export interface InfoReport {
+  approved?: boolean;
+  date?: string;
+  draft?: boolean;
+  message?: string;
+  uuid?: string;
 }
-

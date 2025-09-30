@@ -8,19 +8,17 @@
  * Do not edit the class manually.
  */
 
-
-export interface MetadataResourceExternalManagementProperties { 
-    id?: string;
-    url?: string;
-    validationStatus?: MetadataResourceExternalManagementProperties.ValidationStatusEnum;
+export interface MetadataResourceExternalManagementProperties {
+  id?: string;
+  url?: string;
+  validationStatus?: MetadataResourceExternalManagementProperties.ValidationStatusEnum;
 }
 export namespace MetadataResourceExternalManagementProperties {
-    export const ValidationStatusEnum = {
-        Unknown: 'UNKNOWN',
-        Valid: 'VALID',
-        Incomplete: 'INCOMPLETE'
-    } as const;
-    export type ValidationStatusEnum = typeof ValidationStatusEnum[keyof typeof ValidationStatusEnum];
+  export const ValidationStatusEnum = {
+    Unknown: 'UNKNOWN',
+    Valid: 'VALID',
+    Incomplete: 'INCOMPLETE',
+  } as const;
+  export type ValidationStatusEnum =
+    (typeof ValidationStatusEnum)[keyof typeof ValidationStatusEnum];
 }
-
-

@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-map-component',
   imports: [],
   templateUrl: './map-component.html',
-  styleUrl: './map-component.scss'
+  styleUrl: './map-component.scss',
 })
-export class MapComponent {
-
-}
+export class MapComponent {}

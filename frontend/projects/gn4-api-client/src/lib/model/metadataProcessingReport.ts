@@ -10,27 +10,25 @@
 import { Report } from './report';
 import { InfoReport } from './infoReport';
 
-
-export interface MetadataProcessingReport { 
-    ellapsedTimeInSeconds?: number;
-    endIsoDateTime?: string;
-    errors?: Array<Report>;
-    infos?: Array<InfoReport>;
-    metadata?: Set<number>;
-    metadataErrors?: { [key: string]: Array<Report>; };
-    metadataInfos?: { [key: string]: Array<InfoReport>; };
-    numberOfNullRecords?: number;
-    numberOfRecordNotFound?: number;
-    numberOfRecords?: number;
-    numberOfRecordsNotEditable?: number;
-    numberOfRecordsProcessed?: number;
-    numberOfRecordsUnchanged?: number;
-    numberOfRecordsWithErrors?: number;
-    running?: boolean;
-    startIsoDateTime?: string;
-    totalRecords?: number;
-    totalTimeInSeconds?: number;
-    type?: string;
-    uuid?: string;
+export interface MetadataProcessingReport {
+  ellapsedTimeInSeconds?: number;
+  endIsoDateTime?: string;
+  errors?: Array<Report>;
+  infos?: Array<InfoReport>;
+  metadata?: Set<number>;
+  metadataErrors?: { [key: string]: Array<Report> };
+  metadataInfos?: { [key: string]: Array<InfoReport> };
+  numberOfNullRecords?: number;
+  numberOfRecordNotFound?: number;
+  numberOfRecords?: number;
+  numberOfRecordsNotEditable?: number;
+  numberOfRecordsProcessed?: number;
+  numberOfRecordsUnchanged?: number;
+  numberOfRecordsWithErrors?: number;
+  running?: boolean;
+  startIsoDateTime?: string;
+  totalRecords?: number;
+  totalTimeInSeconds?: number;
+  type?: string;
+  uuid?: string;
 }
-

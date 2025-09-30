@@ -12,22 +12,19 @@ import { OgcApiRecordsLinkTemplateDto } from './ogcApiRecordsLinkTemplateDto';
 import { OgcApiRecordsRecordGeoJSONDto } from './ogcApiRecordsRecordGeoJSONDto';
 import { OgcApiRecordsLinkDto } from './ogcApiRecordsLinkDto';
 
-
-export interface OgcApiRecordsGetRecords200ResponseDto { 
-    type: OgcApiRecordsGetRecords200ResponseDto.TypeEnum;
-    facets?: { [key: string]: OgcApiRecordsFacetSummaryDto; };
-    features: Array<OgcApiRecordsRecordGeoJSONDto>;
-    links?: Array<OgcApiRecordsLinkDto>;
-    timeStamp?: string;
-    numberMatched?: number;
-    numberReturned?: number;
-    linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
+export interface OgcApiRecordsGetRecords200ResponseDto {
+  type: OgcApiRecordsGetRecords200ResponseDto.TypeEnum;
+  facets?: { [key: string]: OgcApiRecordsFacetSummaryDto };
+  features: Array<OgcApiRecordsRecordGeoJSONDto>;
+  links?: Array<OgcApiRecordsLinkDto>;
+  timeStamp?: string;
+  numberMatched?: number;
+  numberReturned?: number;
+  linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
 }
 export namespace OgcApiRecordsGetRecords200ResponseDto {
-    export const TypeEnum = {
-        FeatureCollection: 'FeatureCollection'
-    } as const;
-    export type TypeEnum = typeof TypeEnum[keyof typeof TypeEnum];
+  export const TypeEnum = {
+    FeatureCollection: 'FeatureCollection',
+  } as const;
+  export type TypeEnum = (typeof TypeEnum)[keyof typeof TypeEnum];
 }
-
-

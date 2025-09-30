@@ -9,36 +9,34 @@
  */
 import { MetadataCategory } from './metadataCategory';
 
-
 /**
  * Group details
  */
-export interface Group { 
-    allowedCategories?: Array<MetadataCategory>;
-    defaultCategory?: MetadataCategory;
-    description?: string;
-    email?: string;
-    enableAllowedCategories?: boolean;
-    id?: number;
-    label?: { [key: string]: string; };
-    logo?: string;
-    minimumProfileForPrivileges?: Group.MinimumProfileForPrivilegesEnum;
-    name?: string;
-    referrer?: number;
-    reserved?: boolean;
-    website?: string;
+export interface Group {
+  allowedCategories?: Array<MetadataCategory>;
+  defaultCategory?: MetadataCategory;
+  description?: string;
+  email?: string;
+  enableAllowedCategories?: boolean;
+  id?: number;
+  label?: { [key: string]: string };
+  logo?: string;
+  minimumProfileForPrivileges?: Group.MinimumProfileForPrivilegesEnum;
+  name?: string;
+  referrer?: number;
+  reserved?: boolean;
+  website?: string;
 }
 export namespace Group {
-    export const MinimumProfileForPrivilegesEnum = {
-        Administrator: 'Administrator',
-        UserAdmin: 'UserAdmin',
-        Reviewer: 'Reviewer',
-        Editor: 'Editor',
-        RegisteredUser: 'RegisteredUser',
-        Guest: 'Guest',
-        Monitor: 'Monitor'
-    } as const;
-    export type MinimumProfileForPrivilegesEnum = typeof MinimumProfileForPrivilegesEnum[keyof typeof MinimumProfileForPrivilegesEnum];
+  export const MinimumProfileForPrivilegesEnum = {
+    Administrator: 'Administrator',
+    UserAdmin: 'UserAdmin',
+    Reviewer: 'Reviewer',
+    Editor: 'Editor',
+    RegisteredUser: 'RegisteredUser',
+    Guest: 'Guest',
+    Monitor: 'Monitor',
+  } as const;
+  export type MinimumProfileForPrivilegesEnum =
+    (typeof MinimumProfileForPrivilegesEnum)[keyof typeof MinimumProfileForPrivilegesEnum];
 }
-
-

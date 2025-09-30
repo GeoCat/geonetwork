@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Entry { 
-    code: string;
-    description: string;
-    hideInEditMode?: string;
-    label: string;
+export interface Entry {
+  code: string;
+  description: string;
+  hideInEditMode?: string;
+  label: string;
 }
-

@@ -8,14 +8,12 @@
  * Do not edit the class manually.
  */
 
-
 export const ReservedOperation = {
-    View: 'view',
-    Download: 'download',
-    Editing: 'editing',
-    Notify: 'notify',
-    Dynamic: 'dynamic',
-    Featured: 'featured'
+  View: 'view',
+  Download: 'download',
+  Editing: 'editing',
+  Notify: 'notify',
+  Dynamic: 'dynamic',
+  Featured: 'featured',
 } as const;
-export type ReservedOperation = typeof ReservedOperation[keyof typeof ReservedOperation];
-
+export type ReservedOperation = (typeof ReservedOperation)[keyof typeof ReservedOperation];

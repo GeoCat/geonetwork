@@ -9,9 +9,7 @@
  */
 import { Field } from './field';
 
-
-export interface Section { 
-    field: Array<Field>;
-    name?: string;
+export interface Section {
+  field: Array<Field>;
+  name?: string;
 }
-

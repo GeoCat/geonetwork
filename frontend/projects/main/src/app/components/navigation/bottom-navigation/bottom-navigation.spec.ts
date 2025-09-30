@@ -8,9 +8,8 @@ describe('BottomNavigation', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BottomNavigation]
-    })
-    .compileComponents();
+      imports: [BottomNavigation],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BottomNavigation);
     component = fixture.componentInstance;

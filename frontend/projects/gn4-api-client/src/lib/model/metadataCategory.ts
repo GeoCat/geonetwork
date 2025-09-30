@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface MetadataCategory { 
-    id?: number;
-    label?: { [key: string]: string; };
-    name?: string;
+export interface MetadataCategory {
+  id?: number;
+  label?: { [key: string]: string };
+  name?: string;
 }
-

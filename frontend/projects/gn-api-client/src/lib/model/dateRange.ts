@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface DateRange { 
-    gte?: string;
-    lte?: string;
+export interface DateRange {
+  gte?: string;
+  lte?: string;
 }
-

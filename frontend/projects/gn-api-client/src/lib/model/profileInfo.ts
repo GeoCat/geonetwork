@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface ProfileInfo { 
-    formatterName?: string;
-    formatterProfileName?: string;
-    officialProfileName?: string;
-    title?: string;
-    mimeType?: string;
+export interface ProfileInfo {
+  formatterName?: string;
+  formatterProfileName?: string;
+  officialProfileName?: string;
+  title?: string;
+  mimeType?: string;
 }
-

@@ -8,26 +8,24 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * One or more entity/concept identifiers from this knowledge system. it is recommended that a resolvable URI be used for each entity/concept identifier.
  */
-export interface OgcApiRecordsThemeConceptsInnerDto { 
-    /**
-     * An identifier for the concept.
-     */
-    id: string;
-    /**
-     * A human readable title for the concept.
-     */
-    title?: string;
-    /**
-     * A human readable description for the concept.
-     */
-    description?: string;
-    /**
-     * A URI providing further description of the concept.
-     */
-    url?: string;
+export interface OgcApiRecordsThemeConceptsInnerDto {
+  /**
+   * An identifier for the concept.
+   */
+  id: string;
+  /**
+   * A human readable title for the concept.
+   */
+  title?: string;
+  /**
+   * A human readable description for the concept.
+   */
+  description?: string;
+  /**
+   * A URI providing further description of the concept.
+   */
+  url?: string;
 }
-
