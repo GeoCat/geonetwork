@@ -40,13 +40,6 @@ export const SearchStore = signalStore(
     totalPages: computed(() => Math.ceil(store.totalCount() / store.pageSize()))
   })),
   withMethods((store, searchService = inject(SearchService)) => ({
-    updateQuery(query: string): void {
-      patchState(store, (state) => ({ filter: { ...state.filter, query } }));
-    },
-    updateOrder(order: 'asc' | 'desc'): void {
-      patchState(store, (state) => ({ filter: { ...state.filter, order } }));
-    },
-
     loadByQuery: rxMethod<string>(
       pipe(
         debounceTime(300),

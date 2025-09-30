@@ -51,11 +51,117 @@
         </div>
       </div>
     </p-card>
-  </div>
 
-  <div *ngIf="!result() && !isLoading()" class="text-center p-8">
-    <i class="pi pi-exclamation-triangle text-4xl text-orange-500"></i>
-    <h2 class="text-xl font-semibold mt-3">Record Not Found</h2>
-    <p class="text-surface-600 mt-2">The requested catalogue item could not be found.</p>
+    <!-- if resourcetype is metadata -->
+    <div>
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Date(s)</h3>
+        <p>{{ source.resourceTemporalExtentDetails?.[0]?.start?.date }} (Creation)</p>
+        <p>{{ source.createDate }} (Publication)</p>
+        <p>{{ source.resourceTemporalExtentDetails?.[0]?.start?.date }} (Temporal coverage)</p>
+      </div>
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Authors</h3>
+        <ul>
+          <li *ngFor="let author of getAuthors()">
+            <span>{{ author.individual }}</span>
+            <span>
+              ({{ getOrgName() }})
+            </span>
+            <span *ngIf="author.email"> - <a href="mailto:{{ author.email }}">{{ author.email }}</a></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Contacts</h3>
+        <ul>
+          <li *ngFor="let contact of getContacts()">
+            <span>{{ contact.individual }}</span>
+            <span>
+              ({{ getOrgName() }})
+            </span>
+            <span *ngIf="contact.email"> - <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Source</h3>
+        <p>{{ getOrgName() }}</p>
+      </div>
+
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Lineage</h3>
+        <p>{{ getLineage() }}</p>
+      </div>
+
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Constraints</h3>
+        <p>
+          Use limitation:
+          <a [href]="getConstraints().link" target="_blank" class="font-bold">
+            {{ getConstraints().default }}
+          </a>
+        </p>
+        <p>
+          Use constraints:
+          <a [href]="getUseConstraint().link" target="_blank">
+            {{ getUseConstraint().default }}
+          </a>
+        </p>
+        <p>
+          Other constraints:
+          <a [href]="getOtherConstraint().link" target="_blank">
+            {{ getOtherConstraint().default }}
+          </a>
+        </p>
+
+      </div>
+
+
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Spatial informations</h3>
+        <p>
+          <span>Data type: {{ source.cl_spatialRepresentationType?.[0]?.key }}</span>
+        </p>
+        <p>
+          <span>Resolution: {{ source.resolutionDistance?.[0] }}</span>
+        </p>
+        <p>
+          <span>Coordinate system: {{ source.coordinateSystem?.[0] }}</span>
+        </p>
+      </div>
+
+      <div class="my-6 border p-3 border-gray-300">
+        <h3 class="text-xl">Related resources</h3>
+
+        <div class="my-6 border p-3 border-gray-300">
+          <h5 class="text-lg font-semibold">Children</h5>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+
+        <div class="my-6 border p-3 border-gray-300">
+          <h5 class="text-lg font-semibold">Associated resources</h5>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- if resource type = dataset -->
+
+    <div *ngIf="!result() && !isLoading()" class="text-center p-8">
+      <i class="pi pi-exclamation-triangle text-4xl text-orange-500"></i>
+      <h2 class="text-xl font-semibold mt-3">Record Not Found</h2>
+      <p class="text-surface-600 mt-2">The requested catalogue item could not be found.</p>
+    </div>
   </div>
 </div>

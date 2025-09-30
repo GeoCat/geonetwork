@@ -19,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class SearchComponent implements OnInit {
   @Input() query = '';
+  @Input() isHomepage: boolean = false;
   @Output() queryChange = new EventEmitter<string>();
 
   readonly store = inject(SearchStore);
@@ -69,15 +70,29 @@ export class SearchComponent implements OnInit {
   }
 
   private updateUrlAndSearch(query: string) {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        q: query || null,
-        page: null,
-        size: null
-      },
-      queryParamsHandling: 'merge'
-    });
+    if(this.isHomepage){
+      this.router.navigate(['/catalogue'], {
+        relativeTo: this.route,
+        queryParams: {
+          q: query || null,
+          page: null,
+          size: null
+        },
+        queryParamsHandling: 'merge'
+      });
+    } else {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          q: query || null,
+          page: null,
+          size: null
+        },
+        queryParamsHandling: 'merge'
+      });
+    }
+
+
 
     this.store.searchWithPagination(query, 0, 10);
   }

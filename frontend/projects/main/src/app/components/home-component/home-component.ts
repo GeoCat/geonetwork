@@ -15,4 +15,5 @@ import { SearchService } from '../../services/search.service';
 export class HomeComponent {
   readonly store = inject(SearchStore);
   currentQuery = '';
+  parentIsHomepage = true;
 }
