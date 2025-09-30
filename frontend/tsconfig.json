@@ -14,11 +14,8 @@
       "gn4-api-client": [
         "./dist/gn4-api-client"
       ],
-      "modules": [
-        "./dist/modules"
-      ],
-      "shared": [
-        "./dist/shared"
+      "library": [
+        "./dist/library"
       ]
     },
     "noFallthroughCasesInSwitch": true,
@@ -43,18 +40,6 @@
     },
     {
       "path": "./projects/main/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/modules/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/modules/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/shared/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/shared/tsconfig.spec.json"
     },
     {
       "path": "./projects/gn4-api-client/tsconfig.lib.json"

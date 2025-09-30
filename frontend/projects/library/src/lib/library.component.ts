@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-shared',
+  selector: 'lib-library',
+  standalone: true,
   imports: [],
   template: `
     <p>
-      shared works!
+      library works!
     </p>
   `,
   styles: ``
 })
-export class Shared {
+export class LibraryComponent {
 
 }
