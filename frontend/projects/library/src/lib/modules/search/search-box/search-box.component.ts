@@ -13,18 +13,17 @@ import { InputText } from 'primeng/inputtext';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
 import { Button } from 'primeng/button';
-import { SearchStore } from '../../stores/store-search';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchStore } from '../search.store';
 
 @Component({
   selector: 'app-search-component',
   standalone: true,
   imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button],
-  templateUrl: './search-component.html',
+  templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-export class SearchComponent implements OnInit {
+export class SearchBox implements OnInit {
   @Input() query = '';
   @Input() isHomepage: boolean = false;
   @Output() queryChange = new EventEmitter<string>();
@@ -77,7 +76,7 @@ export class SearchComponent implements OnInit {
   }
 
   private updateUrlAndSearch(query: string) {
-    if(this.isHomepage){
+    if (this.isHomepage) {
       this.router.navigate(['/catalogue'], {
         relativeTo: this.route,
         queryParams: {
@@ -85,7 +84,7 @@ export class SearchComponent implements OnInit {
           page: null,
           size: null,
         },
-        queryParamsHandling: 'merge'
+        queryParamsHandling: 'merge',
       });
     } else {
       this.router.navigate([], {
@@ -98,8 +97,6 @@ export class SearchComponent implements OnInit {
         queryParamsHandling: 'merge',
       });
     }
-
-
 
     this.store.searchWithPagination(query, 0, 10);
   }

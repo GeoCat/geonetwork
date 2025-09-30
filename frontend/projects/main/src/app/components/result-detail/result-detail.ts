@@ -1,11 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { SearchService } from '../../services/search.service';
+import { SearchService } from 'gn-library';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
-
 
 type ExtendedIndexRecord = IndexRecord & {
   cl_spatialRepresentationType?: {
@@ -16,14 +15,12 @@ type ExtendedIndexRecord = IndexRecord & {
   }[];
 };
 
-
 @Component({
   selector: 'app-result-detail',
   standalone: true,
-  imports: [CommonModule, ButtonModule, CardModule, JsonPipe],
+  imports: [CommonModule, ButtonModule, CardModule],
   templateUrl: './result-detail.html',
 })
-
 export class ResultDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -52,7 +49,7 @@ export class ResultDetailComponent implements OnInit {
         console.error('Error loading result:', error);
         this.result.set(null);
         this.isLoading.set(false);
-      }
+      },
     });
   }
 
@@ -61,12 +58,9 @@ export class ResultDetailComponent implements OnInit {
     this.router.navigate(['/catalogue'], { queryParams });
   }
 
-
-
   get source(): any {
     return this.result()?.['_source'] ?? {};
   }
-
 
   getOverviewImage(): string | null {
     const overview = this.result()?._source?.overview;
@@ -110,10 +104,11 @@ export class ResultDetailComponent implements OnInit {
   }
 
   getConstraints(): { default: string; link: string } {
-    const constraint = (this.result()?.['_source'] as any)?.MD_LegalConstraintsUseLimitationObject?.[0];
+    const constraint = (this.result()?.['_source'] as any)
+      ?.MD_LegalConstraintsUseLimitationObject?.[0];
     return {
       default: constraint?.default ?? '',
-      link: constraint?.link ?? ''
+      link: constraint?.link ?? '',
     };
   }
 
@@ -121,17 +116,16 @@ export class ResultDetailComponent implements OnInit {
     const constraint = (this.result()?.['_source'] as any)?.cl_useConstraints?.[0];
     return {
       default: constraint?.default ?? '',
-      link: constraint?.link ?? ''
+      link: constraint?.link ?? '',
     };
   }
 
   getOtherConstraint(): { default: string; link: string } {
-    const constraint = (this.result()?.['_source'] as any)?.MD_LegalConstraintsOtherConstraintsObject?.[0];
+    const constraint = (this.result()?.['_source'] as any)
+      ?.MD_LegalConstraintsOtherConstraintsObject?.[0];
     return {
       default: constraint?.default ?? '',
-      link: constraint?.link ?? ''
+      link: constraint?.link ?? '',
     };
   }
-
-
 }
