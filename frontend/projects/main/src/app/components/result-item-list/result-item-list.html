@@ -1,20 +1,21 @@
 <div
   class="flex flex-col sm:flex-row sm:items-center py-6 gap-4"
   [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !isFirst }"
->
+  >
   <div class="md:w-40 relative">
     <div class="rounded w-full md:h-32 flex items-center justify-center">
-      <img *ngIf="getOverviewImage(); else noImage"
-           [src]="getOverviewImage()"
-           [alt]="getOverviewImageName()"
-           class="w-full h-auto rounded shadow-md"
-           (error)="onImageError($event)">
-      <ng-template #noImage>
+      @if (getOverviewImage()) {
+        <img
+          [src]="getOverviewImage()"
+          [alt]="getOverviewImageName()"
+          class="w-full h-auto rounded shadow-md"
+          (error)="onImageError($event)">
+      } @else {
         <div class="flex flex-col items-center justify-center p-4">
           <i class="pi pi-file-o text-6xl text-surface-400"></i>
           <p class="mt-2 text-xs text-surface-600">No preview available</p>
         </div>
-      </ng-template>
+      }
     </div>
   </div>
   <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
@@ -28,7 +29,7 @@
     <div class="flex flex-col md:items-end gap-4">
       <div class="flex flex-row-reverse md:flex-row gap-2">
         <button pButton icon="pi pi-eye" label="View Details"
-                [outlined]="true" (click)="onViewDetails()"></button>
+        [outlined]="true" (click)="onViewDetails()"></button>
         <button pButton icon="pi pi-download" label="Download" class="flex-auto md:flex-initial whitespace-nowrap"></button>
       </div>
     </div>

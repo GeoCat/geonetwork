@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
@@ -7,7 +7,7 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 @Component({
   selector: 'app-result-item-grid',
   standalone: true,
-  imports: [CommonModule, ButtonModule, TooltipModule],
+  imports: [ButtonModule, TooltipModule],
   templateUrl: './result-item-grid.html',
   styleUrl: './result-item-grid.scss'
 })

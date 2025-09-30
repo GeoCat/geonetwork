@@ -1,7 +1,7 @@
 
 import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import {InputText} from 'primeng/inputtext';
 import {InputGroup} from 'primeng/inputgroup';
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-search-component',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputText, InputGroup, InputGroupAddon, Button],
+  imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button],
   templateUrl: './search-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

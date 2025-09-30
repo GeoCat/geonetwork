@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Paginator } from 'primeng/paginator';
 import { SearchStore } from '../../stores/store-search';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,14 +13,13 @@ import { EmptyStateComponent } from '../empty-state/empty-state';
   selector: 'app-result-view',
   standalone: true,
   imports: [
-    CommonModule,
     Paginator,
     ResultItemGrid,
     ResultItemList,
     ResultHeader,
     LoadingComponent,
     EmptyStateComponent
-  ],
+],
   templateUrl: './result-view-component.html',
   styleUrls: ['./result-view-component.scss']
 })

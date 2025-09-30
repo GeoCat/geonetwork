@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MultiSelect } from 'primeng/multiselect';
 import { FormsModule } from '@angular/forms';
 import {FloatLabel} from 'primeng/floatlabel';
@@ -43,12 +43,11 @@ interface Availability {
   styleUrl: './facet-component.scss',
   standalone: true,
   imports: [
-    CommonModule,
     MultiSelect,
     FormsModule,
     FloatLabel,
     TreeSelect
-  ],
+],
   providers: [NodeService]
 
 })

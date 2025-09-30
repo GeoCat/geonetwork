@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SearchService } from '../../services/search.service';
@@ -10,7 +10,7 @@ import {elasticsearch, IndexRecord} from 'gn-api-client';
 @Component({
   selector: 'app-result-detail',
   standalone: true,
-  imports: [CommonModule, ButtonModule, CardModule],
+  imports: [ButtonModule, CardModule],
   templateUrl: './result-detail.html',
 })
 
