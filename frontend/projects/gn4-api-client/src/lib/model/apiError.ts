@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface ApiError { 
-    code?: string;
-    description?: string;
-    message?: string;
+export interface ApiError {
+  code?: string;
+  description?: string;
+  message?: string;
 }
-

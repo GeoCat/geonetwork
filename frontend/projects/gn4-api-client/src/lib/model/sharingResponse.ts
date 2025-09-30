@@ -9,10 +9,8 @@
  */
 import { GroupPrivilege } from './groupPrivilege';
 
-
-export interface SharingResponse { 
-    groupOwner?: string;
-    owner?: string;
-    privileges?: Array<GroupPrivilege>;
+export interface SharingResponse {
+  groupOwner?: string;
+  owner?: string;
+  privileges?: Array<GroupPrivilege>;
 }
-

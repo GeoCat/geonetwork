@@ -11,32 +11,30 @@ import { Report } from './report';
 import { InfoReport } from './infoReport';
 import { ReplaceReport } from './replaceReport';
 
-
-export interface MetadataReplacementProcessingReport { 
-    ellapsedTimeInSeconds?: number;
-    endIsoDateTime?: string;
-    errors?: Array<Report>;
-    infos?: Array<InfoReport>;
-    metadata?: Set<number>;
-    metadataChanges?: { [key: string]: ReplaceReport; };
-    metadataErrors?: { [key: string]: Array<Report>; };
-    metadataInfos?: { [key: string]: Array<InfoReport>; };
-    noProcessFoundCount?: number;
-    numberOfNullRecords?: number;
-    numberOfRecordNotFound?: number;
-    numberOfRecords?: number;
-    numberOfRecordsChanged?: number;
-    numberOfRecordsNotChanged?: number;
-    numberOfRecordsNotEditable?: number;
-    numberOfRecordsProcessed?: number;
-    numberOfRecordsUnchanged?: number;
-    numberOfRecordsWithErrors?: number;
-    processId?: string;
-    running?: boolean;
-    startIsoDateTime?: string;
-    totalRecords?: number;
-    totalTimeInSeconds?: number;
-    type?: string;
-    uuid?: string;
+export interface MetadataReplacementProcessingReport {
+  ellapsedTimeInSeconds?: number;
+  endIsoDateTime?: string;
+  errors?: Array<Report>;
+  infos?: Array<InfoReport>;
+  metadata?: Set<number>;
+  metadataChanges?: { [key: string]: ReplaceReport };
+  metadataErrors?: { [key: string]: Array<Report> };
+  metadataInfos?: { [key: string]: Array<InfoReport> };
+  noProcessFoundCount?: number;
+  numberOfNullRecords?: number;
+  numberOfRecordNotFound?: number;
+  numberOfRecords?: number;
+  numberOfRecordsChanged?: number;
+  numberOfRecordsNotChanged?: number;
+  numberOfRecordsNotEditable?: number;
+  numberOfRecordsProcessed?: number;
+  numberOfRecordsUnchanged?: number;
+  numberOfRecordsWithErrors?: number;
+  processId?: string;
+  running?: boolean;
+  startIsoDateTime?: string;
+  totalRecords?: number;
+  totalTimeInSeconds?: number;
+  type?: string;
+  uuid?: string;
 }
-

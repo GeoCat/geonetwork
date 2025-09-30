@@ -8,13 +8,11 @@
  * Do not edit the class manually.
  */
 
-
-export interface Measure { 
-    name?: string;
-    description?: string;
-    date?: string;
-    value?: string;
-    type?: string;
-    unit?: string;
+export interface Measure {
+  name?: string;
+  description?: string;
+  date?: string;
+  value?: string;
+  type?: string;
+  unit?: string;
 }
-

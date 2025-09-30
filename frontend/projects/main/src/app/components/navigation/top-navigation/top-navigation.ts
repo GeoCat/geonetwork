@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '../../../services/layout.service';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,8 +10,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './top-navigation.html',
   styleUrl: './top-navigation.scss',
   standalone: true,
-  imports: [CommonModule, ButtonModule, StyleClassModule, RouterLink],
-
+  imports: [ButtonModule, StyleClassModule, RouterLink],
 })
 export class TopNavigation {
   layoutService: LayoutService = inject(LayoutService);

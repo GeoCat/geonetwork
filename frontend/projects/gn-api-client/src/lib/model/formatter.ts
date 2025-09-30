@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Formatter { 
-    name?: string;
-    contentType?: string;
-    title?: string;
-    officialProfileName?: string;
+export interface Formatter {
+  name?: string;
+  contentType?: string;
+  title?: string;
+  officialProfileName?: string;
 }
-

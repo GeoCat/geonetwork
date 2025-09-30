@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface SortObject { 
-    ascending?: boolean;
-    direction?: string;
-    ignoreCase?: boolean;
-    nullHandling?: string;
-    property?: string;
+export interface SortObject {
+  ascending?: boolean;
+  direction?: string;
+  ignoreCase?: boolean;
+  nullHandling?: string;
+  property?: string;
 }
-

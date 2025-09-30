@@ -9,13 +9,11 @@
  */
 import { AttributeTable } from './attributeTable';
 
-
-export interface FeatureType { 
-    typeName?: string;
-    definition?: string;
-    code?: string;
-    isAbstract?: string;
-    aliases?: Array<string>;
-    attributeTable?: Array<AttributeTable>;
+export interface FeatureType {
+  typeName?: string;
+  definition?: string;
+  code?: string;
+  isAbstract?: string;
+  aliases?: Array<string>;
+  attributeTable?: Array<AttributeTable>;
 }
-

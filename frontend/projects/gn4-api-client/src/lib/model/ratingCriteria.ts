@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface RatingCriteria { 
-    id?: number;
-    internal?: boolean;
-    label?: { [key: string]: string; };
-    name?: string;
+export interface RatingCriteria {
+  id?: number;
+  internal?: boolean;
+  label?: { [key: string]: string };
+  name?: string;
 }
-

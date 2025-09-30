@@ -10,19 +10,17 @@
 import { MultilingualValue } from './multilingualValue';
 import { Description } from './description';
 
-
-export interface AssociatedSiblingMetadataItem { 
-    agg_isDescriptionOf?: Array<string>;
-    agg_isTemporalStatOf?: Array<string>;
-    agg_largerWorkCitation?: Array<string>;
-    description: Description;
-    hash?: string;
-    id?: string;
-    idx?: string;
-    mdType: Array<string>;
-    origin?: string;
-    title: MultilingualValue;
-    type?: string;
-    url?: MultilingualValue;
+export interface AssociatedSiblingMetadataItem {
+  agg_isDescriptionOf?: Array<string>;
+  agg_isTemporalStatOf?: Array<string>;
+  agg_largerWorkCitation?: Array<string>;
+  description: Description;
+  hash?: string;
+  id?: string;
+  idx?: string;
+  mdType: Array<string>;
+  origin?: string;
+  title: MultilingualValue;
+  type?: string;
+  url?: MultilingualValue;
 }
-

@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-loading-component',
-  imports: [CommonModule],
+  imports: [],
   standalone: true,
   templateUrl: './loading-component.html',
-  styleUrl: './loading-component.scss'
+  styleUrl: './loading-component.scss',
 })
-export class LoadingComponent {
-
-}
+export class LoadingComponent {}

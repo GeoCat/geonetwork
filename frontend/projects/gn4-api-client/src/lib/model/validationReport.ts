@@ -9,16 +9,14 @@
  */
 import { Patterns } from './patterns';
 
-
-export interface ValidationReport { 
-    displayPriority: number;
-    error: number;
-    id: string;
-    label: string;
-    patterns: Patterns;
-    requirement: string;
-    schematronVerificationError?: string;
-    success: string;
-    total: string;
+export interface ValidationReport {
+  displayPriority: number;
+  error: number;
+  id: string;
+  label: string;
+  patterns: Patterns;
+  requirement: string;
+  schematronVerificationError?: string;
+  success: string;
+  total: string;
 }
-

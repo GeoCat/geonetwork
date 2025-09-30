@@ -1,18 +1,25 @@
-
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  OnInit,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import {InputText} from 'primeng/inputtext';
-import {InputGroup} from 'primeng/inputgroup';
-import {InputGroupAddon} from 'primeng/inputgroupaddon';
-import {Button} from 'primeng/button';
+
+import { InputText } from 'primeng/inputtext';
+import { InputGroup } from 'primeng/inputgroup';
+import { InputGroupAddon } from 'primeng/inputgroupaddon';
+import { Button } from 'primeng/button';
 import { SearchStore } from '../../stores/store-search';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-component',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputText, InputGroup, InputGroupAddon, Button],
+  imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button],
   templateUrl: './search-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,7 +41,7 @@ export class SearchComponent implements OnInit {
       this.store.searchWithPagination(urlQuery, 0, 10);
     }
 
-    this.route.queryParamMap.subscribe(params => {
+    this.route.queryParamMap.subscribe((params) => {
       const newQuery = params.get('q') || '';
       if (newQuery !== this.query) {
         this.query = newQuery;
@@ -76,7 +83,7 @@ export class SearchComponent implements OnInit {
         queryParams: {
           q: query || null,
           page: null,
-          size: null
+          size: null,
         },
         queryParamsHandling: 'merge'
       });
@@ -86,9 +93,9 @@ export class SearchComponent implements OnInit {
         queryParams: {
           q: query || null,
           page: null,
-          size: null
+          size: null,
         },
-        queryParamsHandling: 'merge'
+        queryParamsHandling: 'merge',
       });
     }
 

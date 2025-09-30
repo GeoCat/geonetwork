@@ -8,34 +8,32 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Physical location at which contact can be made.
  */
-export interface OgcApiRecordsAddressDto { 
-    /**
-     * Address lines for the location.
-     */
-    deliveryPoint?: Array<string>;
-    /**
-     * City for the location.
-     */
-    city?: string;
-    /**
-     * State or province of the location.
-     */
-    administrativeArea?: string;
-    /**
-     * ZIP or other postal code.
-     */
-    postalCode?: string;
-    /**
-     * Country of the physical address.  ISO 3166-1 is recommended.
-     */
-    country?: string;
-    /**
-     * The type of address (e.g. office, home, etc.).
-     */
-    roles?: Array<string>;
+export interface OgcApiRecordsAddressDto {
+  /**
+   * Address lines for the location.
+   */
+  deliveryPoint?: Array<string>;
+  /**
+   * City for the location.
+   */
+  city?: string;
+  /**
+   * State or province of the location.
+   */
+  administrativeArea?: string;
+  /**
+   * ZIP or other postal code.
+   */
+  postalCode?: string;
+  /**
+   * Country of the physical address.  ISO 3166-1 is recommended.
+   */
+  country?: string;
+  /**
+   * The type of address (e.g. office, home, etc.).
+   */
+  roles?: Array<string>;
 }
-

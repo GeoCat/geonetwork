@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Maintenance { 
-    frequency?: string;
-    nextUpdateDate?: Array<string>;
-    userDefinedFrequency?: string;
-    noteObject?: { [key: string]: string; };
+export interface Maintenance {
+  frequency?: string;
+  nextUpdateDate?: Array<string>;
+  userDefinedFrequency?: string;
+  noteObject?: { [key: string]: string };
 }
-

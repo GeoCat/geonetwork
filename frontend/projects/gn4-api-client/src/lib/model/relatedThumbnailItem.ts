@@ -9,13 +9,11 @@
  */
 import { MultilingualValue } from './multilingualValue';
 
-
-export interface RelatedThumbnailItem { 
-    hash?: string;
-    id?: string;
-    idx?: string;
-    title: MultilingualValue;
-    type?: string;
-    url?: MultilingualValue;
+export interface RelatedThumbnailItem {
+  hash?: string;
+  id?: string;
+  idx?: string;
+  title: MultilingualValue;
+  type?: string;
+  url?: MultilingualValue;
 }
-

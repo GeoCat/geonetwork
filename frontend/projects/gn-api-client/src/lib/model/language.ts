@@ -8,36 +8,33 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * The language used for textual values in this record.
  */
-export interface Language { 
-    /**
-     * The language tag as per RFC-5646.
-     */
-    code: string;
-    /**
-     * The untranslated name of the language.
-     */
-    name?: string;
-    /**
-     * The name of the language in another well-understood language, usually English.
-     */
-    alternate?: string;
-    /**
-     * The direction for text in this language. The default, `ltr` (left-to-right), represents the most common situation. However, care should be taken to set the value of `dir` appropriately if the language direction is not `ltr`. Other values supported are `rtl` (right-to-left), `ttb` (top-to-bottom), and `btt` (bottom-to-top).
-     */
-    dir?: Language.DirEnum;
+export interface Language {
+  /**
+   * The language tag as per RFC-5646.
+   */
+  code: string;
+  /**
+   * The untranslated name of the language.
+   */
+  name?: string;
+  /**
+   * The name of the language in another well-understood language, usually English.
+   */
+  alternate?: string;
+  /**
+   * The direction for text in this language. The default, `ltr` (left-to-right), represents the most common situation. However, care should be taken to set the value of `dir` appropriately if the language direction is not `ltr`. Other values supported are `rtl` (right-to-left), `ttb` (top-to-bottom), and `btt` (bottom-to-top).
+   */
+  dir?: Language.DirEnum;
 }
 export namespace Language {
-    export const DirEnum = {
-        Ltr: 'ltr',
-        Rtl: 'rtl',
-        Ttb: 'ttb',
-        Btt: 'btt'
-    } as const;
-    export type DirEnum = typeof DirEnum[keyof typeof DirEnum];
+  export const DirEnum = {
+    Ltr: 'ltr',
+    Rtl: 'rtl',
+    Ttb: 'ttb',
+    Btt: 'btt',
+  } as const;
+  export type DirEnum = (typeof DirEnum)[keyof typeof DirEnum];
 }
-
-

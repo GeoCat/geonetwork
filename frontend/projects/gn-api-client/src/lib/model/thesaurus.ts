@@ -8,13 +8,11 @@
  * Do not edit the class manually.
  */
 
-
-export interface Thesaurus { 
-    id?: string;
-    title?: string;
-    multilingualTitle?: { [key: string]: string; };
-    theme?: string;
-    link?: string;
-    keywords?: Array<object>;
+export interface Thesaurus {
+  id?: string;
+  title?: string;
+  multilingualTitle?: { [key: string]: string };
+  theme?: string;
+  link?: string;
+  keywords?: Array<object>;
 }
-

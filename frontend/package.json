@@ -4,12 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --project main",
-    "build": "ng build gn-api-client && ng build gn4-api-client && ng build main",
+    "build": "ng build gn-api-client && ng build gn4-api-client && ng build library && ng build main",
     "watch": "ng build --watch --configuration development",
     "download-api-geonetwork4-client": "curl -H 'Accept: application/json' http://localhost:8080/geonetwork/srv/api/doc -o projects/gn4-api-client/openapi.json",
     "build-api-geonetwork4-client": "openapi-generator-cli generate -i projects/gn4-api-client/openapi.json  -g typescript-angular -o  projects/gn4-api-client/src/lib  --skip-validate-spec  --additional-properties=apiModulePrefix=Gn4",
     "download-api-geonetwork-client": "curl http://localhost:7979/v3/api-docs -o projects/gn-api-client/openapi.json",
     "build-api-geonetwork-client": "openapi-generator-cli generate -i projects/gn-api-client/openapi.json  -g typescript-angular -o  projects/gn-api-client/src/lib  --skip-validate-spec --additional-properties=apiModulePrefix=Gn",
+    "prettier": "prettier --write \"**/*.{ts,html,scss,css,json}\"",
     "test": "ng test"
   },
   "prettier": {
@@ -35,14 +36,13 @@
     "@ngrx/operators": "^20.0.1",
     "@ngrx/signals": "^20.0.1",
     "@ngrx/store": "^20.0.1",
-    "@primeuix/themes": "^1.2.0",
-    "@tailwindcss/postcss": "^4.1.4",
-    "chart.js": "^4.4.8",
+    "@primeuix/themes": "^1.2.5",
+    "@tailwindcss/postcss": "^4.1.13",
     "postcss": "^8.5.3",
     "primeicons": "^7.0.0",
-    "primeng": "^20.0.0-rc.2",
+    "primeng": "^20.2.0",
     "rxjs": "~7.8.0",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.13",
     "tailwindcss-primeui": "^0.6.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -61,6 +61,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^20.3.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.9.2"
   }
 }

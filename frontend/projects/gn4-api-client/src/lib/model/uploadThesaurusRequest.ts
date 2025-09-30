@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface UploadThesaurusRequest { 
-    /**
-     * If set, do a file upload.
-     */
-    file?: Blob;
+export interface UploadThesaurusRequest {
+  /**
+   * If set, do a file upload.
+   */
+  file?: Blob;
 }
-

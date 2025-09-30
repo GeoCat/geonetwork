@@ -14,29 +14,27 @@ import { JsonNullableOgcApiRecordsGeometryGeoJSONDto } from './jsonNullableOgcAp
 import { IndexRecord } from './indexRecord';
 import { OgcApiRecordsLinkDto } from './ogcApiRecordsLinkDto';
 
-
 /**
  * An array of records that are part of this catalog that are encoded in-line with the catalog.
  */
-export interface OgcApiRecordsRecordGeoJSONDto { 
-    /**
-     * A unique identifier of the catalog record.
-     */
-    id: string;
-    type: string;
-    time?: JsonNullableOgcApiRecordsTimeDto;
-    geometry: JsonNullableOgcApiRecordsGeometryGeoJSONDto;
-    /**
-     * The extensions/conformance classes used in this record.
-     */
-    conformsTo?: Array<string>;
-    /**
-     * Underlying record stored in GeoNetwork (often XML).
-     */
-    metadataRecordText?: string;
-    geoNetworkElasticIndexRecord?: IndexRecord;
-    properties: OgcApiRecordsRecordGeoJSONPropertiesDto;
-    links?: Array<OgcApiRecordsLinkDto>;
-    linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
+export interface OgcApiRecordsRecordGeoJSONDto {
+  /**
+   * A unique identifier of the catalog record.
+   */
+  id: string;
+  type: string;
+  time?: JsonNullableOgcApiRecordsTimeDto;
+  geometry: JsonNullableOgcApiRecordsGeometryGeoJSONDto;
+  /**
+   * The extensions/conformance classes used in this record.
+   */
+  conformsTo?: Array<string>;
+  /**
+   * Underlying record stored in GeoNetwork (often XML).
+   */
+  metadataRecordText?: string;
+  geoNetworkElasticIndexRecord?: IndexRecord;
+  properties: OgcApiRecordsRecordGeoJSONPropertiesDto;
+  links?: Array<OgcApiRecordsLinkDto>;
+  linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
 }
-

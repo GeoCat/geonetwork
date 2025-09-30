@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface LogFileResponse { 
-    file?: string;
-    name?: string;
+export interface LogFileResponse {
+  file?: string;
+  name?: string;
 }
-

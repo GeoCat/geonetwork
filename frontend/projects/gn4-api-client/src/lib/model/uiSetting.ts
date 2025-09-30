@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface UiSetting { 
-    configuration?: string;
-    id?: string;
+export interface UiSetting {
+  configuration?: string;
+  id?: string;
 }
-

@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface PartyIdentifier { 
-    code?: string;
-    codeSpace?: string;
-    link?: string;
+export interface PartyIdentifier {
+  code?: string;
+  codeSpace?: string;
+  link?: string;
 }
-

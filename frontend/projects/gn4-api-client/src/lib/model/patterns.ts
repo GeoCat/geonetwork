@@ -9,8 +9,6 @@
  */
 import { Pattern } from './pattern';
 
-
-export interface Patterns { 
-    pattern: Array<Pattern>;
+export interface Patterns {
+  pattern: Array<Pattern>;
 }
-

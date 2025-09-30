@@ -9,18 +9,16 @@
  */
 import { OgcApiRecordsThemeConceptsInnerDto } from './ogcApiRecordsThemeConceptsInnerDto';
 
-
 /**
  * A knowledge organization system used to classify the resource.
  */
-export interface OgcApiRecordsThemeDto { 
-    /**
-     * One or more entity/concept identifiers from this knowledge system. it is recommended that a resolvable URI be used for each entity/concept identifier.
-     */
-    concepts: Array<OgcApiRecordsThemeConceptsInnerDto>;
-    /**
-     * An identifier for the knowledge organization system used to classify the resource.  It is recommended that the identifier be a resolvable URI.  The list of schemes used in a searchable catalog can be determined by inspecting the server\'s OpenAPI document or, if the server implements CQL2, by exposing a queryable (e.g. named `scheme`) and enumerating the list of schemes in the queryable\'s schema definition.
-     */
-    scheme: string;
+export interface OgcApiRecordsThemeDto {
+  /**
+   * One or more entity/concept identifiers from this knowledge system. it is recommended that a resolvable URI be used for each entity/concept identifier.
+   */
+  concepts: Array<OgcApiRecordsThemeConceptsInnerDto>;
+  /**
+   * An identifier for the knowledge organization system used to classify the resource.  It is recommended that the identifier be a resolvable URI.  The list of schemes used in a searchable catalog can be determined by inspecting the server\'s OpenAPI document or, if the server implements CQL2, by exposing a queryable (e.g. named `scheme`) and enumerating the list of schemes in the queryable\'s schema definition.
+   */
+  scheme: string;
 }
-

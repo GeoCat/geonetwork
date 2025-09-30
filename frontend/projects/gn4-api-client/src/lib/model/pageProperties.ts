@@ -8,47 +8,44 @@
  * Do not edit the class manually.
  */
 
-
-export interface PageProperties { 
-    content?: string;
-    format?: PageProperties.FormatEnum;
-    groups?: Array<string>;
-    icon?: string;
-    label?: string;
-    language?: string;
-    link?: string;
-    pageId?: string;
-    sections?: Array<PageProperties.SectionsEnum>;
-    status?: PageProperties.StatusEnum;
+export interface PageProperties {
+  content?: string;
+  format?: PageProperties.FormatEnum;
+  groups?: Array<string>;
+  icon?: string;
+  label?: string;
+  language?: string;
+  link?: string;
+  pageId?: string;
+  sections?: Array<PageProperties.SectionsEnum>;
+  status?: PageProperties.StatusEnum;
 }
 export namespace PageProperties {
-    export const FormatEnum = {
-        Link: 'LINK',
-        Html: 'HTML',
-        Htmlpage: 'HTMLPAGE',
-        Text: 'TEXT',
-        Emaillink: 'EMAILLINK'
-    } as const;
-    export type FormatEnum = typeof FormatEnum[keyof typeof FormatEnum];
-    export const SectionsEnum = {
-        Top: 'TOP',
-        Footer: 'FOOTER',
-        Menu: 'MENU',
-        Submenu: 'SUBMENU',
-        RecordViewMenu: 'RECORD_VIEW_MENU',
-        CustomMenu1: 'CUSTOM_MENU1',
-        CustomMenu2: 'CUSTOM_MENU2',
-        CustomMenu3: 'CUSTOM_MENU3'
-    } as const;
-    export type SectionsEnum = typeof SectionsEnum[keyof typeof SectionsEnum];
-    export const StatusEnum = {
-        Public: 'PUBLIC',
-        PublicOnly: 'PUBLIC_ONLY',
-        Groups: 'GROUPS',
-        Private: 'PRIVATE',
-        Hidden: 'HIDDEN'
-    } as const;
-    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
+  export const FormatEnum = {
+    Link: 'LINK',
+    Html: 'HTML',
+    Htmlpage: 'HTMLPAGE',
+    Text: 'TEXT',
+    Emaillink: 'EMAILLINK',
+  } as const;
+  export type FormatEnum = (typeof FormatEnum)[keyof typeof FormatEnum];
+  export const SectionsEnum = {
+    Top: 'TOP',
+    Footer: 'FOOTER',
+    Menu: 'MENU',
+    Submenu: 'SUBMENU',
+    RecordViewMenu: 'RECORD_VIEW_MENU',
+    CustomMenu1: 'CUSTOM_MENU1',
+    CustomMenu2: 'CUSTOM_MENU2',
+    CustomMenu3: 'CUSTOM_MENU3',
+  } as const;
+  export type SectionsEnum = (typeof SectionsEnum)[keyof typeof SectionsEnum];
+  export const StatusEnum = {
+    Public: 'PUBLIC',
+    PublicOnly: 'PUBLIC_ONLY',
+    Groups: 'GROUPS',
+    Private: 'PRIVATE',
+    Hidden: 'HIDDEN',
+  } as const;
+  export type StatusEnum = (typeof StatusEnum)[keyof typeof StatusEnum];
 }
-
-

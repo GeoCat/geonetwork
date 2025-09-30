@@ -9,10 +9,8 @@
  */
 import { ProfileInfo } from './profileInfo';
 
-
-export interface FormatterInfo { 
-    mimeType?: string;
-    schemas?: Set<string>;
-    profile?: ProfileInfo;
+export interface FormatterInfo {
+  mimeType?: string;
+  schemas?: Set<string>;
+  profile?: ProfileInfo;
 }
-

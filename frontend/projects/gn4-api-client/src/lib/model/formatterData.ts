@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface FormatterData { 
-    id?: string;
-    schema?: string;
+export interface FormatterData {
+  id?: string;
+  schema?: string;
 }
-

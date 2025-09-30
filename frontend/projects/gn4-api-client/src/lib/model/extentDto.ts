@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface ExtentDto { 
-    description?: string;
-    href?: string;
-    type?: string;
-    xpath?: string;
+export interface ExtentDto {
+  description?: string;
+  href?: string;
+  type?: string;
+  xpath?: string;
 }
-

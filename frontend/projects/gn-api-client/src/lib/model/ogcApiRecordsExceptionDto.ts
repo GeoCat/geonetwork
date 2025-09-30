@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface OgcApiRecordsExceptionDto { 
-    code: string;
-    description?: string;
+export interface OgcApiRecordsExceptionDto {
+  code: string;
+  description?: string;
 }
-

@@ -1,57 +1,72 @@
-
 <!-- Loading State -->
-<app-loading-component *ngIf="store.isLoading()"></app-loading-component>
+@if (store.isLoading()) {
+  <app-loading-component></app-loading-component>
+}
 
 <!-- Results Container -->
-<div *ngIf="!store.isLoading()" class="results-container">
-
-  <!-- No Results State -->
-  <app-empty-state *ngIf="!store.hasResults()"></app-empty-state>
-
-  <!-- Results Display -->
-  <div *ngIf="store.hasResults()" class="card">
-
-    <!-- Results Header -->
-    <app-result-header
-      [totalCount]="store.totalCount()"
-      [currentCount]="results.length"
-      [layout]="layout"
-      (layoutChange)="onLayoutChange($event)">
-    </app-result-header>
-
-    <!-- List View -->
-    <div *ngIf="layout === 'list'" class="results-list">
-      <app-result-item-list
-        *ngFor="let result of results; let first = first; trackBy: trackByResultId"
-        [result]="result"
-        [isFirst]="first"
-        (viewDetails)="viewDetails($event)"
-        (download)="onDownload($event)">
-      </app-result-item-list>
-    </div>
-
-    <!-- Grid View -->
-    <div *ngIf="layout === 'grid'" class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      <app-result-item-grid
-        *ngFor="let result of results; trackBy: trackByResultId"
-        [result]="result"
-        (viewDetails)="viewDetails($event)"
-        (download)="onDownload($event)">
-      </app-result-item-grid>
-    </div>
-
-    <!-- Paginator -->
-    <div *ngIf="store.totalCount() > pageSize" class="paginator-container border-top-1 pt-4 mt-4">
-      <p-paginator
-        [first]="currentPage * pageSize"
-        [rows]="pageSize"
-        [totalRecords]="store.totalCount()"
-        [rowsPerPageOptions]="pageSizeOptions"
-        [showCurrentPageReport]="true"
-        [showJumpToPageDropdown]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        (onPageChange)="onPageChange($event)">
-      </p-paginator>
-    </div>
+@if (!store.isLoading()) {
+  <div class="results-container">
+    <!-- No Results State -->
+    @if (!store.hasResults()) {
+      <app-empty-state></app-empty-state>
+    }
+    <!-- Results Display -->
+    @if (store.hasResults()) {
+      <div class="card">
+        <!-- Results Header -->
+        <app-result-header
+          [totalCount]="store.totalCount()"
+          [currentCount]="results.length"
+          [layout]="layout"
+          (layoutChange)="onLayoutChange($event)"
+        >
+        </app-result-header>
+        <!-- List View -->
+        @if (layout === 'list') {
+          <div class="results-list">
+            @for (result of results; track trackByResultId($index, result); let first = $first) {
+              <app-result-item-list
+                [result]="result"
+                [isFirst]="first"
+                (viewDetails)="viewDetails($event)"
+                (download)="onDownload($event)"
+              >
+              </app-result-item-list>
+            }
+          </div>
+        }
+        <!-- Grid View -->
+        @if (layout === 'grid') {
+          <div
+            class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+          >
+            @for (result of results; track trackByResultId($index, result)) {
+              <app-result-item-grid
+                [result]="result"
+                (viewDetails)="viewDetails($event)"
+                (download)="onDownload($event)"
+              >
+              </app-result-item-grid>
+            }
+          </div>
+        }
+        <!-- Paginator -->
+        @if (store.totalCount() > pageSize) {
+          <div class="paginator-container border-top-1 pt-4 mt-4">
+            <p-paginator
+              [first]="currentPage * pageSize"
+              [rows]="pageSize"
+              [totalRecords]="store.totalCount()"
+              [rowsPerPageOptions]="pageSizeOptions"
+              [showCurrentPageReport]="true"
+              [showJumpToPageDropdown]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              (onPageChange)="onPageChange($event)"
+            >
+            </p-paginator>
+          </div>
+        }
+      </div>
+    }
   </div>
-</div>
+}

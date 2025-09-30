@@ -8,22 +8,20 @@
  * Do not edit the class manually.
  */
 
-
 export const RelatedItemType = {
-    Children: 'children',
-    Parent: 'parent',
-    BrothersAndSisters: 'brothersAndSisters',
-    Siblings: 'siblings',
-    Associated: 'associated',
-    Services: 'services',
-    Datasets: 'datasets',
-    Fcats: 'fcats',
-    Hasfeaturecats: 'hasfeaturecats',
-    Sources: 'sources',
-    Hassources: 'hassources',
-    Related: 'related',
-    Onlines: 'onlines',
-    Thumbnails: 'thumbnails'
+  Children: 'children',
+  Parent: 'parent',
+  BrothersAndSisters: 'brothersAndSisters',
+  Siblings: 'siblings',
+  Associated: 'associated',
+  Services: 'services',
+  Datasets: 'datasets',
+  Fcats: 'fcats',
+  Hasfeaturecats: 'hasfeaturecats',
+  Sources: 'sources',
+  Hassources: 'hassources',
+  Related: 'related',
+  Onlines: 'onlines',
+  Thumbnails: 'thumbnails',
 } as const;
-export type RelatedItemType = typeof RelatedItemType[keyof typeof RelatedItemType];
-
+export type RelatedItemType = (typeof RelatedItemType)[keyof typeof RelatedItemType];

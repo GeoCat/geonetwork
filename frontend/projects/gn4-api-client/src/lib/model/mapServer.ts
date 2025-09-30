@@ -8,24 +8,22 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * Mapserver details
  */
-export interface MapServer { 
-    configurl?: string;
-    description?: string;
-    id?: number;
-    name?: string;
-    namespace?: string;
-    namespacePrefix?: string;
-    password?: string;
-    pushStyleInWorkspace?: MapServer;
-    pushStyleInWorkspace_JpaWorkaround?: string;
-    stylerurl?: string;
-    username?: string;
-    wcsurl?: string;
-    wfsurl?: string;
-    wmsurl?: string;
+export interface MapServer {
+  configurl?: string;
+  description?: string;
+  id?: number;
+  name?: string;
+  namespace?: string;
+  namespacePrefix?: string;
+  password?: string;
+  pushStyleInWorkspace?: MapServer;
+  pushStyleInWorkspace_JpaWorkaround?: string;
+  stylerurl?: string;
+  username?: string;
+  wcsurl?: string;
+  wfsurl?: string;
+  wmsurl?: string;
 }
-

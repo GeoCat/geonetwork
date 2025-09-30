@@ -9,9 +9,7 @@
  */
 import { Rules } from './rules';
 
-
-export interface Pattern { 
-    rules: Rules;
-    title: string;
+export interface Pattern {
+  rules: Rules;
+  title: string;
 }
-

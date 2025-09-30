@@ -8,22 +8,20 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * A list of schemes used in this context.
  */
-export interface OgcApiRecordsSchemeDto { 
-    /**
-     * An identifier for this namespace.  The identifier can be used as a short-form for the namespace.
-     */
-    'scheme-id': string;
-    /**
-     * A declarative region that provides a scope to the identifiers inside it. It is recommended that the value of namespace be a URI.
-     */
-    namespace: string;
-    /**
-     * An extensible description of a mechanism that resolves a scheme identifier (scheme-id) to its namespace.
-     */
-    resolver?: object;
+export interface OgcApiRecordsSchemeDto {
+  /**
+   * An identifier for this namespace.  The identifier can be used as a short-form for the namespace.
+   */
+  'scheme-id': string;
+  /**
+   * A declarative region that provides a scope to the identifiers inside it. It is recommended that the value of namespace be a URI.
+   */
+  namespace: string;
+  /**
+   * An extensible description of a mechanism that resolves a scheme identifier (scheme-id) to its namespace.
+   */
+  resolver?: object;
 }
-

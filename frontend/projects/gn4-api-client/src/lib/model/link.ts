@@ -11,23 +11,20 @@ import { ISODate } from './iSODate';
 import { LinkStatus } from './linkStatus';
 import { MetadataLink } from './metadataLink';
 
-
-export interface Link { 
-    id?: number;
-    lastCheck?: ISODate;
-    lastState?: number;
-    linkStatus?: Set<LinkStatus>;
-    linkType?: Link.LinkTypeEnum;
-    protocol?: string;
-    records?: Set<MetadataLink>;
-    url?: string;
+export interface Link {
+  id?: number;
+  lastCheck?: ISODate;
+  lastState?: number;
+  linkStatus?: Set<LinkStatus>;
+  linkType?: Link.LinkTypeEnum;
+  protocol?: string;
+  records?: Set<MetadataLink>;
+  url?: string;
 }
 export namespace Link {
-    export const LinkTypeEnum = {
-        Http: 'HTTP',
-        Metadata: 'METADATA'
-    } as const;
-    export type LinkTypeEnum = typeof LinkTypeEnum[keyof typeof LinkTypeEnum];
+  export const LinkTypeEnum = {
+    Http: 'HTTP',
+    Metadata: 'METADATA',
+  } as const;
+  export type LinkTypeEnum = (typeof LinkTypeEnum)[keyof typeof LinkTypeEnum];
 }
-
-

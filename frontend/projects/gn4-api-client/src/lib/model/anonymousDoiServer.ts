@@ -8,18 +8,16 @@
  * Do not edit the class manually.
  */
 
-
-export interface AnonymousDoiServer { 
-    description?: string;
-    id?: number;
-    landingPageTemplate?: string;
-    name?: string;
-    password?: string;
-    pattern?: string;
-    prefix?: string;
-    publicUrl?: string;
-    publicationGroups?: Set<number>;
-    url?: string;
-    username?: string;
+export interface AnonymousDoiServer {
+  description?: string;
+  id?: number;
+  landingPageTemplate?: string;
+  name?: string;
+  password?: string;
+  pattern?: string;
+  prefix?: string;
+  publicUrl?: string;
+  publicationGroups?: Set<number>;
+  url?: string;
+  username?: string;
 }
-

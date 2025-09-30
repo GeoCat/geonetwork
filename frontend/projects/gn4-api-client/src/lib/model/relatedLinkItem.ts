@@ -10,18 +10,16 @@
 import { MultilingualValue } from './multilingualValue';
 import { Description } from './description';
 
-
-export interface RelatedLinkItem { 
-    applicationProfile?: string;
-    description: Description;
-    'function'?: string;
-    hash?: string;
-    id?: string;
-    idx?: string;
-    mimeType?: string;
-    protocol?: string;
-    title: MultilingualValue;
-    type?: string;
-    url?: MultilingualValue;
+export interface RelatedLinkItem {
+  applicationProfile?: string;
+  description: Description;
+  function?: string;
+  hash?: string;
+  id?: string;
+  idx?: string;
+  mimeType?: string;
+  protocol?: string;
+  title: MultilingualValue;
+  type?: string;
+  url?: MultilingualValue;
 }
-

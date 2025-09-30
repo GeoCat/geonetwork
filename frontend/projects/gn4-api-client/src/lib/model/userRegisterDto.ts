@@ -9,19 +9,17 @@
  */
 import { Address } from './address';
 
-
 /**
  * User details
  */
-export interface UserRegisterDto { 
-    address?: Address;
-    captcha?: string;
-    email?: string;
-    group?: string;
-    name?: string;
-    organisation?: string;
-    profile?: string;
-    surname?: string;
-    username?: string;
+export interface UserRegisterDto {
+  address?: Address;
+  captcha?: string;
+  email?: string;
+  group?: string;
+  name?: string;
+  organisation?: string;
+  profile?: string;
+  surname?: string;
+  username?: string;
 }
-

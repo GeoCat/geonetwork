@@ -9,12 +9,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
-        }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable }                                        from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpParameterCodec,
+  HttpContext,
+} from '@angular/common/http';
+import { CustomHttpParameterCodec } from '../encoder';
+import { Observable } from 'rxjs';
 
 // @ts-ignore
 import { BatchEditing } from '../model/batchEditing';
@@ -24,578 +30,973 @@ import { Codelist } from '../model/codelist';
 import { Element } from '../model/element';
 
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 import { BaseService } from '../api.base.service';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StandardsService extends BaseService {
+  constructor(
+    protected httpClient: HttpClient,
+    @Optional() @Inject(BASE_PATH) basePath: string | string[],
+    @Optional() configuration?: Configuration,
+  ) {
+    super(basePath, configuration);
+  }
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
-        super(basePath, configuration);
+  /**
+   * Get multiple codelist translations
+   * All translations are combined in the same object. No distinction by codelist. This is useful if you need lots of codelists terms to be loaded.
+   * @param schema Schema identifier
+   * @param codelist Codelist element name or alias
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getCodelistsTranslations(
+    schema: string,
+    codelist: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<{ [key: string]: string }>;
+  public getCodelistsTranslations(
+    schema: string,
+    codelist: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<{ [key: string]: string }>>;
+  public getCodelistsTranslations(
+    schema: string,
+    codelist: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<{ [key: string]: string }>>;
+  public getCodelistsTranslations(
+    schema: string,
+    codelist: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schema === null || schema === undefined) {
+      throw new Error(
+        'Required parameter schema was null or undefined when calling getCodelistsTranslations.',
+      );
+    }
+    if (codelist === null || codelist === undefined) {
+      throw new Error(
+        'Required parameter codelist was null or undefined when calling getCodelistsTranslations.',
+      );
     }
 
-    /**
-     * Get multiple codelist translations
-     * All translations are combined in the same object. No distinction by codelist. This is useful if you need lots of codelists terms to be loaded.
-     * @param schema Schema identifier
-     * @param codelist Codelist element name or alias
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getCodelistsTranslations(schema: string, codelist: Array<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: string; }>;
-    public getCodelistsTranslations(schema: string, codelist: Array<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: string; }>>;
-    public getCodelistsTranslations(schema: string, codelist: Array<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: string; }>>;
-    public getCodelistsTranslations(schema: string, codelist: Array<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schema === null || schema === undefined) {
-            throw new Error('Required parameter schema was null or undefined when calling getCodelistsTranslations.');
-        }
-        if (codelist === null || codelist === undefined) {
-            throw new Error('Required parameter codelist was null or undefined when calling getCodelistsTranslations.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (codelist) {
-            codelist.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'codelist');
-            })
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/${this.configuration.encodeParam({name: "schema", value: schema, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/codelists`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<{ [key: string]: string; }>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (codelist) {
+      codelist.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'codelist',
         );
+      });
     }
 
-    /**
-     * Get batch editor configuration for a standard
-     * @param schema Schema identifier
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getConfiguration(schema: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: BatchEditing; }>;
-    public getConfiguration(schema: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: BatchEditing; }>>;
-    public getConfiguration(schema: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: BatchEditing; }>>;
-    public getConfiguration(schema: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schema === null || schema === undefined) {
-            throw new Error('Required parameter schema was null or undefined when calling getConfiguration.');
-        }
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
 
+    let localVarPath = `/standards/${this.configuration.encodeParam({ name: 'schema', value: schema, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/codelists`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<{ [key: string]: string }>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
+  /**
+   * Get batch editor configuration for a standard
+   * @param schema Schema identifier
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getConfiguration(
+    schema: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<{ [key: string]: BatchEditing }>;
+  public getConfiguration(
+    schema: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<{ [key: string]: BatchEditing }>>;
+  public getConfiguration(
+    schema: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<{ [key: string]: BatchEditing }>>;
+  public getConfiguration(
+    schema: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schema === null || schema === undefined) {
+      throw new Error(
+        'Required parameter schema was null or undefined when calling getConfiguration.',
+      );
+    }
 
-        let localVarPath = `/standards/${this.configuration.encodeParam({name: "schema", value: schema, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/batchconfiguration`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<{ [key: string]: BatchEditing; }>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/standards/${this.configuration.encodeParam({ name: 'schema', value: schema, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/batchconfiguration`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<{ [key: string]: BatchEditing }>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
+   * Get batch editor configuration for standards
+   * @param schema Schema identifiers
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getConfigurations(
+    schema?: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<{ [key: string]: BatchEditing }>;
+  public getConfigurations(
+    schema?: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<{ [key: string]: BatchEditing }>>;
+  public getConfigurations(
+    schema?: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<{ [key: string]: BatchEditing }>>;
+  public getConfigurations(
+    schema?: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (schema) {
+      schema.forEach((element) => {
+        localVarQueryParameters = this.addToHttpParams(
+          localVarQueryParameters,
+          <any>element,
+          'schema',
         );
+      });
     }
 
-    /**
-     * Get batch editor configuration for standards
-     * @param schema Schema identifiers
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getConfigurations(schema?: Array<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: BatchEditing; }>;
-    public getConfigurations(schema?: Array<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: BatchEditing; }>>;
-    public getConfigurations(schema?: Array<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: BatchEditing; }>>;
-    public getConfigurations(schema?: Array<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (schema) {
-            schema.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'schema');
-            })
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/batchconfiguration`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<{ [key: string]: BatchEditing; }>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Get editor associated resources panel configuration
-     * @param schema Schema identifier
-     * @param name Configuration identifier
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getEditorAssociatedPanelConfiguration(schema: string, name: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<string>;
-    public getEditorAssociatedPanelConfiguration(schema: string, name: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
-    public getEditorAssociatedPanelConfiguration(schema: string, name: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
-    public getEditorAssociatedPanelConfiguration(schema: string, name: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schema === null || schema === undefined) {
-            throw new Error('Required parameter schema was null or undefined when calling getEditorAssociatedPanelConfiguration.');
-        }
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling getEditorAssociatedPanelConfiguration.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarHeaders = this.defaultHeaders;
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/${this.configuration.encodeParam({name: "schema", value: schema, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/editor/associatedpanel/config/${this.configuration.encodeParam({name: "name", value: name, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}.json`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<string>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
     }
 
-    /**
-     * Get descriptor details
-     * @param schema Schema identifier
-     * @param element Descriptor name
-     * @param parent 
-     * @param displayIf 
-     * @param xpath 
-     * @param isoType 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getElementDetails(schema: string, element: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<Element>;
-    public getElementDetails(schema: string, element: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Element>>;
-    public getElementDetails(schema: string, element: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Element>>;
-    public getElementDetails(schema: string, element: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schema === null || schema === undefined) {
-            throw new Error('Required parameter schema was null or undefined when calling getElementDetails.');
-        }
-        if (element === null || element === undefined) {
-            throw new Error('Required parameter element was null or undefined when calling getElementDetails.');
-        }
+    let localVarPath = `/standards/batchconfiguration`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<{ [key: string]: BatchEditing }>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        transferCache: localVarTransferCache,
+        reportProgress: reportProgress,
+      },
+    );
+  }
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>parent, 'parent');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>displayIf, 'displayIf');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>xpath, 'xpath');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isoType, 'isoType');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json',
-            'application/xml'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/${this.configuration.encodeParam({name: "schema", value: schema, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/descriptors/${this.configuration.encodeParam({name: "element", value: element, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/details`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Element>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+  /**
+   * Get editor associated resources panel configuration
+   * @param schema Schema identifier
+   * @param name Configuration identifier
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getEditorAssociatedPanelConfiguration(
+    schema: string,
+    name: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<string>;
+  public getEditorAssociatedPanelConfiguration(
+    schema: string,
+    name: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<string>>;
+  public getEditorAssociatedPanelConfiguration(
+    schema: string,
+    name: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<string>>;
+  public getEditorAssociatedPanelConfiguration(
+    schema: string,
+    name: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schema === null || schema === undefined) {
+      throw new Error(
+        'Required parameter schema was null or undefined when calling getEditorAssociatedPanelConfiguration.',
+      );
+    }
+    if (name === null || name === undefined) {
+      throw new Error(
+        'Required parameter name was null or undefined when calling getEditorAssociatedPanelConfiguration.',
+      );
     }
 
-    /**
-     * Get codelist details
-     * @param schema Schema identifier
-     * @param codelist Codelist element name or alias
-     * @param parent Parent name with namespace which may indicate a more precise label as defined in context attribute.
-     * @param displayIf Display if condition as defined in the codelist.xml file. Allows to select a more precise codelist when more than one is defined for same name.
-     * @param xpath XPath of the element to target which may indicate a more precise label as defined in context attribute.
-     * @param isoType ISO type of the element to target which may indicate a more precise label as defined in context attribute. (Same as context. TODO: Deprecate ?)
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getSchemaCodelistsWithDetails(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<Codelist>;
-    public getSchemaCodelistsWithDetails(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Codelist>>;
-    public getSchemaCodelistsWithDetails(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Codelist>>;
-    public getSchemaCodelistsWithDetails(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json' | 'application/xml', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schema === null || schema === undefined) {
-            throw new Error('Required parameter schema was null or undefined when calling getSchemaCodelistsWithDetails.');
-        }
-        if (codelist === null || codelist === undefined) {
-            throw new Error('Required parameter codelist was null or undefined when calling getSchemaCodelistsWithDetails.');
-        }
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>parent, 'parent');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>displayIf, 'displayIf');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>xpath, 'xpath');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isoType, 'isoType');
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json',
-            'application/xml'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/${this.configuration.encodeParam({name: "schema", value: schema, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/codelists/${this.configuration.encodeParam({name: "codelist", value: codelist, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/details`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Codelist>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    /**
-     * Get codelist translations
-     * @param schema Schema identifier
-     * @param codelist Codelist element name or alias
-     * @param parent 
-     * @param displayIf 
-     * @param xpath 
-     * @param isoType 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getSchemaTranslations(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: string; }>;
-    public getSchemaTranslations(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: string; }>>;
-    public getSchemaTranslations(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: string; }>>;
-    public getSchemaTranslations(schema: string, codelist: string, parent?: string, displayIf?: string, xpath?: string, isoType?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (schema === null || schema === undefined) {
-            throw new Error('Required parameter schema was null or undefined when calling getSchemaTranslations.');
-        }
-        if (codelist === null || codelist === undefined) {
-            throw new Error('Required parameter codelist was null or undefined when calling getSchemaTranslations.');
-        }
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>parent, 'parent');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>displayIf, 'displayIf');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>xpath, 'xpath');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isoType, 'isoType');
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
 
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/${this.configuration.encodeParam({name: "schema", value: schema, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/codelists/${this.configuration.encodeParam({name: "codelist", value: codelist, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<{ [key: string]: string; }>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
     }
 
-    /**
-     * Get standards
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getStandardConfigurations(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public getStandardConfigurations(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public getStandardConfigurations(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public getStandardConfigurations(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    let localVarPath = `/standards/${this.configuration.encodeParam({ name: 'schema', value: schema, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/editor/associatedpanel/config/${this.configuration.encodeParam({ name: 'name', value: name, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}.json`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<string>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+  /**
+   * Get descriptor details
+   * @param schema Schema identifier
+   * @param element Descriptor name
+   * @param parent
+   * @param displayIf
+   * @param xpath
+   * @param isoType
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getElementDetails(
+    schema: string,
+    element: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<Element>;
+  public getElementDetails(
+    schema: string,
+    element: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<Element>>;
+  public getElementDetails(
+    schema: string,
+    element: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<Element>>;
+  public getElementDetails(
+    schema: string,
+    element: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schema === null || schema === undefined) {
+      throw new Error(
+        'Required parameter schema was null or undefined when calling getElementDetails.',
+      );
+    }
+    if (element === null || element === undefined) {
+      throw new Error(
+        'Required parameter element was null or undefined when calling getElementDetails.',
+      );
     }
 
-    /**
-     * Reload standards
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public reloadSchema(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public reloadSchema(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public reloadSchema(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public reloadSchema(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>parent, 'parent');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>displayIf,
+      'displayIf',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>xpath, 'xpath');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>isoType,
+      'isoType',
+    );
 
-        let localVarHeaders = this.defaultHeaders;
+    let localVarHeaders = this.defaultHeaders;
 
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/standards/reload`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['application/json', 'application/xml']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/standards/${this.configuration.encodeParam({ name: 'schema', value: schema, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/descriptors/${this.configuration.encodeParam({ name: 'element', value: element, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/details`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<Element>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get codelist details
+   * @param schema Schema identifier
+   * @param codelist Codelist element name or alias
+   * @param parent Parent name with namespace which may indicate a more precise label as defined in context attribute.
+   * @param displayIf Display if condition as defined in the codelist.xml file. Allows to select a more precise codelist when more than one is defined for same name.
+   * @param xpath XPath of the element to target which may indicate a more precise label as defined in context attribute.
+   * @param isoType ISO type of the element to target which may indicate a more precise label as defined in context attribute. (Same as context. TODO: Deprecate ?)
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getSchemaCodelistsWithDetails(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<Codelist>;
+  public getSchemaCodelistsWithDetails(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<Codelist>>;
+  public getSchemaCodelistsWithDetails(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<Codelist>>;
+  public getSchemaCodelistsWithDetails(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json' | 'application/xml';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schema === null || schema === undefined) {
+      throw new Error(
+        'Required parameter schema was null or undefined when calling getSchemaCodelistsWithDetails.',
+      );
+    }
+    if (codelist === null || codelist === undefined) {
+      throw new Error(
+        'Required parameter codelist was null or undefined when calling getSchemaCodelistsWithDetails.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>parent, 'parent');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>displayIf,
+      'displayIf',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>xpath, 'xpath');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>isoType,
+      'isoType',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ??
+      this.configuration.selectHeaderAccept(['application/json', 'application/xml']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/standards/${this.configuration.encodeParam({ name: 'schema', value: schema, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/codelists/${this.configuration.encodeParam({ name: 'codelist', value: codelist, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/details`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<Codelist>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get codelist translations
+   * @param schema Schema identifier
+   * @param codelist Codelist element name or alias
+   * @param parent
+   * @param displayIf
+   * @param xpath
+   * @param isoType
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getSchemaTranslations(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<{ [key: string]: string }>;
+  public getSchemaTranslations(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<{ [key: string]: string }>>;
+  public getSchemaTranslations(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<{ [key: string]: string }>>;
+  public getSchemaTranslations(
+    schema: string,
+    codelist: string,
+    parent?: string,
+    displayIf?: string,
+    xpath?: string,
+    isoType?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (schema === null || schema === undefined) {
+      throw new Error(
+        'Required parameter schema was null or undefined when calling getSchemaTranslations.',
+      );
+    }
+    if (codelist === null || codelist === undefined) {
+      throw new Error(
+        'Required parameter codelist was null or undefined when calling getSchemaTranslations.',
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>parent, 'parent');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>displayIf,
+      'displayIf',
+    );
+    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters, <any>xpath, 'xpath');
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      <any>isoType,
+      'isoType',
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/standards/${this.configuration.encodeParam({ name: 'schema', value: schema, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}/codelists/${this.configuration.encodeParam({ name: 'codelist', value: codelist, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<{ [key: string]: string }>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Get standards
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getStandardConfigurations(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public getStandardConfigurations(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public getStandardConfigurations(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public getStandardConfigurations(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/standards`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * Reload standards
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public reloadSchema(
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public reloadSchema(
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public reloadSchema(
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public reloadSchema(
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: undefined;
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    let localVarHeaders = this.defaultHeaders;
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([]);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/standards/reload`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
+  }
 }

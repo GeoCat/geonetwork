@@ -11,11 +11,9 @@ import { User } from './user';
 import { MetadataStatusDto } from './metadataStatusDto';
 import { StatusValue } from './statusValue';
 
-
-export interface MetadataWorkflowStatusResponse { 
-    currentStatus?: MetadataStatusDto;
-    hasEditPermission?: boolean;
-    reviewers?: Array<User>;
-    status?: Array<StatusValue>;
+export interface MetadataWorkflowStatusResponse {
+  currentStatus?: MetadataStatusDto;
+  hasEditPermission?: boolean;
+  reviewers?: Array<User>;
+  status?: Array<StatusValue>;
 }
-

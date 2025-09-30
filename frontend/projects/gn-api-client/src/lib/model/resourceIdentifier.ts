@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface ResourceIdentifier { 
-    code?: string;
-    codeSpace?: string;
-    link?: string;
+export interface ResourceIdentifier {
+  code?: string;
+  codeSpace?: string;
+  link?: string;
 }
-

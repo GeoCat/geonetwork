@@ -8,13 +8,11 @@
  * Do not edit the class manually.
  */
 
-
-export interface Address { 
-    address?: string;
-    city?: string;
-    country?: string;
-    id?: number;
-    state?: string;
-    zip?: string;
+export interface Address {
+  address?: string;
+  city?: string;
+  country?: string;
+  id?: number;
+  state?: string;
+  zip?: string;
 }
-

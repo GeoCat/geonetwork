@@ -9,8 +9,6 @@
  */
 import { FCRelatedElement } from './fCRelatedElement';
 
-
-export interface AttributeTable { 
-    element?: Array<FCRelatedElement>;
+export interface AttributeTable {
+  element?: Array<FCRelatedElement>;
 }
-

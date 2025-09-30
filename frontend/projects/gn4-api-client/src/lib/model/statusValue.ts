@@ -8,39 +8,37 @@
  * Do not edit the class manually.
  */
 
-
-export interface StatusValue { 
-    displayOrder?: number;
-    id?: number;
-    label?: { [key: string]: string; };
-    name?: string;
-    notificationLevel?: StatusValue.NotificationLevelEnum;
-    reserved?: boolean;
-    reserved_JpaWorkaround?: string;
-    type?: StatusValue.TypeEnum;
+export interface StatusValue {
+  displayOrder?: number;
+  id?: number;
+  label?: { [key: string]: string };
+  name?: string;
+  notificationLevel?: StatusValue.NotificationLevelEnum;
+  reserved?: boolean;
+  reserved_JpaWorkaround?: string;
+  type?: StatusValue.TypeEnum;
 }
 export namespace StatusValue {
-    export const NotificationLevelEnum = {
-        StatusUserOwner: 'statusUserOwner',
-        CatalogueAdministrator: 'catalogueAdministrator',
-        CatalogueProfileAdministrator: 'catalogueProfileAdministrator',
-        CatalogueProfileUserAdmin: 'catalogueProfileUserAdmin',
-        CatalogueProfileReviewer: 'catalogueProfileReviewer',
-        CatalogueProfileEditor: 'catalogueProfileEditor',
-        CatalogueProfileRegisteredUser: 'catalogueProfileRegisteredUser',
-        CatalogueProfileGuest: 'catalogueProfileGuest',
-        RecordProfileReviewer: 'recordProfileReviewer',
-        RecordProfileUserAdmin: 'recordProfileUserAdmin',
-        RecordUserAuthor: 'recordUserAuthor',
-        RecordGroupEmail: 'recordGroupEmail'
-    } as const;
-    export type NotificationLevelEnum = typeof NotificationLevelEnum[keyof typeof NotificationLevelEnum];
-    export const TypeEnum = {
-        Workflow: 'workflow',
-        Task: 'task',
-        Event: 'event'
-    } as const;
-    export type TypeEnum = typeof TypeEnum[keyof typeof TypeEnum];
+  export const NotificationLevelEnum = {
+    StatusUserOwner: 'statusUserOwner',
+    CatalogueAdministrator: 'catalogueAdministrator',
+    CatalogueProfileAdministrator: 'catalogueProfileAdministrator',
+    CatalogueProfileUserAdmin: 'catalogueProfileUserAdmin',
+    CatalogueProfileReviewer: 'catalogueProfileReviewer',
+    CatalogueProfileEditor: 'catalogueProfileEditor',
+    CatalogueProfileRegisteredUser: 'catalogueProfileRegisteredUser',
+    CatalogueProfileGuest: 'catalogueProfileGuest',
+    RecordProfileReviewer: 'recordProfileReviewer',
+    RecordProfileUserAdmin: 'recordProfileUserAdmin',
+    RecordUserAuthor: 'recordUserAuthor',
+    RecordGroupEmail: 'recordGroupEmail',
+  } as const;
+  export type NotificationLevelEnum =
+    (typeof NotificationLevelEnum)[keyof typeof NotificationLevelEnum];
+  export const TypeEnum = {
+    Workflow: 'workflow',
+    Task: 'task',
+    Event: 'event',
+  } as const;
+  export type TypeEnum = (typeof TypeEnum)[keyof typeof TypeEnum];
 }
-
-

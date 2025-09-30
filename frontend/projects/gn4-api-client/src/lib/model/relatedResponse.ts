@@ -21,20 +21,18 @@ import { Online } from './online';
 import { RelatedSource } from './relatedSource';
 import { Siblings } from './siblings';
 
-
-export interface RelatedResponse { 
-    associated?: Associated;
-    children?: Children;
-    datasets?: Dataset;
-    fcats?: Fcat;
-    hasfeaturecats?: Hasfeaturecats;
-    hassources?: Hassource;
-    onlines?: Online;
-    parent?: Parent;
-    related?: Related;
-    services?: Service;
-    siblings?: Siblings;
-    sources?: RelatedSource;
-    thumbnails?: Thumbnail;
+export interface RelatedResponse {
+  associated?: Associated;
+  children?: Children;
+  datasets?: Dataset;
+  fcats?: Fcat;
+  hasfeaturecats?: Hasfeaturecats;
+  hassources?: Hassource;
+  onlines?: Online;
+  parent?: Parent;
+  related?: Related;
+  services?: Service;
+  siblings?: Siblings;
+  sources?: RelatedSource;
+  thumbnails?: Thumbnail;
 }
-

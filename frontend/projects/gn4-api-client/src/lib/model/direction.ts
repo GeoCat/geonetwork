@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
 export const Direction = {
-    Up: 'up',
-    Down: 'down'
+  Up: 'up',
+  Down: 'down',
 } as const;
-export type Direction = typeof Direction[keyof typeof Direction];
-
+export type Direction = (typeof Direction)[keyof typeof Direction];

@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface IndexResponse { 
-    count?: number;
-    success?: boolean;
+export interface IndexResponse {
+  count?: number;
+  success?: boolean;
 }
-

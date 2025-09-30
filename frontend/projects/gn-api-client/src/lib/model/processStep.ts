@@ -10,11 +10,9 @@
 import { ProcessStepSource } from './processStepSource';
 import { Contact } from './contact';
 
-
-export interface ProcessStep { 
-    descriptionObject?: { [key: string]: string; };
-    date?: string;
-    source?: Array<ProcessStepSource>;
-    processor?: Array<Contact>;
+export interface ProcessStep {
+  descriptionObject?: { [key: string]: string };
+  date?: string;
+  source?: Array<ProcessStepSource>;
+  processor?: Array<Contact>;
 }
-

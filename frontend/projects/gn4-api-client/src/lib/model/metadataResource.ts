@@ -9,26 +9,23 @@
  */
 import { MetadataResourceExternalManagementProperties } from './metadataResourceExternalManagementProperties';
 
-
-export interface MetadataResource { 
-    approved?: boolean;
-    filename?: string;
-    id?: string;
-    lastModification?: string;
-    metadataId?: number;
-    metadataResourceExternalManagementProperties?: MetadataResourceExternalManagementProperties;
-    metadataUuid?: string;
-    size?: number;
-    url?: string;
-    version?: string;
-    visibility?: MetadataResource.VisibilityEnum;
+export interface MetadataResource {
+  approved?: boolean;
+  filename?: string;
+  id?: string;
+  lastModification?: string;
+  metadataId?: number;
+  metadataResourceExternalManagementProperties?: MetadataResourceExternalManagementProperties;
+  metadataUuid?: string;
+  size?: number;
+  url?: string;
+  version?: string;
+  visibility?: MetadataResource.VisibilityEnum;
 }
 export namespace MetadataResource {
-    export const VisibilityEnum = {
-        Public: 'PUBLIC',
-        Private: 'PRIVATE'
-    } as const;
-    export type VisibilityEnum = typeof VisibilityEnum[keyof typeof VisibilityEnum];
+  export const VisibilityEnum = {
+    Public: 'PUBLIC',
+    Private: 'PRIVATE',
+  } as const;
+  export type VisibilityEnum = (typeof VisibilityEnum)[keyof typeof VisibilityEnum];
 }
-
-

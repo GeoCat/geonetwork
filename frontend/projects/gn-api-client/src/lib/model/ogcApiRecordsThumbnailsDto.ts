@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface OgcApiRecordsThumbnailsDto { 
-    name?: string;
-    url?: string;
+export interface OgcApiRecordsThumbnailsDto {
+  name?: string;
+  url?: string;
 }
-

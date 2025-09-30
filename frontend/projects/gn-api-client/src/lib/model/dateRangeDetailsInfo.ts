@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface DateRangeDetailsInfo { 
-    date?: string;
-    frame?: string;
-    calendarEraName?: string;
-    indeterminatePosition?: string;
+export interface DateRangeDetailsInfo {
+  date?: string;
+  frame?: string;
+  calendarEraName?: string;
+  indeterminatePosition?: string;
 }
-

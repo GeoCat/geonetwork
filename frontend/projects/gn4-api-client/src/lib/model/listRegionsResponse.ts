@@ -10,11 +10,9 @@
 import { RegionResponse } from './regionResponse';
 import { CategoryResponse } from './categoryResponse';
 
-
-export interface ListRegionsResponse { 
-    categories?: { [key: string]: CategoryResponse; };
-    count?: number;
-    region?: Array<RegionResponse>;
-    regions?: Array<RegionResponse>;
+export interface ListRegionsResponse {
+  categories?: { [key: string]: CategoryResponse };
+  count?: number;
+  region?: Array<RegionResponse>;
+  regions?: Array<RegionResponse>;
 }
-

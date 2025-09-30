@@ -9,23 +9,20 @@
  */
 import { OgcApiRecordsFacetDto } from './ogcApiRecordsFacetDto';
 
-
-export interface OgcApiRecordsFacetFilterDto extends OgcApiRecordsFacetDto { 
-    /**
-     * Name of the property
-     */
-    property?: string;
-    'x-elastic-property'?: string;
-    bucketCount?: number;
-    sortedBy?: OgcApiRecordsFacetFilterDto.SortedByEnum;
-    filters?: { [key: string]: string; };
+export interface OgcApiRecordsFacetFilterDto extends OgcApiRecordsFacetDto {
+  /**
+   * Name of the property
+   */
+  property?: string;
+  'x-elastic-property'?: string;
+  bucketCount?: number;
+  sortedBy?: OgcApiRecordsFacetFilterDto.SortedByEnum;
+  filters?: { [key: string]: string };
 }
 export namespace OgcApiRecordsFacetFilterDto {
-    export const SortedByEnum = {
-        Count: 'count',
-        Value: 'value'
-    } as const;
-    export type SortedByEnum = typeof SortedByEnum[keyof typeof SortedByEnum];
+  export const SortedByEnum = {
+    Count: 'count',
+    Value: 'value',
+  } as const;
+  export type SortedByEnum = (typeof SortedByEnum)[keyof typeof SortedByEnum];
 }
-
-

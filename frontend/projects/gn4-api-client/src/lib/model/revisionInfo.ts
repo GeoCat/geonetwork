@@ -9,12 +9,10 @@
  */
 import { RevisionFieldChange } from './revisionFieldChange';
 
-
-export interface RevisionInfo { 
-    changes?: Array<RevisionFieldChange>;
-    date?: string;
-    revisionNumber?: number;
-    user?: string;
-    value?: string;
+export interface RevisionInfo {
+  changes?: Array<RevisionFieldChange>;
+  date?: string;
+  revisionNumber?: number;
+  user?: string;
+  value?: string;
 }
-

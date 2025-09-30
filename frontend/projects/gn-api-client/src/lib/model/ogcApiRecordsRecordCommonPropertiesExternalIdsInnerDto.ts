@@ -8,18 +8,16 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * An identifier for the resource assigned by an external (to the catalog) entity.
  */
-export interface OgcApiRecordsRecordCommonPropertiesExternalIdsInnerDto { 
-    /**
-     * A reference to an authority or identifier for a knowledge organization system from which the external identifier was obtained. It is recommended that the identifier be a resolvable URI.
-     */
-    scheme?: string;
-    /**
-     * The value of the identifier.
-     */
-    value: string;
+export interface OgcApiRecordsRecordCommonPropertiesExternalIdsInnerDto {
+  /**
+   * A reference to an authority or identifier for a knowledge organization system from which the external identifier was obtained. It is recommended that the identifier be a resolvable URI.
+   */
+  scheme?: string;
+  /**
+   * The value of the identifier.
+   */
+  value: string;
 }
-

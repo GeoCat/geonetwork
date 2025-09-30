@@ -8,14 +8,12 @@
  * Do not edit the class manually.
  */
 
-
-export interface ProxyConfiguration { 
-    enabled?: boolean;
-    host?: string;
-    ignoreHostList?: string;
-    password?: string;
-    port?: string;
-    proxyConfiguredInSystemProperties?: boolean;
-    username?: string;
+export interface ProxyConfiguration {
+  enabled?: boolean;
+  host?: string;
+  ignoreHostList?: string;
+  password?: string;
+  port?: string;
+  proxyConfiguredInSystemProperties?: boolean;
+  username?: string;
 }
-

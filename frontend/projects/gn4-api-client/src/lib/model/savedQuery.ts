@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface SavedQuery { 
-    cleanValues?: string;
-    id?: string;
-    label?: string;
-    parameters?: Array<string>;
-    xpath?: string;
+export interface SavedQuery {
+  cleanValues?: string;
+  id?: string;
+  label?: string;
+  parameters?: Array<string>;
+  xpath?: string;
 }
-

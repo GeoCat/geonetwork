@@ -9,8 +9,6 @@
  */
 import { FormatterData } from './formatterData';
 
-
-export interface FormatterDataResponse { 
-    formatters?: Array<FormatterData>;
+export interface FormatterDataResponse {
+  formatters?: Array<FormatterData>;
 }
-

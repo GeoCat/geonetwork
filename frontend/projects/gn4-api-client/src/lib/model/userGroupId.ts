@@ -8,23 +8,20 @@
  * Do not edit the class manually.
  */
 
-
-export interface UserGroupId { 
-    groupId?: number;
-    profile?: UserGroupId.ProfileEnum;
-    userId?: number;
+export interface UserGroupId {
+  groupId?: number;
+  profile?: UserGroupId.ProfileEnum;
+  userId?: number;
 }
 export namespace UserGroupId {
-    export const ProfileEnum = {
-        Administrator: 'Administrator',
-        UserAdmin: 'UserAdmin',
-        Reviewer: 'Reviewer',
-        Editor: 'Editor',
-        RegisteredUser: 'RegisteredUser',
-        Guest: 'Guest',
-        Monitor: 'Monitor'
-    } as const;
-    export type ProfileEnum = typeof ProfileEnum[keyof typeof ProfileEnum];
+  export const ProfileEnum = {
+    Administrator: 'Administrator',
+    UserAdmin: 'UserAdmin',
+    Reviewer: 'Reviewer',
+    Editor: 'Editor',
+    RegisteredUser: 'RegisteredUser',
+    Guest: 'Guest',
+    Monitor: 'Monitor',
+  } as const;
+  export type ProfileEnum = (typeof ProfileEnum)[keyof typeof ProfileEnum];
 }
-
-

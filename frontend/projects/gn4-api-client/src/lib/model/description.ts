@@ -9,8 +9,6 @@
  */
 import { LocalizedString } from './localizedString';
 
-
-export interface Description { 
-    value?: Array<LocalizedString>;
+export interface Description {
+  value?: Array<LocalizedString>;
 }
-

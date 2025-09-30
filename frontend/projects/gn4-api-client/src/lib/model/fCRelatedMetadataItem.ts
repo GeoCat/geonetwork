@@ -11,17 +11,15 @@ import { FeatureType } from './featureType';
 import { MultilingualValue } from './multilingualValue';
 import { Description } from './description';
 
-
-export interface FCRelatedMetadataItem { 
-    description: Description;
-    featureType: FeatureType;
-    hash?: string;
-    id?: string;
-    idx?: string;
-    mdType: Array<string>;
-    origin?: string;
-    title: MultilingualValue;
-    type?: string;
-    url?: MultilingualValue;
+export interface FCRelatedMetadataItem {
+  description: Description;
+  featureType: FeatureType;
+  hash?: string;
+  id?: string;
+  idx?: string;
+  mdType: Array<string>;
+  origin?: string;
+  title: MultilingualValue;
+  type?: string;
+  url?: MultilingualValue;
 }
-

@@ -8,48 +8,46 @@
  * Do not edit the class manually.
  */
 
-
-export interface OgcApiRecordsLinkTemplateDto { 
-    /**
-     * The type or semantics of the relation.
-     */
-    rel?: string;
-    /**
-     * A hint indicating what the media type of the result of dereferencing the link should be.
-     */
-    type?: string;
-    /**
-     * A hint indicating what the language of the result of dereferencing the link should be.
-     */
-    hreflang?: string;
-    /**
-     * Used to label the destination of a link such that it can be used as a human-readable identifier.
-     */
-    title?: string;
-    length?: number;
-    /**
-     * One or more identifiers that provide information about additional semantics (constraints, conventions, extensions), in addition to those defined by the media type, that are associated with the target resource.
-     */
-    profile?: Array<string>;
-    /**
-     * Date of creation of the resource pointed to by the link.
-     */
-    created?: string;
-    /**
-     * Most recent date on which the resource pointed to by the link was changed.
-     */
-    updated?: string;
-    /**
-     * Supplies a resolvable URI to a remote resource (or resource fragment).
-     */
-    uriTemplate: string;
-    /**
-     * The base URI to which the variable name can be appended to retrieve the definition of the variable as a JSON Schema fragment.
-     */
-    varBase?: string;
-    /**
-     * This object contains one key per substitution variable in the templated URL.  Each key defines the schema of one substitution variable using a JSON Schema fragment and can thus include things like the data type of the variable, enumerations, minimum values, maximum values, etc.
-     */
-    variables?: object;
+export interface OgcApiRecordsLinkTemplateDto {
+  /**
+   * The type or semantics of the relation.
+   */
+  rel?: string;
+  /**
+   * A hint indicating what the media type of the result of dereferencing the link should be.
+   */
+  type?: string;
+  /**
+   * A hint indicating what the language of the result of dereferencing the link should be.
+   */
+  hreflang?: string;
+  /**
+   * Used to label the destination of a link such that it can be used as a human-readable identifier.
+   */
+  title?: string;
+  length?: number;
+  /**
+   * One or more identifiers that provide information about additional semantics (constraints, conventions, extensions), in addition to those defined by the media type, that are associated with the target resource.
+   */
+  profile?: Array<string>;
+  /**
+   * Date of creation of the resource pointed to by the link.
+   */
+  created?: string;
+  /**
+   * Most recent date on which the resource pointed to by the link was changed.
+   */
+  updated?: string;
+  /**
+   * Supplies a resolvable URI to a remote resource (or resource fragment).
+   */
+  uriTemplate: string;
+  /**
+   * The base URI to which the variable name can be appended to retrieve the definition of the variable as a JSON Schema fragment.
+   */
+  varBase?: string;
+  /**
+   * This object contains one key per substitution variable in the templated URL.  Each key defines the schema of one substitution variable using a JSON Schema fragment and can thus include things like the data type of the variable, enumerations, minimum values, maximum values, etc.
+   */
+  variables?: object;
 }
-

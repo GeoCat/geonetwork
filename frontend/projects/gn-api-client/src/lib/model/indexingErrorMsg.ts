@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface IndexingErrorMsg { 
-    string?: string;
-    type?: string;
-    values?: { [key: string]: string; };
+export interface IndexingErrorMsg {
+  string?: string;
+  type?: string;
+  values?: { [key: string]: string };
 }
-

@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface PasswordResetDto { 
-    password?: string;
-    password2?: string;
-    passwordOld?: string;
+export interface PasswordResetDto {
+  password?: string;
+  password2?: string;
+  passwordOld?: string;
 }
-

@@ -8,22 +8,19 @@
  * Do not edit the class manually.
  */
 
-
-export interface Status { 
-    date?: string;
-    id?: string;
-    message?: string;
-    state?: Status.StateEnum;
+export interface Status {
+  date?: string;
+  id?: string;
+  message?: string;
+  state?: Status.StateEnum;
 }
 export namespace Status {
-    export const StateEnum = {
-        Red: 'RED',
-        Uninitialized: 'UNINITIALIZED',
-        Yellow: 'YELLOW',
-        Green: 'GREEN',
-        Disabled: 'DISABLED'
-    } as const;
-    export type StateEnum = typeof StateEnum[keyof typeof StateEnum];
+  export const StateEnum = {
+    Red: 'RED',
+    Uninitialized: 'UNINITIALIZED',
+    Yellow: 'YELLOW',
+    Green: 'GREEN',
+    Disabled: 'DISABLED',
+  } as const;
+  export type StateEnum = (typeof StateEnum)[keyof typeof StateEnum];
 }
-
-

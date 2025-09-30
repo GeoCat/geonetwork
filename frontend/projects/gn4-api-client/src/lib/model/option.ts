@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Option { 
-    description?: string;
-    isDefault?: boolean;
-    label?: string;
-    value?: string;
+export interface Option {
+  description?: string;
+  isDefault?: boolean;
+  label?: string;
+  value?: string;
 }
-

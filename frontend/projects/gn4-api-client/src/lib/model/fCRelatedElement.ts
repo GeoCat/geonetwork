@@ -9,13 +9,11 @@
  */
 import { Values } from './values';
 
-
-export interface FCRelatedElement { 
-    code?: string;
-    definition?: string;
-    link?: string;
-    name?: string;
-    type?: string;
-    values?: Array<Values>;
+export interface FCRelatedElement {
+  code?: string;
+  definition?: string;
+  link?: string;
+  name?: string;
+  type?: string;
+  values?: Array<Values>;
 }
-

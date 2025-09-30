@@ -11,10 +11,11 @@ import { OgcApiRecordsFacetHistogramDto } from './ogcApiRecordsFacetHistogramDto
 import { OgcApiRecordsFacetFilterDto } from './ogcApiRecordsFacetFilterDto';
 import { OgcApiRecordsFacetTermsDto } from './ogcApiRecordsFacetTermsDto';
 
-
 /**
  * @type OgcApiRecordsFacetsDtoFacetsValue
  * @export
  */
-export type OgcApiRecordsFacetsDtoFacetsValue = OgcApiRecordsFacetFilterDto | OgcApiRecordsFacetHistogramDto | OgcApiRecordsFacetTermsDto;
-
+export type OgcApiRecordsFacetsDtoFacetsValue =
+  | OgcApiRecordsFacetFilterDto
+  | OgcApiRecordsFacetHistogramDto
+  | OgcApiRecordsFacetTermsDto;

@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface ResourceDate { 
-    type?: string;
-    date?: string;
+export interface ResourceDate {
+  type?: string;
+  date?: string;
 }
-

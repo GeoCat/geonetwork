@@ -9,13 +9,11 @@
  */
 import { ISODate } from './iSODate';
 
-
-export interface LinkStatus { 
-    batchKey?: string;
-    checkDate?: ISODate;
-    failing?: boolean;
-    id?: number;
-    statusInfo?: string;
-    statusValue?: string;
+export interface LinkStatus {
+  batchKey?: string;
+  checkDate?: ISODate;
+  failing?: boolean;
+  id?: number;
+  statusInfo?: string;
+  statusValue?: string;
 }
-

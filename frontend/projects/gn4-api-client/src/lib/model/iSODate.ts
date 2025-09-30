@@ -8,22 +8,20 @@
  * Do not edit the class manually.
  */
 
-
-export interface ISODate { 
-    dateAndTime?: string;
-    dateAndTimeUtc?: string;
-    dateAsString?: string;
-    dateOnly?: boolean;
-    dateYearMonthOnly?: boolean;
-    dateYearOnly?: boolean;
-    days?: number;
-    hours?: number;
-    internalDateTime?: string;
-    minutes?: number;
-    months?: number;
-    seconds?: number;
-    timeAsString?: string;
-    timeInSeconds?: number;
-    years?: number;
+export interface ISODate {
+  dateAndTime?: string;
+  dateAndTimeUtc?: string;
+  dateAsString?: string;
+  dateOnly?: boolean;
+  dateYearMonthOnly?: boolean;
+  dateYearOnly?: boolean;
+  days?: number;
+  hours?: number;
+  internalDateTime?: string;
+  minutes?: number;
+  months?: number;
+  seconds?: number;
+  timeAsString?: string;
+  timeInSeconds?: number;
+  years?: number;
 }
-

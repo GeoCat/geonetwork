@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Translations { 
-    fieldName?: string;
-    id?: number;
-    langId?: string;
-    value?: string;
+export interface Translations {
+  fieldName?: string;
+  id?: number;
+  langId?: string;
+  value?: string;
 }
-

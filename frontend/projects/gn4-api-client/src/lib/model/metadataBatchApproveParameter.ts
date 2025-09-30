@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface MetadataBatchApproveParameter { 
-    bucket?: string;
-    directApproval?: boolean;
-    message?: string;
-    uuids?: Array<string>;
+export interface MetadataBatchApproveParameter {
+  bucket?: string;
+  directApproval?: boolean;
+  message?: string;
+  uuids?: Array<string>;
 }
-

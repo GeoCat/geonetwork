@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface LinkFilter { 
-    lastState?: string;
-    records?: string;
-    url?: string;
+export interface LinkFilter {
+  lastState?: string;
+  records?: string;
+  url?: string;
 }
-

@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface RevisionFieldChange { 
-    name?: string;
-    newValue?: string;
-    oldValue?: string;
+export interface RevisionFieldChange {
+  name?: string;
+  newValue?: string;
+  oldValue?: string;
 }
-

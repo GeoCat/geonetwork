@@ -9,8 +9,6 @@
  */
 import { Setting } from './setting';
 
-
-export interface SettingsListResponse { 
-    settings?: Array<Setting>;
+export interface SettingsListResponse {
+  settings?: Array<Setting>;
 }
-

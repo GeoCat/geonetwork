@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface Language { 
-    id?: string;
-    inspire?: boolean;
-    inspire_JPAWorkaround?: string;
-    name?: string;
+export interface Language {
+  id?: string;
+  inspire?: boolean;
+  inspire_JPAWorkaround?: string;
+  name?: string;
 }
-

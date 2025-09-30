@@ -8,12 +8,10 @@
  * Do not edit the class manually.
  */
 
-
-export interface Report { 
-    approved?: boolean;
-    date?: string;
-    draft?: boolean;
-    message?: string;
-    uuid?: string;
+export interface Report {
+  approved?: boolean;
+  date?: string;
+  draft?: boolean;
+  message?: string;
+  uuid?: string;
 }
-

@@ -9,8 +9,6 @@
  */
 import { Section } from './section';
 
-
-export interface BatchEditing { 
-    section: Array<Section>;
+export interface BatchEditing {
+  section: Array<Section>;
 }
-

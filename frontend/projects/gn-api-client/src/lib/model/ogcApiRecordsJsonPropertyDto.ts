@@ -10,15 +10,13 @@
 import { OgcApiRecordsGnElasticDto } from './ogcApiRecordsGnElasticDto';
 import { OgcApiRecordsJsonItemDto } from './ogcApiRecordsJsonItemDto';
 
-
-export interface OgcApiRecordsJsonPropertyDto { 
-    title?: string;
-    type?: string;
-    description?: string;
-    format?: string;
-    enumeration?: Array<string>;
-    item?: OgcApiRecordsJsonItemDto;
-    'x-ogc-role'?: string;
-    'x-gn-elastic'?: Array<OgcApiRecordsGnElasticDto>;
+export interface OgcApiRecordsJsonPropertyDto {
+  title?: string;
+  type?: string;
+  description?: string;
+  format?: string;
+  enumeration?: Array<string>;
+  item?: OgcApiRecordsJsonItemDto;
+  'x-ogc-role'?: string;
+  'x-gn-elastic'?: Array<OgcApiRecordsGnElasticDto>;
 }
-

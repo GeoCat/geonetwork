@@ -2,52 +2,51 @@ import { effect, Injectable, signal, WritableSignal } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface AppState {
-    preset: string;
-    primary: string;
-    surface: string | undefined | null;
-    darkMode: boolean;
+  preset: string;
+  primary: string;
+  surface: string | undefined | null;
+  darkMode: boolean;
 }
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class LayoutService {
-    _appState: AppState = {
-        preset: 'Aura',
-        primary: 'sextant',
-        surface: null,
-        darkMode: false,
-    };
+  _appState: AppState = {
+    preset: 'Aura',
+    primary: 'sextant',
+    surface: null,
+    darkMode: false,
+  };
 
-    appState = signal<AppState>(this._appState);
+  appState = signal<AppState>(this._appState);
 
-    private initialized = false;
+  private initialized = false;
 
-    private appStateUpdate = new Subject<AppState>();
+  private appStateUpdate = new Subject<AppState>();
 
-    appStateUpdate$ = this.appStateUpdate.asObservable();
+  appStateUpdate$ = this.appStateUpdate.asObservable();
 
-    constructor() {
-        effect(() => {
-            const appState = this.appState();
-            if (appState) {
-                this.onAppStateUpdate();
-            }
-        });
+  constructor() {
+    effect(() => {
+      const appState = this.appState();
+      if (appState) {
+        this.onAppStateUpdate();
+      }
+    });
 
-        effect(() => {
-            const state = this.appState();
+    effect(() => {
+      const state = this.appState();
 
-            if (!this.initialized || !state) {
-                this.initialized = true;
-                return;
-            }
+      if (!this.initialized || !state) {
+        this.initialized = true;
+        return;
+      }
+    });
+  }
 
-        });
-    }
-
-    onAppStateUpdate() {
-        this._appState = { ...this.appState() };
-        this.appStateUpdate.next(this.appState());
-    }
+  onAppStateUpdate() {
+    this._appState = { ...this.appState() };
+    this.appStateUpdate.next(this.appState());
+  }
 }

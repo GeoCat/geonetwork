@@ -23,8 +23,7 @@ export interface BulkOperationContainer {
   delete?: BulkDeleteOperation;
 }
 export type BulkOperationType = 'index' | 'create' | 'update' | 'delete';
-export interface BulkRequest<TDocument = unknown, TPartialDocument = unknown>
-  extends RequestBase {
+export interface BulkRequest<TDocument = unknown, TPartialDocument = unknown> extends RequestBase {
   index?: IndexName;
   pipeline?: string;
   refresh?: Refresh;
@@ -60,10 +59,7 @@ export interface BulkResponseItem {
   forced_refresh?: boolean;
   get?: InlineGet<Record<string, any>>;
 }
-export interface BulkUpdateAction<
-  TDocument = unknown,
-  TPartialDocument = unknown,
-> {
+export interface BulkUpdateAction<TDocument = unknown, TPartialDocument = unknown> {
   detect_noop?: boolean;
   doc?: TPartialDocument;
   doc_as_upsert?: boolean;
@@ -389,8 +385,7 @@ export interface HealthReportDataStreamLifecycleDetails {
   total_backing_indices_in_error: integer;
   stagnating_backing_indices?: HealthReportStagnatingBackingIndices[];
 }
-export interface HealthReportDataStreamLifecycleIndicator
-  extends HealthReportBaseIndicator {
+export interface HealthReportDataStreamLifecycleIndicator extends HealthReportBaseIndicator {
   details?: HealthReportDataStreamLifecycleDetails;
 }
 export interface HealthReportDiagnosis {
@@ -431,16 +426,8 @@ export interface HealthReportImpact {
   impact_areas: HealthReportImpactArea[];
   severity: integer;
 }
-export type HealthReportImpactArea =
-  | 'search'
-  | 'ingest'
-  | 'backup'
-  | 'deployment_management';
-export type HealthReportIndicatorHealthStatus =
-  | 'green'
-  | 'yellow'
-  | 'red'
-  | 'unknown';
+export type HealthReportImpactArea = 'search' | 'ingest' | 'backup' | 'deployment_management';
+export type HealthReportIndicatorHealthStatus = 'green' | 'yellow' | 'red' | 'unknown';
 export interface HealthReportIndicatorNode {
   name: string | null;
   node_id: string | null;
@@ -455,8 +442,7 @@ export interface HealthReportIndicators {
   slm?: HealthReportSlmIndicator;
   shards_capacity?: HealthReportShardsCapacityIndicator;
 }
-export interface HealthReportMasterIsStableIndicator
-  extends HealthReportBaseIndicator {
+export interface HealthReportMasterIsStableIndicator extends HealthReportBaseIndicator {
   details?: HealthReportMasterIsStableIndicatorDetails;
 }
 export interface HealthReportMasterIsStableIndicatorClusterFormationNode {
@@ -474,8 +460,7 @@ export interface HealthReportMasterIsStableIndicatorExceptionFetchingHistory {
   message: string;
   stack_trace: string;
 }
-export interface HealthReportRepositoryIntegrityIndicator
-  extends HealthReportBaseIndicator {
+export interface HealthReportRepositoryIntegrityIndicator extends HealthReportBaseIndicator {
   details?: HealthReportRepositoryIntegrityIndicatorDetails;
 }
 export interface HealthReportRepositoryIntegrityIndicatorDetails {
@@ -494,8 +479,7 @@ export interface HealthReportResponse {
   indicators: HealthReportIndicators;
   status?: HealthReportIndicatorHealthStatus;
 }
-export interface HealthReportShardsAvailabilityIndicator
-  extends HealthReportBaseIndicator {
+export interface HealthReportShardsAvailabilityIndicator extends HealthReportBaseIndicator {
   details?: HealthReportShardsAvailabilityIndicatorDetails;
 }
 export interface HealthReportShardsAvailabilityIndicatorDetails {
@@ -510,8 +494,7 @@ export interface HealthReportShardsAvailabilityIndicatorDetails {
   unassigned_primaries: long;
   unassigned_replicas: long;
 }
-export interface HealthReportShardsCapacityIndicator
-  extends HealthReportBaseIndicator {
+export interface HealthReportShardsCapacityIndicator extends HealthReportBaseIndicator {
   details?: HealthReportShardsCapacityIndicatorDetails;
 }
 export interface HealthReportShardsCapacityIndicatorDetails {
@@ -619,11 +602,8 @@ export interface MgetRequest extends RequestBase {
 export interface MgetResponse<TDocument = unknown> {
   docs: MgetResponseItem<TDocument>[];
 }
-export type MgetResponseItem<TDocument = unknown> =
-  | GetGetResult<TDocument>
-  | MgetMultiGetError;
-export interface MsearchMultiSearchItem<TDocument = unknown>
-  extends SearchResponseBody<TDocument> {
+export type MgetResponseItem<TDocument = unknown> = GetGetResult<TDocument> | MgetMultiGetError;
+export interface MsearchMultiSearchItem<TDocument = unknown> extends SearchResponseBody<TDocument> {
   status?: integer;
 }
 export interface MsearchMultiSearchResult<
@@ -697,9 +677,7 @@ export interface MsearchRequest extends RequestBase {
   typed_keys?: boolean;
   searches?: MsearchRequestItem[];
 }
-export type MsearchRequestItem =
-  | MsearchMultisearchHeader
-  | MsearchMultisearchBody;
+export type MsearchRequestItem = MsearchMultisearchHeader | MsearchMultisearchBody;
 export type MsearchResponse<
   TDocument = unknown,
   TAggregations = Record<AggregateName, AggregationsAggregate>,
@@ -716,9 +694,7 @@ export interface MsearchTemplateRequest extends RequestBase {
   typed_keys?: boolean;
   search_templates?: MsearchTemplateRequestItem[];
 }
-export type MsearchTemplateRequestItem =
-  | MsearchMultisearchHeader
-  | MsearchTemplateTemplateConfig;
+export type MsearchTemplateRequestItem = MsearchMultisearchHeader | MsearchTemplateTemplateConfig;
 export type MsearchTemplateResponse<
   TDocument = unknown,
   TAggregations = Record<AggregateName, AggregationsAggregate>,
@@ -826,26 +802,21 @@ export interface RankEvalRankEvalMetricDetail {
   hits: RankEvalRankEvalHitItem[];
   metric_details: Record<string, Record<string, any>>;
 }
-export interface RankEvalRankEvalMetricDiscountedCumulativeGain
-  extends RankEvalRankEvalMetricBase {
+export interface RankEvalRankEvalMetricDiscountedCumulativeGain extends RankEvalRankEvalMetricBase {
   normalize?: boolean;
 }
-export interface RankEvalRankEvalMetricExpectedReciprocalRank
-  extends RankEvalRankEvalMetricBase {
+export interface RankEvalRankEvalMetricExpectedReciprocalRank extends RankEvalRankEvalMetricBase {
   maximum_relevance: integer;
 }
 export interface RankEvalRankEvalMetricMeanReciprocalRank
   extends RankEvalRankEvalMetricRatingTreshold {}
-export interface RankEvalRankEvalMetricPrecision
-  extends RankEvalRankEvalMetricRatingTreshold {
+export interface RankEvalRankEvalMetricPrecision extends RankEvalRankEvalMetricRatingTreshold {
   ignore_unlabeled?: boolean;
 }
-export interface RankEvalRankEvalMetricRatingTreshold
-  extends RankEvalRankEvalMetricBase {
+export interface RankEvalRankEvalMetricRatingTreshold extends RankEvalRankEvalMetricBase {
   relevant_rating_threshold?: integer;
 }
-export interface RankEvalRankEvalMetricRecall
-  extends RankEvalRankEvalMetricRatingTreshold {}
+export interface RankEvalRankEvalMetricRecall extends RankEvalRankEvalMetricRatingTreshold {}
 export interface RankEvalRankEvalQuery {
   query: QueryDslQueryContainer;
   size?: integer;
@@ -1171,11 +1142,8 @@ export interface SearchCompletionContext {
   precision?: GeoHashPrecision;
   prefix?: boolean;
 }
-export interface SearchCompletionSuggest<TDocument = unknown>
-  extends SearchSuggestBase {
-  options:
-    | SearchCompletionSuggestOption<TDocument>
-    | SearchCompletionSuggestOption<TDocument>[];
+export interface SearchCompletionSuggest<TDocument = unknown> extends SearchSuggestBase {
+  options: SearchCompletionSuggestOption<TDocument> | SearchCompletionSuggestOption<TDocument>[];
 }
 export interface SearchCompletionSuggestOption<TDocument = unknown> {
   collate_match?: boolean;
@@ -1192,9 +1160,7 @@ export interface SearchCompletionSuggestOption<TDocument = unknown> {
 export interface SearchCompletionSuggester extends SearchSuggesterBase {
   contexts?: Record<
     Field,
-    | SearchCompletionContext
-    | SearchContext
-    | (SearchCompletionContext | SearchContext)[]
+    SearchCompletionContext | SearchContext | (SearchCompletionContext | SearchContext)[]
   >;
   fuzzy?: SearchSuggestFuzziness;
   regex?: SearchRegexOptions;
@@ -1788,10 +1754,8 @@ export interface UpdateRequest<TDocument = unknown, TPartialDocument = unknown>
   _source?: SearchSourceConfig;
   upsert?: TDocument;
 }
-export type UpdateResponse<TDocument = unknown> =
-  UpdateUpdateWriteResponseBase<TDocument>;
-export interface UpdateUpdateWriteResponseBase<TDocument = unknown>
-  extends WriteResponseBase {
+export type UpdateResponse<TDocument = unknown> = UpdateUpdateWriteResponseBase<TDocument>;
+export interface UpdateUpdateWriteResponseBase<TDocument = unknown> extends WriteResponseBase {
   get?: InlineGet<TDocument>;
 }
 export interface UpdateByQueryRequest extends RequestBase {
@@ -1856,8 +1820,7 @@ export interface UpdateByQueryRethrottleRequest extends RequestBase {
 export interface UpdateByQueryRethrottleResponse {
   nodes: Record<string, UpdateByQueryRethrottleUpdateByQueryRethrottleNode>;
 }
-export interface UpdateByQueryRethrottleUpdateByQueryRethrottleNode
-  extends SpecUtilsBaseNode {
+export interface UpdateByQueryRethrottleUpdateByQueryRethrottleNode extends SpecUtilsBaseNode {
   tasks: Record<TaskId, TasksTaskInfo>;
 }
 export interface SpecUtilsBaseNode {
@@ -1906,19 +1869,9 @@ export interface ClusterDetails {
   _shards?: ShardStatistics;
   failures?: ShardFailure[];
 }
-export type ClusterInfoTarget =
-  | '_all'
-  | 'http'
-  | 'ingest'
-  | 'thread_pool'
-  | 'script';
+export type ClusterInfoTarget = '_all' | 'http' | 'ingest' | 'thread_pool' | 'script';
 export type ClusterInfoTargets = ClusterInfoTarget | ClusterInfoTarget[];
-export type ClusterSearchStatus =
-  | 'running'
-  | 'successful'
-  | 'partial'
-  | 'skipped'
-  | 'failed';
+export type ClusterSearchStatus = 'running' | 'successful' | 'partial' | 'skipped' | 'failed';
 export interface ClusterStatistics {
   skipped: integer;
   successful: integer;
@@ -1940,10 +1893,7 @@ export interface CoordsGeoBounds {
   left: double;
   right: double;
 }
-export type DFIIndependenceMeasure =
-  | 'standardized'
-  | 'saturated'
-  | 'chisquared';
+export type DFIIndependenceMeasure = 'standardized' | 'saturated' | 'chisquared';
 export type DFRAfterEffect = 'no' | 'b' | 'l';
 export type DFRBasicModel = 'be' | 'd' | 'g' | 'if' | 'in' | 'ine' | 'p';
 export type DataStreamName = string;
@@ -1952,16 +1902,7 @@ export type DateFormat = string;
 export type DateMath = string | Date;
 export type DateTime = string | EpochTime<UnitMillis> | Date;
 export type Distance = string;
-export type DistanceUnit =
-  | 'in'
-  | 'ft'
-  | 'yd'
-  | 'mi'
-  | 'nmi'
-  | 'km'
-  | 'm'
-  | 'cm'
-  | 'mm';
+export type DistanceUnit = 'in' | 'ft' | 'yd' | 'mi' | 'nmi' | 'km' | 'm' | 'cm' | 'mm';
 export interface DocStats {
   count: long;
   deleted?: long;
@@ -2075,17 +2016,9 @@ export interface GeoLine {
   type: string;
   coordinates: double[][];
 }
-export type GeoLocation =
-  | LatLonGeoLocation
-  | GeoHashLocation
-  | double[]
-  | string;
+export type GeoLocation = LatLonGeoLocation | GeoHashLocation | double[] | string;
 export type GeoShape = any;
-export type GeoShapeRelation =
-  | 'intersects'
-  | 'disjoint'
-  | 'within'
-  | 'contains';
+export type GeoShapeRelation = 'intersects' | 'disjoint' | 'within' | 'contains';
 export type GeoTile = string;
 export type GeoTilePrecision = number;
 export interface GetStats {
@@ -2101,13 +2034,7 @@ export interface GetStats {
   total: long;
 }
 export type GrokPattern = string;
-export type HealthStatus =
-  | 'green'
-  | 'GREEN'
-  | 'yellow'
-  | 'YELLOW'
-  | 'red'
-  | 'RED';
+export type HealthStatus = 'green' | 'GREEN' | 'yellow' | 'YELLOW' | 'red' | 'RED';
 export type Host = string;
 export type HttpHeaders = Record<string, string | string[]>;
 export type IBDistribution = 'll' | 'spl';
@@ -2369,12 +2296,7 @@ export interface ScriptField {
   script: Script | string;
   ignore_failure?: boolean;
 }
-export type ScriptLanguage =
-  | 'painless'
-  | 'expression'
-  | 'mustache'
-  | 'java'
-  | string;
+export type ScriptLanguage = 'painless' | 'expression' | 'mustache' | 'java' | string;
 export interface ScriptSort {
   order?: SortOrder;
   script: Script | string;
@@ -2478,12 +2400,7 @@ export interface SortOptionsKeys {
   _script?: ScriptSort;
 }
 export type SortOptions = SortOptionsKeys & {
-  [property: string]:
-    | FieldSort
-    | SortOrder
-    | ScoreSort
-    | GeoDistanceSort
-    | ScriptSort;
+  [property: string]: FieldSort | SortOrder | ScoreSort | GeoDistanceSort | ScriptSort;
 };
 export type SortOrder = 'asc' | 'desc';
 export type SortResults = FieldValue[];
@@ -2565,13 +2482,7 @@ export type VersionString = string;
 export type VersionType = 'internal' | 'external' | 'external_gte' | 'force';
 export type WaitForActiveShardOptions = 'all' | 'index-setting';
 export type WaitForActiveShards = integer | WaitForActiveShardOptions;
-export type WaitForEvents =
-  | 'immediate'
-  | 'urgent'
-  | 'high'
-  | 'normal'
-  | 'low'
-  | 'languid';
+export type WaitForEvents = 'immediate' | 'urgent' | 'high' | 'normal' | 'low' | 'languid';
 export interface WarmerStats {
   current: long;
   total: long;
@@ -2601,19 +2512,16 @@ export type uint = number;
 export type ulong = number;
 export interface AggregationsAdjacencyMatrixAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsAdjacencyMatrixBucket> {}
-export interface AggregationsAdjacencyMatrixAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsAdjacencyMatrixAggregation extends AggregationsBucketAggregationBase {
   filters?: Record<string, QueryDslQueryContainer>;
   separator?: string;
 }
-export interface AggregationsAdjacencyMatrixBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsAdjacencyMatrixBucketKeys extends AggregationsMultiBucketBase {
   key: string;
 }
-export type AggregationsAdjacencyMatrixBucket =
-  AggregationsAdjacencyMatrixBucketKeys & {
-    [property: string]: AggregationsAggregate | string | long;
-  };
+export type AggregationsAdjacencyMatrixBucket = AggregationsAdjacencyMatrixBucketKeys & {
+  [property: string]: AggregationsAggregate | string | long;
+};
 export type AggregationsAggregate =
   | AggregationsCardinalityAggregate
   | AggregationsHdrPercentilesAggregate
@@ -2801,14 +2709,10 @@ export interface AggregationsAutoDateHistogramAggregation
   script?: Script | string;
   time_zone?: TimeZone;
 }
-export interface AggregationsAverageAggregation
-  extends AggregationsFormatMetricAggregationBase {}
-export interface AggregationsAverageBucketAggregation
-  extends AggregationsPipelineAggregationBase {}
-export interface AggregationsAvgAggregate
-  extends AggregationsSingleMetricAggregateBase {}
-export interface AggregationsBoxPlotAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsAverageAggregation extends AggregationsFormatMetricAggregationBase {}
+export interface AggregationsAverageBucketAggregation extends AggregationsPipelineAggregationBase {}
+export interface AggregationsAvgAggregate extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsBoxPlotAggregate extends AggregationsAggregateBase {
   min: double;
   max: double;
   q1: double;
@@ -2824,8 +2728,7 @@ export interface AggregationsBoxPlotAggregate
   lower_as_string?: string;
   upper_as_string?: string;
 }
-export interface AggregationsBoxplotAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsBoxplotAggregation extends AggregationsMetricAggregationBase {
   compression?: double;
 }
 export interface AggregationsBucketAggregationBase {}
@@ -2844,8 +2747,7 @@ export interface AggregationsBucketCorrelationFunctionCountCorrelationIndicator 
   expectations: double[];
   fractions?: double[];
 }
-export interface AggregationsBucketKsAggregation
-  extends AggregationsBucketPathAggregation {
+export interface AggregationsBucketKsAggregation extends AggregationsBucketPathAggregation {
   alternative?: string[];
   fractions?: double[];
   sampling_method?: string;
@@ -2857,12 +2759,10 @@ export interface AggregationsBucketMetricValueAggregate
 export interface AggregationsBucketPathAggregation {
   buckets_path?: AggregationsBucketsPath;
 }
-export interface AggregationsBucketScriptAggregation
-  extends AggregationsPipelineAggregationBase {
+export interface AggregationsBucketScriptAggregation extends AggregationsPipelineAggregationBase {
   script?: Script | string;
 }
-export interface AggregationsBucketSelectorAggregation
-  extends AggregationsPipelineAggregationBase {
+export interface AggregationsBucketSelectorAggregation extends AggregationsPipelineAggregationBase {
   script?: Script | string;
 }
 export interface AggregationsBucketSortAggregation {
@@ -2871,13 +2771,8 @@ export interface AggregationsBucketSortAggregation {
   size?: integer;
   sort?: Sort;
 }
-export type AggregationsBuckets<TBucket = unknown> =
-  | Record<string, TBucket>
-  | TBucket[];
-export type AggregationsBucketsPath =
-  | string
-  | string[]
-  | Record<string, string>;
+export type AggregationsBuckets<TBucket = unknown> = Record<string, TBucket> | TBucket[];
+export type AggregationsBucketsPath = string | string[] | Record<string, string>;
 export type AggregationsCalendarInterval =
   | 'second'
   | '1s'
@@ -2895,12 +2790,10 @@ export type AggregationsCalendarInterval =
   | '1q'
   | 'year'
   | '1y';
-export interface AggregationsCardinalityAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsCardinalityAggregate extends AggregationsAggregateBase {
   value: long;
 }
-export interface AggregationsCardinalityAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsCardinalityAggregation extends AggregationsMetricAggregationBase {
   precision_threshold?: integer;
   rehash?: boolean;
   execution_hint?: AggregationsCardinalityExecutionMode;
@@ -2923,21 +2816,16 @@ export interface AggregationsCategorizeTextAggregation {
   min_doc_count?: integer;
   shard_min_doc_count?: integer;
 }
-export type AggregationsCategorizeTextAnalyzer =
-  | string
-  | AggregationsCustomCategorizeTextAnalyzer;
+export type AggregationsCategorizeTextAnalyzer = string | AggregationsCustomCategorizeTextAnalyzer;
 export interface AggregationsChiSquareHeuristic {
   background_is_superset: boolean;
   include_negatives: boolean;
 }
-export interface AggregationsChildrenAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
-export type AggregationsChildrenAggregate =
-  AggregationsChildrenAggregateKeys & {
-    [property: string]: AggregationsAggregate | long | Metadata;
-  };
-export interface AggregationsChildrenAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsChildrenAggregateKeys extends AggregationsSingleBucketAggregateBase {}
+export type AggregationsChildrenAggregate = AggregationsChildrenAggregateKeys & {
+  [property: string]: AggregationsAggregate | long | Metadata;
+};
+export interface AggregationsChildrenAggregation extends AggregationsBucketAggregationBase {
   type?: RelationName;
 }
 export interface AggregationsCompositeAggregate
@@ -2945,8 +2833,7 @@ export interface AggregationsCompositeAggregate
   after_key?: AggregationsCompositeAggregateKey;
 }
 export type AggregationsCompositeAggregateKey = Record<Field, FieldValue>;
-export interface AggregationsCompositeAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsCompositeAggregation extends AggregationsBucketAggregationBase {
   after?: AggregationsCompositeAggregateKey;
   size?: integer;
   sources?: Record<string, AggregationsCompositeAggregationSource>[];
@@ -2965,15 +2852,11 @@ export interface AggregationsCompositeAggregationSource {
   date_histogram?: AggregationsCompositeDateHistogramAggregation;
   geotile_grid?: AggregationsCompositeGeoTileGridAggregation;
 }
-export interface AggregationsCompositeBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsCompositeBucketKeys extends AggregationsMultiBucketBase {
   key: AggregationsCompositeAggregateKey;
 }
 export type AggregationsCompositeBucket = AggregationsCompositeBucketKeys & {
-  [property: string]:
-    | AggregationsAggregate
-    | AggregationsCompositeAggregateKey
-    | long;
+  [property: string]: AggregationsAggregate | AggregationsCompositeAggregateKey | long;
 };
 export interface AggregationsCompositeDateHistogramAggregation
   extends AggregationsCompositeAggregationBase {
@@ -2994,15 +2877,13 @@ export interface AggregationsCompositeHistogramAggregation
 }
 export interface AggregationsCompositeTermsAggregation
   extends AggregationsCompositeAggregationBase {}
-export interface AggregationsCumulativeCardinalityAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsCumulativeCardinalityAggregate extends AggregationsAggregateBase {
   value: long;
   value_as_string?: string;
 }
 export interface AggregationsCumulativeCardinalityAggregation
   extends AggregationsPipelineAggregationBase {}
-export interface AggregationsCumulativeSumAggregation
-  extends AggregationsPipelineAggregationBase {}
+export interface AggregationsCumulativeSumAggregation extends AggregationsPipelineAggregationBase {}
 export interface AggregationsCustomCategorizeTextAnalyzer {
   char_filter?: string[];
   tokenizer?: string;
@@ -3010,8 +2891,7 @@ export interface AggregationsCustomCategorizeTextAnalyzer {
 }
 export interface AggregationsDateHistogramAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsDateHistogramBucket> {}
-export interface AggregationsDateHistogramAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsDateHistogramAggregation extends AggregationsBucketAggregationBase {
   calendar_interval?: AggregationsCalendarInterval;
   extended_bounds?: AggregationsExtendedBounds<AggregationsFieldDateMath>;
   hard_bounds?: AggregationsExtendedBounds<AggregationsFieldDateMath>;
@@ -3028,23 +2908,15 @@ export interface AggregationsDateHistogramAggregation
   time_zone?: TimeZone;
   keyed?: boolean;
 }
-export interface AggregationsDateHistogramBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsDateHistogramBucketKeys extends AggregationsMultiBucketBase {
   key_as_string?: string;
   key: EpochTime<UnitMillis>;
 }
-export type AggregationsDateHistogramBucket =
-  AggregationsDateHistogramBucketKeys & {
-    [property: string]:
-      | AggregationsAggregate
-      | string
-      | EpochTime<UnitMillis>
-      | long;
-  };
-export interface AggregationsDateRangeAggregate
-  extends AggregationsRangeAggregate {}
-export interface AggregationsDateRangeAggregation
-  extends AggregationsBucketAggregationBase {
+export type AggregationsDateHistogramBucket = AggregationsDateHistogramBucketKeys & {
+  [property: string]: AggregationsAggregate | string | EpochTime<UnitMillis> | long;
+};
+export interface AggregationsDateRangeAggregate extends AggregationsRangeAggregate {}
+export interface AggregationsDateRangeAggregation extends AggregationsBucketAggregationBase {
   field?: Field;
   format?: string;
   missing?: AggregationsMissing;
@@ -3057,13 +2929,11 @@ export interface AggregationsDateRangeExpression {
   key?: string;
   to?: AggregationsFieldDateMath;
 }
-export interface AggregationsDerivativeAggregate
-  extends AggregationsSingleMetricAggregateBase {
+export interface AggregationsDerivativeAggregate extends AggregationsSingleMetricAggregateBase {
   normalized_value?: double;
   normalized_value_as_string?: string;
 }
-export interface AggregationsDerivativeAggregation
-  extends AggregationsPipelineAggregationBase {}
+export interface AggregationsDerivativeAggregation extends AggregationsPipelineAggregationBase {}
 export interface AggregationsDiversifiedSamplerAggregation
   extends AggregationsBucketAggregationBase {
   execution_hint?: AggregationsSamplerAggregationExecutionHint;
@@ -3074,15 +2944,13 @@ export interface AggregationsDiversifiedSamplerAggregation
 }
 export interface AggregationsDoubleTermsAggregate
   extends AggregationsTermsAggregateBase<AggregationsDoubleTermsBucket> {}
-export interface AggregationsDoubleTermsBucketKeys
-  extends AggregationsTermsBucketBase {
+export interface AggregationsDoubleTermsBucketKeys extends AggregationsTermsBucketBase {
   key: double;
   key_as_string?: string;
 }
-export type AggregationsDoubleTermsBucket =
-  AggregationsDoubleTermsBucketKeys & {
-    [property: string]: AggregationsAggregate | double | string | long;
-  };
+export type AggregationsDoubleTermsBucket = AggregationsDoubleTermsBucketKeys & {
+  [property: string]: AggregationsAggregate | double | string | long;
+};
 export interface AggregationsEwmaModelSettings {
   alpha?: float;
 }
@@ -3095,8 +2963,7 @@ export interface AggregationsExtendedBounds<T = unknown> {
   max?: T;
   min?: T;
 }
-export interface AggregationsExtendedStatsAggregate
-  extends AggregationsStatsAggregate {
+export interface AggregationsExtendedStatsAggregate extends AggregationsStatsAggregate {
   sum_of_squares: double | null;
   variance: double | null;
   variance_population: double | null;
@@ -3123,27 +2990,23 @@ export interface AggregationsExtendedStatsBucketAggregation
   sigma?: double;
 }
 export type AggregationsFieldDateMath = DateMath | double;
-export interface AggregationsFilterAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
+export interface AggregationsFilterAggregateKeys extends AggregationsSingleBucketAggregateBase {}
 export type AggregationsFilterAggregate = AggregationsFilterAggregateKeys & {
   [property: string]: AggregationsAggregate | long | Metadata;
 };
 export interface AggregationsFiltersAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsFiltersBucket> {}
-export interface AggregationsFiltersAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsFiltersAggregation extends AggregationsBucketAggregationBase {
   filters?: AggregationsBuckets<QueryDslQueryContainer>;
   other_bucket?: boolean;
   other_bucket_key?: string;
   keyed?: boolean;
 }
-export interface AggregationsFiltersBucketKeys
-  extends AggregationsMultiBucketBase {}
+export interface AggregationsFiltersBucketKeys extends AggregationsMultiBucketBase {}
 export type AggregationsFiltersBucket = AggregationsFiltersBucketKeys & {
   [property: string]: AggregationsAggregate | long;
 };
-export interface AggregationsFormatMetricAggregationBase
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsFormatMetricAggregationBase extends AggregationsMetricAggregationBase {
   format?: string;
 }
 export interface AggregationsFormattableMetricAggregation
@@ -3159,47 +3022,35 @@ export interface AggregationsFrequentItemSetsAggregation {
   size?: integer;
   filter?: QueryDslQueryContainer;
 }
-export interface AggregationsFrequentItemSetsBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsFrequentItemSetsBucketKeys extends AggregationsMultiBucketBase {
   key: Record<Field, string[]>;
   support: double;
 }
-export type AggregationsFrequentItemSetsBucket =
-  AggregationsFrequentItemSetsBucketKeys & {
-    [property: string]:
-      | AggregationsAggregate
-      | Record<Field, string[]>
-      | double
-      | long;
-  };
+export type AggregationsFrequentItemSetsBucket = AggregationsFrequentItemSetsBucketKeys & {
+  [property: string]: AggregationsAggregate | Record<Field, string[]> | double | long;
+};
 export interface AggregationsFrequentItemSetsField {
   field: Field;
   exclude?: AggregationsTermsExclude;
   include?: AggregationsTermsInclude;
 }
 export type AggregationsGapPolicy = 'skip' | 'insert_zeros' | 'keep_values';
-export interface AggregationsGeoBoundsAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsGeoBoundsAggregate extends AggregationsAggregateBase {
   bounds?: GeoBounds;
 }
-export interface AggregationsGeoBoundsAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsGeoBoundsAggregation extends AggregationsMetricAggregationBase {
   wrap_longitude?: boolean;
 }
-export interface AggregationsGeoCentroidAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsGeoCentroidAggregate extends AggregationsAggregateBase {
   count: long;
   location?: GeoLocation;
 }
-export interface AggregationsGeoCentroidAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsGeoCentroidAggregation extends AggregationsMetricAggregationBase {
   count?: long;
   location?: GeoLocation;
 }
-export interface AggregationsGeoDistanceAggregate
-  extends AggregationsRangeAggregate {}
-export interface AggregationsGeoDistanceAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsGeoDistanceAggregate extends AggregationsRangeAggregate {}
+export interface AggregationsGeoDistanceAggregation extends AggregationsBucketAggregationBase {
   distance_type?: GeoDistanceType;
   field?: Field;
   origin?: GeoLocation;
@@ -3208,33 +3059,28 @@ export interface AggregationsGeoDistanceAggregation
 }
 export interface AggregationsGeoHashGridAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsGeoHashGridBucket> {}
-export interface AggregationsGeoHashGridAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsGeoHashGridAggregation extends AggregationsBucketAggregationBase {
   bounds?: GeoBounds;
   field?: Field;
   precision?: GeoHashPrecision;
   shard_size?: integer;
   size?: integer;
 }
-export interface AggregationsGeoHashGridBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsGeoHashGridBucketKeys extends AggregationsMultiBucketBase {
   key: GeoHash;
 }
-export type AggregationsGeoHashGridBucket =
-  AggregationsGeoHashGridBucketKeys & {
-    [property: string]: AggregationsAggregate | GeoHash | long;
-  };
+export type AggregationsGeoHashGridBucket = AggregationsGeoHashGridBucketKeys & {
+  [property: string]: AggregationsAggregate | GeoHash | long;
+};
 export interface AggregationsGeoHexGridAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsGeoHexGridBucket> {}
-export interface AggregationsGeoHexGridBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsGeoHexGridBucketKeys extends AggregationsMultiBucketBase {
   key: GeoHexCell;
 }
 export type AggregationsGeoHexGridBucket = AggregationsGeoHexGridBucketKeys & {
   [property: string]: AggregationsAggregate | GeoHexCell | long;
 };
-export interface AggregationsGeoLineAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsGeoLineAggregate extends AggregationsAggregateBase {
   type: string;
   geometry: GeoLine;
   properties: any;
@@ -3254,37 +3100,31 @@ export interface AggregationsGeoLineSort {
 }
 export interface AggregationsGeoTileGridAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsGeoTileGridBucket> {}
-export interface AggregationsGeoTileGridAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsGeoTileGridAggregation extends AggregationsBucketAggregationBase {
   field?: Field;
   precision?: GeoTilePrecision;
   shard_size?: integer;
   size?: integer;
   bounds?: GeoBounds;
 }
-export interface AggregationsGeoTileGridBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsGeoTileGridBucketKeys extends AggregationsMultiBucketBase {
   key: GeoTile;
 }
-export type AggregationsGeoTileGridBucket =
-  AggregationsGeoTileGridBucketKeys & {
-    [property: string]: AggregationsAggregate | GeoTile | long;
-  };
-export interface AggregationsGeohexGridAggregation
-  extends AggregationsBucketAggregationBase {
+export type AggregationsGeoTileGridBucket = AggregationsGeoTileGridBucketKeys & {
+  [property: string]: AggregationsAggregate | GeoTile | long;
+};
+export interface AggregationsGeohexGridAggregation extends AggregationsBucketAggregationBase {
   field: Field;
   precision?: integer;
   bounds?: GeoBounds;
   size?: integer;
   shard_size?: integer;
 }
-export interface AggregationsGlobalAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
+export interface AggregationsGlobalAggregateKeys extends AggregationsSingleBucketAggregateBase {}
 export type AggregationsGlobalAggregate = AggregationsGlobalAggregateKeys & {
   [property: string]: AggregationsAggregate | long | Metadata;
 };
-export interface AggregationsGlobalAggregation
-  extends AggregationsBucketAggregationBase {}
+export interface AggregationsGlobalAggregation extends AggregationsBucketAggregationBase {}
 export interface AggregationsGoogleNormalizedDistanceHeuristic {
   background_is_superset?: boolean;
 }
@@ -3293,12 +3133,10 @@ export interface AggregationsHdrMethod {
 }
 export interface AggregationsHdrPercentileRanksAggregate
   extends AggregationsPercentilesAggregateBase {}
-export interface AggregationsHdrPercentilesAggregate
-  extends AggregationsPercentilesAggregateBase {}
+export interface AggregationsHdrPercentilesAggregate extends AggregationsPercentilesAggregateBase {}
 export interface AggregationsHistogramAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsHistogramBucket> {}
-export interface AggregationsHistogramAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsHistogramAggregation extends AggregationsBucketAggregationBase {
   extended_bounds?: AggregationsExtendedBounds<double>;
   hard_bounds?: AggregationsExtendedBounds<double>;
   field?: Field;
@@ -3311,8 +3149,7 @@ export interface AggregationsHistogramAggregation
   format?: string;
   keyed?: boolean;
 }
-export interface AggregationsHistogramBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsHistogramBucketKeys extends AggregationsMultiBucketBase {
   key_as_string?: string;
   key: double;
 }
@@ -3342,19 +3179,16 @@ export interface AggregationsHoltWintersMovingAverageAggregation
   settings: AggregationsHoltWintersModelSettings;
 }
 export type AggregationsHoltWintersType = 'add' | 'mult';
-export interface AggregationsInferenceAggregateKeys
-  extends AggregationsAggregateBase {
+export interface AggregationsInferenceAggregateKeys extends AggregationsAggregateBase {
   value?: FieldValue;
   feature_importance?: AggregationsInferenceFeatureImportance[];
   top_classes?: AggregationsInferenceTopClassEntry[];
   warning?: string;
 }
-export type AggregationsInferenceAggregate =
-  AggregationsInferenceAggregateKeys & {
-    [property: string]: any;
-  };
-export interface AggregationsInferenceAggregation
-  extends AggregationsPipelineAggregationBase {
+export type AggregationsInferenceAggregate = AggregationsInferenceAggregateKeys & {
+  [property: string]: any;
+};
+export interface AggregationsInferenceAggregation extends AggregationsPipelineAggregationBase {
   model_id: Name;
   inference_config?: AggregationsInferenceConfigContainer;
 }
@@ -3378,8 +3212,7 @@ export interface AggregationsInferenceTopClassEntry {
 }
 export interface AggregationsIpPrefixAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsIpPrefixBucket> {}
-export interface AggregationsIpPrefixAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsIpPrefixAggregation extends AggregationsBucketAggregationBase {
   field: Field;
   prefix_length: integer;
   is_ipv6?: boolean;
@@ -3387,8 +3220,7 @@ export interface AggregationsIpPrefixAggregation
   keyed?: boolean;
   min_doc_count?: long;
 }
-export interface AggregationsIpPrefixBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsIpPrefixBucketKeys extends AggregationsMultiBucketBase {
   is_ipv6: boolean;
   key: string;
   prefix_length: integer;
@@ -3399,8 +3231,7 @@ export type AggregationsIpPrefixBucket = AggregationsIpPrefixBucketKeys & {
 };
 export interface AggregationsIpRangeAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsIpRangeBucket> {}
-export interface AggregationsIpRangeAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsIpRangeAggregation extends AggregationsBucketAggregationBase {
   field?: Field;
   ranges?: AggregationsIpRangeAggregationRange[];
 }
@@ -3409,8 +3240,7 @@ export interface AggregationsIpRangeAggregationRange {
   mask?: string;
   to?: string | null;
 }
-export interface AggregationsIpRangeBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsIpRangeBucketKeys extends AggregationsMultiBucketBase {
   key?: string;
   from?: string;
   to?: string;
@@ -3426,19 +3256,16 @@ export interface AggregationsLinearMovingAverageAggregation
 }
 export interface AggregationsLongRareTermsAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsLongRareTermsBucket> {}
-export interface AggregationsLongRareTermsBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsLongRareTermsBucketKeys extends AggregationsMultiBucketBase {
   key: long;
   key_as_string?: string;
 }
-export type AggregationsLongRareTermsBucket =
-  AggregationsLongRareTermsBucketKeys & {
-    [property: string]: AggregationsAggregate | long | string;
-  };
+export type AggregationsLongRareTermsBucket = AggregationsLongRareTermsBucketKeys & {
+  [property: string]: AggregationsAggregate | long | string;
+};
 export interface AggregationsLongTermsAggregate
   extends AggregationsTermsAggregateBase<AggregationsLongTermsBucket> {}
-export interface AggregationsLongTermsBucketKeys
-  extends AggregationsTermsBucketBase {
+export interface AggregationsLongTermsBucketKeys extends AggregationsTermsBucketBase {
   key: long;
   key_as_string?: string;
 }
@@ -3449,13 +3276,11 @@ export interface AggregationsMatrixAggregation {
   fields?: Fields;
   missing?: Record<Field, double>;
 }
-export interface AggregationsMatrixStatsAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsMatrixStatsAggregate extends AggregationsAggregateBase {
   doc_count: long;
   fields?: AggregationsMatrixStatsFields[];
 }
-export interface AggregationsMatrixStatsAggregation
-  extends AggregationsMatrixAggregation {
+export interface AggregationsMatrixStatsAggregation extends AggregationsMatrixAggregation {
   mode?: SortMode;
 }
 export interface AggregationsMatrixStatsFields {
@@ -3468,12 +3293,9 @@ export interface AggregationsMatrixStatsFields {
   covariance: Record<Field, double>;
   correlation: Record<Field, double>;
 }
-export interface AggregationsMaxAggregate
-  extends AggregationsSingleMetricAggregateBase {}
-export interface AggregationsMaxAggregation
-  extends AggregationsFormatMetricAggregationBase {}
-export interface AggregationsMaxBucketAggregation
-  extends AggregationsPipelineAggregationBase {}
+export interface AggregationsMaxAggregate extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsMaxAggregation extends AggregationsFormatMetricAggregationBase {}
+export interface AggregationsMaxBucketAggregation extends AggregationsPipelineAggregationBase {}
 export interface AggregationsMedianAbsoluteDeviationAggregate
   extends AggregationsSingleMetricAggregateBase {}
 export interface AggregationsMedianAbsoluteDeviationAggregation
@@ -3485,27 +3307,16 @@ export interface AggregationsMetricAggregationBase {
   missing?: AggregationsMissing;
   script?: Script | string;
 }
-export interface AggregationsMinAggregate
-  extends AggregationsSingleMetricAggregateBase {}
-export interface AggregationsMinAggregation
-  extends AggregationsFormatMetricAggregationBase {}
-export interface AggregationsMinBucketAggregation
-  extends AggregationsPipelineAggregationBase {}
-export type AggregationsMinimumInterval =
-  | 'second'
-  | 'minute'
-  | 'hour'
-  | 'day'
-  | 'month'
-  | 'year';
+export interface AggregationsMinAggregate extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsMinAggregation extends AggregationsFormatMetricAggregationBase {}
+export interface AggregationsMinBucketAggregation extends AggregationsPipelineAggregationBase {}
+export type AggregationsMinimumInterval = 'second' | 'minute' | 'hour' | 'day' | 'month' | 'year';
 export type AggregationsMissing = string | integer | double | boolean;
-export interface AggregationsMissingAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
+export interface AggregationsMissingAggregateKeys extends AggregationsSingleBucketAggregateBase {}
 export type AggregationsMissingAggregate = AggregationsMissingAggregateKeys & {
   [property: string]: AggregationsAggregate | long | Metadata;
 };
-export interface AggregationsMissingAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsMissingAggregation extends AggregationsBucketAggregationBase {
   field?: Field;
   missing?: AggregationsMissing;
 }
@@ -3522,8 +3333,7 @@ export interface AggregationsMovingAverageAggregationBase
   predict?: integer;
   window?: integer;
 }
-export interface AggregationsMovingFunctionAggregation
-  extends AggregationsPipelineAggregationBase {
+export interface AggregationsMovingFunctionAggregation extends AggregationsPipelineAggregationBase {
   script?: string;
   shift?: integer;
   window?: integer;
@@ -3547,8 +3357,7 @@ export interface AggregationsMultiTermLookup {
 }
 export interface AggregationsMultiTermsAggregate
   extends AggregationsTermsAggregateBase<AggregationsMultiTermsBucket> {}
-export interface AggregationsMultiTermsAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsMultiTermsAggregation extends AggregationsBucketAggregationBase {
   collect_mode?: AggregationsTermsAggregationCollectMode;
   order?: AggregationsAggregateOrder;
   min_doc_count?: long;
@@ -3558,8 +3367,7 @@ export interface AggregationsMultiTermsAggregation
   size?: integer;
   terms: AggregationsMultiTermLookup[];
 }
-export interface AggregationsMultiTermsBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsMultiTermsBucketKeys extends AggregationsMultiBucketBase {
   key: FieldValue[];
   key_as_string?: string;
   doc_count_error_upper_bound?: long;
@@ -3571,17 +3379,14 @@ export interface AggregationsMutualInformationHeuristic {
   background_is_superset?: boolean;
   include_negatives?: boolean;
 }
-export interface AggregationsNestedAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
+export interface AggregationsNestedAggregateKeys extends AggregationsSingleBucketAggregateBase {}
 export type AggregationsNestedAggregate = AggregationsNestedAggregateKeys & {
   [property: string]: AggregationsAggregate | long | Metadata;
 };
-export interface AggregationsNestedAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsNestedAggregation extends AggregationsBucketAggregationBase {
   path?: Field;
 }
-export interface AggregationsNormalizeAggregation
-  extends AggregationsPipelineAggregationBase {
+export interface AggregationsNormalizeAggregation extends AggregationsPipelineAggregationBase {
   method?: AggregationsNormalizeMethod;
 }
 export type AggregationsNormalizeMethod =
@@ -3591,13 +3396,11 @@ export type AggregationsNormalizeMethod =
   | 'mean'
   | 'z-score'
   | 'softmax';
-export interface AggregationsParentAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
+export interface AggregationsParentAggregateKeys extends AggregationsSingleBucketAggregateBase {}
 export type AggregationsParentAggregate = AggregationsParentAggregateKeys & {
   [property: string]: AggregationsAggregate | long | Metadata;
 };
-export interface AggregationsParentAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsParentAggregation extends AggregationsBucketAggregationBase {
   type?: RelationName;
 }
 export interface AggregationsPercentageScoreHeuristic {}
@@ -3611,8 +3414,7 @@ export interface AggregationsPercentileRanksAggregation
 export type AggregationsPercentiles =
   | AggregationsKeyedPercentiles
   | AggregationsArrayPercentilesItem[];
-export interface AggregationsPercentilesAggregateBase
-  extends AggregationsAggregateBase {
+export interface AggregationsPercentilesAggregateBase extends AggregationsAggregateBase {
   values: AggregationsPercentiles;
 }
 export interface AggregationsPercentilesAggregation
@@ -3628,21 +3430,18 @@ export interface AggregationsPercentilesBucketAggregation
   extends AggregationsPipelineAggregationBase {
   percents?: double[];
 }
-export interface AggregationsPipelineAggregationBase
-  extends AggregationsBucketPathAggregation {
+export interface AggregationsPipelineAggregationBase extends AggregationsBucketPathAggregation {
   format?: string;
   gap_policy?: AggregationsGapPolicy;
 }
-export interface AggregationsRandomSamplerAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsRandomSamplerAggregation extends AggregationsBucketAggregationBase {
   probability: double;
   seed?: integer;
   shard_seed?: integer;
 }
 export interface AggregationsRangeAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsRangeBucket> {}
-export interface AggregationsRangeAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsRangeAggregation extends AggregationsBucketAggregationBase {
   field?: Field;
   missing?: integer;
   ranges?: AggregationsAggregationRange[];
@@ -3650,8 +3449,7 @@ export interface AggregationsRangeAggregation
   keyed?: boolean;
   format?: string;
 }
-export interface AggregationsRangeBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsRangeBucketKeys extends AggregationsMultiBucketBase {
   from?: double;
   to?: double;
   from_as_string?: string;
@@ -3661,8 +3459,7 @@ export interface AggregationsRangeBucketKeys
 export type AggregationsRangeBucket = AggregationsRangeBucketKeys & {
   [property: string]: AggregationsAggregate | double | string | long;
 };
-export interface AggregationsRareTermsAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsRareTermsAggregation extends AggregationsBucketAggregationBase {
   exclude?: AggregationsTermsExclude;
   field?: Field;
   include?: AggregationsTermsInclude;
@@ -3675,44 +3472,34 @@ export interface AggregationsRateAggregate extends AggregationsAggregateBase {
   value: double;
   value_as_string?: string;
 }
-export interface AggregationsRateAggregation
-  extends AggregationsFormatMetricAggregationBase {
+export interface AggregationsRateAggregation extends AggregationsFormatMetricAggregationBase {
   unit?: AggregationsCalendarInterval;
   mode?: AggregationsRateMode;
 }
 export type AggregationsRateMode = 'sum' | 'value_count';
 export interface AggregationsReverseNestedAggregateKeys
   extends AggregationsSingleBucketAggregateBase {}
-export type AggregationsReverseNestedAggregate =
-  AggregationsReverseNestedAggregateKeys & {
-    [property: string]: AggregationsAggregate | long | Metadata;
-  };
-export interface AggregationsReverseNestedAggregation
-  extends AggregationsBucketAggregationBase {
+export type AggregationsReverseNestedAggregate = AggregationsReverseNestedAggregateKeys & {
+  [property: string]: AggregationsAggregate | long | Metadata;
+};
+export interface AggregationsReverseNestedAggregation extends AggregationsBucketAggregationBase {
   path?: Field;
 }
-export interface AggregationsSamplerAggregateKeys
-  extends AggregationsSingleBucketAggregateBase {}
+export interface AggregationsSamplerAggregateKeys extends AggregationsSingleBucketAggregateBase {}
 export type AggregationsSamplerAggregate = AggregationsSamplerAggregateKeys & {
   [property: string]: AggregationsAggregate | long | Metadata;
 };
-export interface AggregationsSamplerAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsSamplerAggregation extends AggregationsBucketAggregationBase {
   shard_size?: integer;
 }
-export type AggregationsSamplerAggregationExecutionHint =
-  | 'map'
-  | 'global_ordinals'
-  | 'bytes_hash';
+export type AggregationsSamplerAggregationExecutionHint = 'map' | 'global_ordinals' | 'bytes_hash';
 export interface AggregationsScriptedHeuristic {
   script: Script | string;
 }
-export interface AggregationsScriptedMetricAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsScriptedMetricAggregate extends AggregationsAggregateBase {
   value: any;
 }
-export interface AggregationsScriptedMetricAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsScriptedMetricAggregation extends AggregationsMetricAggregationBase {
   combine_script?: Script | string;
   init_script?: Script | string;
   map_script?: Script | string;
@@ -3730,10 +3517,9 @@ export interface AggregationsSignificantLongTermsBucketKeys
   key: long;
   key_as_string?: string;
 }
-export type AggregationsSignificantLongTermsBucket =
-  AggregationsSignificantLongTermsBucketKeys & {
-    [property: string]: AggregationsAggregate | long | string | double;
-  };
+export type AggregationsSignificantLongTermsBucket = AggregationsSignificantLongTermsBucketKeys & {
+  [property: string]: AggregationsAggregate | long | string | double;
+};
 export interface AggregationsSignificantStringTermsAggregate
   extends AggregationsSignificantTermsAggregateBase<AggregationsSignificantStringTermsBucket> {}
 export interface AggregationsSignificantStringTermsBucketKeys
@@ -3749,8 +3535,7 @@ export interface AggregationsSignificantTermsAggregateBase<T = unknown>
   bg_count?: long;
   doc_count?: long;
 }
-export interface AggregationsSignificantTermsAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsSignificantTermsAggregation extends AggregationsBucketAggregationBase {
   background_filter?: QueryDslQueryContainer;
   chi_square?: AggregationsChiSquareHeuristic;
   exclude?: AggregationsTermsExclude;
@@ -3767,13 +3552,11 @@ export interface AggregationsSignificantTermsAggregation
   shard_size?: integer;
   size?: integer;
 }
-export interface AggregationsSignificantTermsBucketBase
-  extends AggregationsMultiBucketBase {
+export interface AggregationsSignificantTermsBucketBase extends AggregationsMultiBucketBase {
   score: double;
   bg_count: long;
 }
-export interface AggregationsSignificantTextAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsSignificantTextAggregation extends AggregationsBucketAggregationBase {
   background_filter?: QueryDslQueryContainer;
   chi_square?: AggregationsChiSquareHeuristic;
   exclude?: AggregationsTermsExclude;
@@ -3797,14 +3580,11 @@ export interface AggregationsSimpleMovingAverageAggregation
   model: 'simple';
   settings: EmptyObject;
 }
-export interface AggregationsSimpleValueAggregate
-  extends AggregationsSingleMetricAggregateBase {}
-export interface AggregationsSingleBucketAggregateBase
-  extends AggregationsAggregateBase {
+export interface AggregationsSimpleValueAggregate extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsSingleBucketAggregateBase extends AggregationsAggregateBase {
   doc_count: long;
 }
-export interface AggregationsSingleMetricAggregateBase
-  extends AggregationsAggregateBase {
+export interface AggregationsSingleMetricAggregateBase extends AggregationsAggregateBase {
   value: double | null;
   value_as_string?: string;
 }
@@ -3835,24 +3615,18 @@ export interface AggregationsStatsAggregate extends AggregationsAggregateBase {
   avg_as_string?: string;
   sum_as_string?: string;
 }
-export interface AggregationsStatsAggregation
-  extends AggregationsFormatMetricAggregationBase {}
-export interface AggregationsStatsBucketAggregate
-  extends AggregationsStatsAggregate {}
-export interface AggregationsStatsBucketAggregation
-  extends AggregationsPipelineAggregationBase {}
+export interface AggregationsStatsAggregation extends AggregationsFormatMetricAggregationBase {}
+export interface AggregationsStatsBucketAggregate extends AggregationsStatsAggregate {}
+export interface AggregationsStatsBucketAggregation extends AggregationsPipelineAggregationBase {}
 export interface AggregationsStringRareTermsAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsStringRareTermsBucket> {}
-export interface AggregationsStringRareTermsBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsStringRareTermsBucketKeys extends AggregationsMultiBucketBase {
   key: string;
 }
-export type AggregationsStringRareTermsBucket =
-  AggregationsStringRareTermsBucketKeys & {
-    [property: string]: AggregationsAggregate | string | long;
-  };
-export interface AggregationsStringStatsAggregate
-  extends AggregationsAggregateBase {
+export type AggregationsStringRareTermsBucket = AggregationsStringRareTermsBucketKeys & {
+  [property: string]: AggregationsAggregate | string | long;
+};
+export interface AggregationsStringStatsAggregate extends AggregationsAggregateBase {
   count: long;
   min_length: integer | null;
   max_length: integer | null;
@@ -3863,26 +3637,20 @@ export interface AggregationsStringStatsAggregate
   max_length_as_string?: string;
   avg_length_as_string?: string;
 }
-export interface AggregationsStringStatsAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsStringStatsAggregation extends AggregationsMetricAggregationBase {
   show_distribution?: boolean;
 }
 export interface AggregationsStringTermsAggregate
   extends AggregationsTermsAggregateBase<AggregationsStringTermsBucket> {}
-export interface AggregationsStringTermsBucketKeys
-  extends AggregationsTermsBucketBase {
+export interface AggregationsStringTermsBucketKeys extends AggregationsTermsBucketBase {
   key: FieldValue;
 }
-export type AggregationsStringTermsBucket =
-  AggregationsStringTermsBucketKeys & {
-    [property: string]: AggregationsAggregate | FieldValue | long;
-  };
-export interface AggregationsSumAggregate
-  extends AggregationsSingleMetricAggregateBase {}
-export interface AggregationsSumAggregation
-  extends AggregationsFormatMetricAggregationBase {}
-export interface AggregationsSumBucketAggregation
-  extends AggregationsPipelineAggregationBase {}
+export type AggregationsStringTermsBucket = AggregationsStringTermsBucketKeys & {
+  [property: string]: AggregationsAggregate | FieldValue | long;
+};
+export interface AggregationsSumAggregate extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsSumAggregation extends AggregationsFormatMetricAggregationBase {}
+export interface AggregationsSumBucketAggregation extends AggregationsPipelineAggregationBase {}
 export interface AggregationsTDigest {
   compression?: integer;
 }
@@ -3899,17 +3667,13 @@ export interface AggregationsTTestAggregation {
   b?: AggregationsTestPopulation;
   type?: AggregationsTTestType;
 }
-export type AggregationsTTestType =
-  | 'paired'
-  | 'homoscedastic'
-  | 'heteroscedastic';
+export type AggregationsTTestType = 'paired' | 'homoscedastic' | 'heteroscedastic';
 export interface AggregationsTermsAggregateBase<TBucket = unknown>
   extends AggregationsMultiBucketAggregateBase<TBucket> {
   doc_count_error_upper_bound?: long;
   sum_other_doc_count?: long;
 }
-export interface AggregationsTermsAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsTermsAggregation extends AggregationsBucketAggregationBase {
   collect_mode?: AggregationsTermsAggregationCollectMode;
   exclude?: AggregationsTermsExclude;
   execution_hint?: AggregationsTermsAggregationExecutionHint;
@@ -3928,23 +3692,17 @@ export interface AggregationsTermsAggregation
   size?: integer;
   format?: string;
 }
-export type AggregationsTermsAggregationCollectMode =
-  | 'depth_first'
-  | 'breadth_first';
+export type AggregationsTermsAggregationCollectMode = 'depth_first' | 'breadth_first';
 export type AggregationsTermsAggregationExecutionHint =
   | 'map'
   | 'global_ordinals'
   | 'global_ordinals_hash'
   | 'global_ordinals_low_cardinality';
-export interface AggregationsTermsBucketBase
-  extends AggregationsMultiBucketBase {
+export interface AggregationsTermsBucketBase extends AggregationsMultiBucketBase {
   doc_count_error_upper_bound?: long;
 }
 export type AggregationsTermsExclude = string | string[];
-export type AggregationsTermsInclude =
-  | string
-  | string[]
-  | AggregationsTermsPartition;
+export type AggregationsTermsInclude = string | string[] | AggregationsTermsPartition;
 export interface AggregationsTermsPartition {
   num_partitions: long;
   partition: long;
@@ -3956,24 +3714,20 @@ export interface AggregationsTestPopulation {
 }
 export interface AggregationsTimeSeriesAggregate
   extends AggregationsMultiBucketAggregateBase<AggregationsTimeSeriesBucket> {}
-export interface AggregationsTimeSeriesAggregation
-  extends AggregationsBucketAggregationBase {
+export interface AggregationsTimeSeriesAggregation extends AggregationsBucketAggregationBase {
   size?: integer;
   keyed?: boolean;
 }
-export interface AggregationsTimeSeriesBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsTimeSeriesBucketKeys extends AggregationsMultiBucketBase {
   key: Record<Field, FieldValue>;
 }
 export type AggregationsTimeSeriesBucket = AggregationsTimeSeriesBucketKeys & {
   [property: string]: AggregationsAggregate | Record<Field, FieldValue> | long;
 };
-export interface AggregationsTopHitsAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsTopHitsAggregate extends AggregationsAggregateBase {
   hits: SearchHitsMetadata<any>;
 }
-export interface AggregationsTopHitsAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsTopHitsAggregation extends AggregationsMetricAggregationBase {
   docvalue_fields?: (QueryDslFieldAndFormat | Field)[];
   explain?: boolean;
   fields?: (QueryDslFieldAndFormat | Field)[];
@@ -3992,12 +3746,10 @@ export interface AggregationsTopMetrics {
   sort: (FieldValue | null)[];
   metrics: Record<string, FieldValue | null>;
 }
-export interface AggregationsTopMetricsAggregate
-  extends AggregationsAggregateBase {
+export interface AggregationsTopMetricsAggregate extends AggregationsAggregateBase {
   top: AggregationsTopMetrics[];
 }
-export interface AggregationsTopMetricsAggregation
-  extends AggregationsMetricAggregationBase {
+export interface AggregationsTopMetricsAggregation extends AggregationsMetricAggregationBase {
   metrics?: AggregationsTopMetricsValue | AggregationsTopMetricsValue[];
   size?: integer;
   sort?: Sort;
@@ -4009,16 +3761,13 @@ export interface AggregationsUnmappedRareTermsAggregate
   extends AggregationsMultiBucketAggregateBase<void> {}
 export interface AggregationsUnmappedSamplerAggregateKeys
   extends AggregationsSingleBucketAggregateBase {}
-export type AggregationsUnmappedSamplerAggregate =
-  AggregationsUnmappedSamplerAggregateKeys & {
-    [property: string]: AggregationsAggregate | long | Metadata;
-  };
+export type AggregationsUnmappedSamplerAggregate = AggregationsUnmappedSamplerAggregateKeys & {
+  [property: string]: AggregationsAggregate | long | Metadata;
+};
 export interface AggregationsUnmappedSignificantTermsAggregate
   extends AggregationsSignificantTermsAggregateBase<void> {}
-export interface AggregationsUnmappedTermsAggregate
-  extends AggregationsTermsAggregateBase<void> {}
-export interface AggregationsValueCountAggregate
-  extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsUnmappedTermsAggregate extends AggregationsTermsAggregateBase<void> {}
+export interface AggregationsValueCountAggregate extends AggregationsSingleMetricAggregateBase {}
 export interface AggregationsValueCountAggregation
   extends AggregationsFormattableMetricAggregation {}
 export type AggregationsValueType =
@@ -4041,8 +3790,7 @@ export interface AggregationsVariableWidthHistogramAggregation {
   initial_buffer?: integer;
   script?: Script | string;
 }
-export interface AggregationsVariableWidthHistogramBucketKeys
-  extends AggregationsMultiBucketBase {
+export interface AggregationsVariableWidthHistogramBucketKeys extends AggregationsMultiBucketBase {
   min: double;
   key: double;
   max: double;
@@ -4065,8 +3813,7 @@ export interface AggregationsWeightedAverageValue {
   missing?: double;
   script?: Script | string;
 }
-export interface AggregationsWeightedAvgAggregate
-  extends AggregationsSingleMetricAggregateBase {}
+export interface AggregationsWeightedAvgAggregate extends AggregationsSingleMetricAggregateBase {}
 export type AnalysisAnalyzer =
   | AnalysisCustomAnalyzer
   | AnalysisFingerprintAnalyzer
@@ -4130,8 +3877,7 @@ export interface AnalysisArmenianAnalyzer {
   stopwords_path?: string;
   stem_exclusion?: string[];
 }
-export interface AnalysisAsciiFoldingTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisAsciiFoldingTokenFilter extends AnalysisTokenFilterBase {
   type: 'asciifolding';
   preserve_original?: SpecUtilsStringified<boolean>;
 }
@@ -4193,16 +3939,14 @@ export interface AnalysisClassicTokenizer extends AnalysisTokenizerBase {
   type: 'classic';
   max_token_length?: integer;
 }
-export interface AnalysisCommonGramsTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisCommonGramsTokenFilter extends AnalysisTokenFilterBase {
   type: 'common_grams';
   common_words?: string[];
   common_words_path?: string;
   ignore_case?: boolean;
   query_mode?: boolean;
 }
-export interface AnalysisCompoundWordTokenFilterBase
-  extends AnalysisTokenFilterBase {
+export interface AnalysisCompoundWordTokenFilterBase extends AnalysisTokenFilterBase {
   hyphenation_patterns_path?: string;
   max_subword_size?: integer;
   min_subword_size?: integer;
@@ -4241,8 +3985,7 @@ export interface AnalysisDanishAnalyzer {
   stopwords_path?: string;
 }
 export type AnalysisDelimitedPayloadEncoding = 'int' | 'float' | 'identity';
-export interface AnalysisDelimitedPayloadTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisDelimitedPayloadTokenFilter extends AnalysisTokenFilterBase {
   type: 'delimited_payload';
   delimiter?: string;
   encoding?: AnalysisDelimitedPayloadEncoding;
@@ -4298,8 +4041,7 @@ export interface AnalysisFingerprintAnalyzer {
   stopwords?: AnalysisStopWords;
   stopwords_path?: string;
 }
-export interface AnalysisFingerprintTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisFingerprintTokenFilter extends AnalysisTokenFilterBase {
   type: 'fingerprint';
   max_output_size?: integer;
   separator?: string;
@@ -4374,8 +4116,7 @@ export type AnalysisIcuCollationStrength =
   | 'tertiary'
   | 'quaternary'
   | 'identical';
-export interface AnalysisIcuCollationTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisIcuCollationTokenFilter extends AnalysisTokenFilterBase {
   type: 'icu_collation';
   alternate?: AnalysisIcuCollationAlternate;
   case_first?: AnalysisIcuCollationCaseFirst;
@@ -4394,15 +4135,13 @@ export interface AnalysisIcuFoldingTokenFilter extends AnalysisTokenFilterBase {
   type: 'icu_folding';
   unicode_set_filter: string;
 }
-export interface AnalysisIcuNormalizationCharFilter
-  extends AnalysisCharFilterBase {
+export interface AnalysisIcuNormalizationCharFilter extends AnalysisCharFilterBase {
   type: 'icu_normalizer';
   mode?: AnalysisIcuNormalizationMode;
   name?: AnalysisIcuNormalizationType;
 }
 export type AnalysisIcuNormalizationMode = 'decompose' | 'compose';
-export interface AnalysisIcuNormalizationTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisIcuNormalizationTokenFilter extends AnalysisTokenFilterBase {
   type: 'icu_normalizer';
   name: AnalysisIcuNormalizationType;
 }
@@ -4412,8 +4151,7 @@ export interface AnalysisIcuTokenizer extends AnalysisTokenizerBase {
   rule_files: string;
 }
 export type AnalysisIcuTransformDirection = 'forward' | 'reverse';
-export interface AnalysisIcuTransformTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisIcuTransformTokenFilter extends AnalysisTokenFilterBase {
   type: 'icu_transform';
   dir?: AnalysisIcuTransformDirection;
   id: string;
@@ -4455,8 +4193,7 @@ export interface AnalysisKeywordAnalyzer {
   type: 'keyword';
   version?: VersionString;
 }
-export interface AnalysisKeywordMarkerTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisKeywordMarkerTokenFilter extends AnalysisTokenFilterBase {
   type: 'keyword_marker';
   ignore_case?: boolean;
   keywords?: string | string[];
@@ -4472,24 +4209,20 @@ export interface AnalysisKuromojiAnalyzer {
   mode: AnalysisKuromojiTokenizationMode;
   user_dictionary?: string;
 }
-export interface AnalysisKuromojiIterationMarkCharFilter
-  extends AnalysisCharFilterBase {
+export interface AnalysisKuromojiIterationMarkCharFilter extends AnalysisCharFilterBase {
   type: 'kuromoji_iteration_mark';
   normalize_kana: boolean;
   normalize_kanji: boolean;
 }
-export interface AnalysisKuromojiPartOfSpeechTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisKuromojiPartOfSpeechTokenFilter extends AnalysisTokenFilterBase {
   type: 'kuromoji_part_of_speech';
   stoptags: string[];
 }
-export interface AnalysisKuromojiReadingFormTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisKuromojiReadingFormTokenFilter extends AnalysisTokenFilterBase {
   type: 'kuromoji_readingform';
   use_romaji: boolean;
 }
-export interface AnalysisKuromojiStemmerTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisKuromojiStemmerTokenFilter extends AnalysisTokenFilterBase {
   type: 'kuromoji_stemmer';
   minimum_length: integer;
 }
@@ -4561,8 +4294,7 @@ export interface AnalysisLengthTokenFilter extends AnalysisTokenFilterBase {
 export interface AnalysisLetterTokenizer extends AnalysisTokenizerBase {
   type: 'letter';
 }
-export interface AnalysisLimitTokenCountTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisLimitTokenCountTokenFilter extends AnalysisTokenFilterBase {
   type: 'limit';
   consume_all_tokens?: boolean;
   max_token_count?: SpecUtilsStringified<integer>;
@@ -4588,8 +4320,7 @@ export interface AnalysisMappingCharFilter extends AnalysisCharFilterBase {
   mappings?: string[];
   mappings_path?: string;
 }
-export interface AnalysisMultiplexerTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisMultiplexerTokenFilter extends AnalysisTokenFilterBase {
   type: 'multiplexer';
   filters: string[];
   preserve_original?: SpecUtilsStringified<boolean>;
@@ -4615,8 +4346,7 @@ export interface AnalysisNoriAnalyzer {
   user_dictionary?: string;
 }
 export type AnalysisNoriDecompoundMode = 'discard' | 'none' | 'mixed';
-export interface AnalysisNoriPartOfSpeechTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisNoriPartOfSpeechTokenFilter extends AnalysisTokenFilterBase {
   type: 'nori_part_of_speech';
   stoptags?: string[];
 }
@@ -4627,9 +4357,7 @@ export interface AnalysisNoriTokenizer extends AnalysisTokenizerBase {
   user_dictionary?: string;
   user_dictionary_rules?: string[];
 }
-export type AnalysisNormalizer =
-  | AnalysisLowercaseNormalizer
-  | AnalysisCustomNormalizer;
+export type AnalysisNormalizer = AnalysisLowercaseNormalizer | AnalysisCustomNormalizer;
 export interface AnalysisNorwegianAnalyzer {
   type: 'norwegian';
   stopwords?: AnalysisStopWords;
@@ -4652,21 +4380,18 @@ export interface AnalysisPatternAnalyzer {
   pattern: string;
   stopwords?: AnalysisStopWords;
 }
-export interface AnalysisPatternCaptureTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisPatternCaptureTokenFilter extends AnalysisTokenFilterBase {
   type: 'pattern_capture';
   patterns: string[];
   preserve_original?: SpecUtilsStringified<boolean>;
 }
-export interface AnalysisPatternReplaceCharFilter
-  extends AnalysisCharFilterBase {
+export interface AnalysisPatternReplaceCharFilter extends AnalysisCharFilterBase {
   type: 'pattern_replace';
   flags?: string;
   pattern: string;
   replacement?: string;
 }
-export interface AnalysisPatternReplaceTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisPatternReplaceTokenFilter extends AnalysisTokenFilterBase {
   type: 'pattern_replace';
   all?: boolean;
   flags?: string;
@@ -4734,8 +4459,7 @@ export interface AnalysisPredicateTokenFilter extends AnalysisTokenFilterBase {
   type: 'predicate_token_filter';
   script: Script | string;
 }
-export interface AnalysisRemoveDuplicatesTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisRemoveDuplicatesTokenFilter extends AnalysisTokenFilterBase {
   type: 'remove_duplicates';
 }
 export interface AnalysisReverseTokenFilter extends AnalysisTokenFilterBase {
@@ -4772,8 +4496,7 @@ export interface AnalysisSimpleAnalyzer {
   type: 'simple';
   version?: VersionString;
 }
-export interface AnalysisSimplePatternSplitTokenizer
-  extends AnalysisTokenizerBase {
+export interface AnalysisSimplePatternSplitTokenizer extends AnalysisTokenizerBase {
   type: 'simple_pattern_split';
   pattern?: string;
 }
@@ -4835,8 +4558,7 @@ export interface AnalysisStandardTokenizer extends AnalysisTokenizerBase {
   type: 'standard';
   max_token_length?: integer;
 }
-export interface AnalysisStemmerOverrideTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisStemmerOverrideTokenFilter extends AnalysisTokenFilterBase {
   type: 'stemmer_override';
   rules?: string[];
   rules_path?: string;
@@ -4867,8 +4589,7 @@ export interface AnalysisSwedishAnalyzer {
   stem_exclusion?: string[];
 }
 export type AnalysisSynonymFormat = 'solr' | 'wordnet';
-export interface AnalysisSynonymGraphTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisSynonymGraphTokenFilter extends AnalysisTokenFilterBase {
   type: 'synonym_graph';
   expand?: boolean;
   format?: AnalysisSynonymFormat;
@@ -5012,8 +4733,7 @@ export interface AnalysisWhitespaceTokenizer extends AnalysisTokenizerBase {
   type: 'whitespace';
   max_token_length?: integer;
 }
-export interface AnalysisWordDelimiterGraphTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisWordDelimiterGraphTokenFilter extends AnalysisTokenFilterBase {
   type: 'word_delimiter_graph';
   adjust_offsets?: boolean;
   catenate_all?: boolean;
@@ -5031,8 +4751,7 @@ export interface AnalysisWordDelimiterGraphTokenFilter
   type_table?: string[];
   type_table_path?: string;
 }
-export interface AnalysisWordDelimiterTokenFilter
-  extends AnalysisTokenFilterBase {
+export interface AnalysisWordDelimiterTokenFilter extends AnalysisTokenFilterBase {
   type: 'word_delimiter';
   catenate_all?: boolean;
   catenate_numbers?: boolean;
@@ -5048,8 +4767,7 @@ export interface AnalysisWordDelimiterTokenFilter
   type_table?: string[];
   type_table_path?: string;
 }
-export interface MappingAggregateMetricDoubleProperty
-  extends MappingPropertyBase {
+export interface MappingAggregateMetricDoubleProperty extends MappingPropertyBase {
   type: 'aggregate_metric_double';
   default_metric: string;
   metrics: string[];
@@ -5081,8 +4799,7 @@ export interface MappingByteNumberProperty extends MappingNumberPropertyBase {
   type: 'byte';
   null_value?: byte;
 }
-export interface MappingCompletionProperty
-  extends MappingDocValuesPropertyBase {
+export interface MappingCompletionProperty extends MappingDocValuesPropertyBase {
   analyzer?: string;
   contexts?: MappingSuggestContext[];
   max_input_length?: integer;
@@ -5153,12 +4870,7 @@ export interface MappingDoubleNumberProperty extends MappingNumberPropertyBase {
 export interface MappingDoubleRangeProperty extends MappingRangePropertyBase {
   type: 'double_range';
 }
-export type MappingDynamicMapping =
-  | boolean
-  | 'strict'
-  | 'runtime'
-  | 'true'
-  | 'false';
+export type MappingDynamicMapping = boolean | 'strict' | 'runtime' | 'true' | 'false';
 export interface MappingDynamicProperty extends MappingDocValuesPropertyBase {
   type: '{dynamic_type}';
   enabled?: boolean;
@@ -5299,8 +5011,7 @@ export interface MappingGeoShapeProperty extends MappingDocValuesPropertyBase {
   type: 'geo_shape';
 }
 export type MappingGeoStrategy = 'recursive' | 'term';
-export interface MappingHalfFloatNumberProperty
-  extends MappingNumberPropertyBase {
+export interface MappingHalfFloatNumberProperty extends MappingNumberPropertyBase {
   type: 'half_float';
   null_value?: float;
 }
@@ -5308,8 +5019,7 @@ export interface MappingHistogramProperty extends MappingPropertyBase {
   ignore_malformed?: boolean;
   type: 'histogram';
 }
-export interface MappingIcuCollationProperty
-  extends MappingDocValuesPropertyBase {
+export interface MappingIcuCollationProperty extends MappingDocValuesPropertyBase {
   type: 'icu_collation_keyword';
   norms?: boolean;
   index_options?: MappingIndexOptions;
@@ -5332,8 +5042,7 @@ export interface MappingIndexField {
   enabled: boolean;
 }
 export type MappingIndexOptions = 'docs' | 'freqs' | 'positions' | 'offsets';
-export interface MappingIntegerNumberProperty
-  extends MappingNumberPropertyBase {
+export interface MappingIntegerNumberProperty extends MappingNumberPropertyBase {
   type: 'integer';
   null_value?: integer;
 }
@@ -5387,8 +5096,7 @@ export interface MappingMatchOnlyTextProperty {
   copy_to?: Fields;
 }
 export type MappingMatchType = 'simple' | 'regex';
-export interface MappingMurmur3HashProperty
-  extends MappingDocValuesPropertyBase {
+export interface MappingMurmur3HashProperty extends MappingDocValuesPropertyBase {
   type: 'murmur3';
 }
 export interface MappingNestedProperty extends MappingCorePropertyBase {
@@ -5397,8 +5105,7 @@ export interface MappingNestedProperty extends MappingCorePropertyBase {
   include_in_root?: boolean;
   type: 'nested';
 }
-export interface MappingNumberPropertyBase
-  extends MappingDocValuesPropertyBase {
+export interface MappingNumberPropertyBase extends MappingDocValuesPropertyBase {
   boost?: double;
   coerce?: boolean;
   ignore_malformed?: boolean;
@@ -5521,14 +5228,12 @@ export type MappingRuntimeFieldType =
   | 'long'
   | 'lookup';
 export type MappingRuntimeFields = Record<Field, MappingRuntimeField>;
-export interface MappingScaledFloatNumberProperty
-  extends MappingNumberPropertyBase {
+export interface MappingScaledFloatNumberProperty extends MappingNumberPropertyBase {
   type: 'scaled_float';
   null_value?: double;
   scaling_factor?: double;
 }
-export interface MappingSearchAsYouTypeProperty
-  extends MappingCorePropertyBase {
+export interface MappingSearchAsYouTypeProperty extends MappingCorePropertyBase {
   analyzer?: string;
   index?: boolean;
   index_options?: MappingIndexOptions;
@@ -5613,8 +5318,7 @@ export type MappingTimeSeriesMetricType =
   | 'summary'
   | 'histogram'
   | 'position';
-export interface MappingTokenCountProperty
-  extends MappingDocValuesPropertyBase {
+export interface MappingTokenCountProperty extends MappingDocValuesPropertyBase {
   analyzer?: string;
   boost?: double;
   index?: boolean;
@@ -5641,8 +5345,7 @@ export interface MappingTypeMapping {
   subobjects?: boolean;
   _data_stream_timestamp?: MappingDataStreamTimestamp;
 }
-export interface MappingUnsignedLongNumberProperty
-  extends MappingNumberPropertyBase {
+export interface MappingUnsignedLongNumberProperty extends MappingNumberPropertyBase {
   type: 'unsigned_long';
   null_value?: ulong;
 }
@@ -5694,8 +5397,7 @@ export type QueryDslDateDecayFunction = QueryDslDateDecayFunctionKeys & {
 };
 export interface QueryDslDateDistanceFeatureQuery
   extends QueryDslDistanceFeatureQueryBase<DateMath, Duration> {}
-export interface QueryDslDateRangeQuery
-  extends QueryDslRangeQueryBase<DateMath> {
+export interface QueryDslDateRangeQuery extends QueryDslRangeQueryBase<DateMath> {
   format?: DateFormat;
   time_zone?: TimeZone;
 }
@@ -5704,10 +5406,7 @@ export type QueryDslDecayFunction =
   | QueryDslDateDecayFunction
   | QueryDslNumericDecayFunction
   | QueryDslGeoDecayFunction;
-export interface QueryDslDecayFunctionBase<
-  TOrigin = unknown,
-  TScale = unknown,
-> {
+export interface QueryDslDecayFunctionBase<TOrigin = unknown, TScale = unknown> {
   multi_value_mode?: QueryDslMultiValueMode;
 }
 export interface QueryDslDecayPlacement<TOrigin = unknown, TScale = unknown> {
@@ -5724,10 +5423,8 @@ export type QueryDslDistanceFeatureQuery =
   | QueryDslUntypedDistanceFeatureQuery
   | QueryDslGeoDistanceFeatureQuery
   | QueryDslDateDistanceFeatureQuery;
-export interface QueryDslDistanceFeatureQueryBase<
-  TOrigin = unknown,
-  TDistance = unknown,
-> extends QueryDslQueryBase {
+export interface QueryDslDistanceFeatureQueryBase<TOrigin = unknown, TDistance = unknown>
+  extends QueryDslQueryBase {
   origin: TOrigin;
   pivot: TDistance;
   field: Field;
@@ -5763,13 +5460,7 @@ export interface QueryDslFieldValueFactorScoreFunction {
   missing?: double;
   modifier?: QueryDslFieldValueFactorModifier;
 }
-export type QueryDslFunctionBoostMode =
-  | 'multiply'
-  | 'replace'
-  | 'sum'
-  | 'avg'
-  | 'max'
-  | 'min';
+export type QueryDslFunctionBoostMode = 'multiply' | 'replace' | 'sum' | 'avg' | 'max' | 'min';
 export interface QueryDslFunctionScoreContainer {
   exp?: QueryDslDecayFunction;
   gauss?: QueryDslDecayFunction;
@@ -5780,13 +5471,7 @@ export interface QueryDslFunctionScoreContainer {
   filter?: QueryDslQueryContainer;
   weight?: double;
 }
-export type QueryDslFunctionScoreMode =
-  | 'multiply'
-  | 'sum'
-  | 'avg'
-  | 'first'
-  | 'max'
-  | 'min';
+export type QueryDslFunctionScoreMode = 'multiply' | 'sum' | 'avg' | 'first' | 'max' | 'min';
 export interface QueryDslFunctionScoreQuery extends QueryDslQueryBase {
   boost_mode?: QueryDslFunctionBoostMode;
   functions?: QueryDslFunctionScoreContainer[];
@@ -5867,10 +5552,7 @@ export interface QueryDslGeoShapeQueryKeys extends QueryDslQueryBase {
 export type QueryDslGeoShapeQuery = QueryDslGeoShapeQueryKeys & {
   [property: string]: QueryDslGeoShapeFieldQuery | boolean | float | string;
 };
-export type QueryDslGeoValidationMethod =
-  | 'coerce'
-  | 'ignore_malformed'
-  | 'strict';
+export type QueryDslGeoValidationMethod = 'coerce' | 'ignore_malformed' | 'strict';
 export interface QueryDslHasChildQuery extends QueryDslQueryBase {
   ignore_unmapped?: boolean;
   inner_hits?: SearchInnerHits;
@@ -6052,8 +5734,7 @@ export interface QueryDslNestedQuery extends QueryDslQueryBase {
   query: QueryDslQueryContainer;
   score_mode?: QueryDslChildScoreMode;
 }
-export interface QueryDslNumberRangeQuery
-  extends QueryDslRangeQueryBase<double> {}
+export interface QueryDslNumberRangeQuery extends QueryDslRangeQueryBase<double> {}
 export interface QueryDslNumericDecayFunctionKeys
   extends QueryDslDecayFunctionBase<double, double> {}
 export type QueryDslNumericDecayFunction = QueryDslNumericDecayFunctionKeys & {
@@ -6103,12 +5784,8 @@ export interface QueryDslQueryContainer {
   dis_max?: QueryDslDisMaxQuery;
   distance_feature?: QueryDslDistanceFeatureQuery;
   exists?: QueryDslExistsQuery;
-  function_score?:
-    | QueryDslFunctionScoreQuery
-    | QueryDslFunctionScoreContainer[];
-  fuzzy?: Partial<
-    Record<Field, QueryDslFuzzyQuery | string | double | boolean>
-  >;
+  function_score?: QueryDslFunctionScoreQuery | QueryDslFunctionScoreContainer[];
+  fuzzy?: Partial<Record<Field, QueryDslFuzzyQuery | string | double | boolean>>;
   geo_bounding_box?: QueryDslGeoBoundingBoxQuery;
   geo_distance?: QueryDslGeoDistanceQuery;
   geo_polygon?: QueryDslGeoPolygonQuery;
@@ -6120,14 +5797,10 @@ export interface QueryDslQueryContainer {
   knn?: KnnQuery;
   match?: Partial<Record<Field, QueryDslMatchQuery | string | float | boolean>>;
   match_all?: QueryDslMatchAllQuery;
-  match_bool_prefix?: Partial<
-    Record<Field, QueryDslMatchBoolPrefixQuery | string>
-  >;
+  match_bool_prefix?: Partial<Record<Field, QueryDslMatchBoolPrefixQuery | string>>;
   match_none?: QueryDslMatchNoneQuery;
   match_phrase?: Partial<Record<Field, QueryDslMatchPhraseQuery | string>>;
-  match_phrase_prefix?: Partial<
-    Record<Field, QueryDslMatchPhrasePrefixQuery | string>
-  >;
+  match_phrase_prefix?: Partial<Record<Field, QueryDslMatchPhrasePrefixQuery | string>>;
   more_like_this?: QueryDslMoreLikeThisQuery;
   multi_match?: QueryDslMultiMatchQuery;
   nested?: QueryDslNestedQuery;
@@ -6360,8 +6033,7 @@ export interface QueryDslTermQuery extends QueryDslQueryBase {
   value: FieldValue;
   case_insensitive?: boolean;
 }
-export interface QueryDslTermRangeQuery
-  extends QueryDslRangeQueryBase<string> {}
+export interface QueryDslTermRangeQuery extends QueryDslRangeQueryBase<string> {}
 export interface QueryDslTermsLookup {
   index: IndexName;
   id: Id;
@@ -6399,8 +6071,7 @@ export interface QueryDslTokenPruningConfig {
 export interface QueryDslTypeQuery extends QueryDslQueryBase {
   value: string;
 }
-export interface QueryDslUntypedDecayFunctionKeys
-  extends QueryDslDecayFunctionBase<any, any> {}
+export interface QueryDslUntypedDecayFunctionKeys extends QueryDslDecayFunctionBase<any, any> {}
 export type QueryDslUntypedDecayFunction = QueryDslUntypedDecayFunctionKeys & {
   [property: string]: QueryDslDecayPlacement | QueryDslMultiValueMode;
 };
@@ -6478,8 +6149,7 @@ export interface AsyncSearchStatusRequest extends RequestBase {
   id: Id;
 }
 export type AsyncSearchStatusResponse = AsyncSearchStatusStatusResponseBase;
-export interface AsyncSearchStatusStatusResponseBase
-  extends AsyncSearchAsyncSearchResponseBase {
+export interface AsyncSearchStatusStatusResponseBase extends AsyncSearchAsyncSearchResponseBase {
   _shards: ShardStatistics;
   _clusters?: ClusterStatistics;
   completion_status?: integer;
@@ -6564,8 +6234,7 @@ export interface AutoscalingAutoscalingPolicy {
 export interface AutoscalingDeleteAutoscalingPolicyRequest extends RequestBase {
   name: Name;
 }
-export type AutoscalingDeleteAutoscalingPolicyResponse =
-  AcknowledgedResponseBase;
+export type AutoscalingDeleteAutoscalingPolicyResponse = AcknowledgedResponseBase;
 export interface AutoscalingGetAutoscalingCapacityAutoscalingCapacity {
   node: AutoscalingGetAutoscalingCapacityAutoscalingResources;
   total: AutoscalingGetAutoscalingCapacityAutoscalingResources;
@@ -6590,16 +6259,12 @@ export interface AutoscalingGetAutoscalingCapacityAutoscalingResources {
 }
 export interface AutoscalingGetAutoscalingCapacityRequest extends RequestBase {}
 export interface AutoscalingGetAutoscalingCapacityResponse {
-  policies: Record<
-    string,
-    AutoscalingGetAutoscalingCapacityAutoscalingDeciders
-  >;
+  policies: Record<string, AutoscalingGetAutoscalingCapacityAutoscalingDeciders>;
 }
 export interface AutoscalingGetAutoscalingPolicyRequest extends RequestBase {
   name: Name;
 }
-export type AutoscalingGetAutoscalingPolicyResponse =
-  AutoscalingAutoscalingPolicy;
+export type AutoscalingGetAutoscalingPolicyResponse = AutoscalingAutoscalingPolicy;
 export interface AutoscalingPutAutoscalingPolicyRequest extends RequestBase {
   name: Name;
   policy?: AutoscalingAutoscalingPolicy;
@@ -6817,9 +6482,7 @@ export type CatCatDatafeedColumn =
   | 'searchTime'
   | 's'
   | 'state';
-export type CatCatDatafeedColumns =
-  | CatCatDatafeedColumn
-  | CatCatDatafeedColumn[];
+export type CatCatDatafeedColumns = CatCatDatafeedColumn | CatCatDatafeedColumn[];
 export type CatCatDfaColumn =
   | 'assignment_explanation'
   | 'ae'
@@ -6862,9 +6525,7 @@ export type CatCatDfaColumn =
   | 'version'
   | 'v';
 export type CatCatDfaColumns = CatCatDfaColumn | CatCatDfaColumn[];
-export interface CatCatRequestBase
-  extends RequestBase,
-    SpecUtilsCommonCatQueryParameters {}
+export interface CatCatRequestBase extends RequestBase, SpecUtilsCommonCatQueryParameters {}
 export type CatCatTrainedModelsColumn =
   | 'create_time'
   | 'ct'
@@ -6903,9 +6564,7 @@ export type CatCatTrainedModelsColumn =
   | 'modelOperations'
   | 'version'
   | 'v';
-export type CatCatTrainedModelsColumns =
-  | CatCatTrainedModelsColumn
-  | CatCatTrainedModelsColumn[];
+export type CatCatTrainedModelsColumns = CatCatTrainedModelsColumn | CatCatTrainedModelsColumn[];
 export type CatCatTransformColumn =
   | 'changes_last_detection_time'
   | 'cldt'
@@ -6978,9 +6637,7 @@ export type CatCatTransformColumn =
   | 'tc'
   | 'version'
   | 'v';
-export type CatCatTransformColumns =
-  | CatCatTransformColumn
-  | CatCatTransformColumn[];
+export type CatCatTransformColumns = CatCatTransformColumn | CatCatTransformColumn[];
 export interface CatAliasesAliasesRecord {
   alias?: string;
   a?: string;
@@ -7057,8 +6714,7 @@ export interface CatComponentTemplatesComponentTemplate {
 export interface CatComponentTemplatesRequest extends CatCatRequestBase {
   name?: string;
 }
-export type CatComponentTemplatesResponse =
-  CatComponentTemplatesComponentTemplate[];
+export type CatComponentTemplatesResponse = CatComponentTemplatesComponentTemplate[];
 export interface CatCountCountRecord {
   epoch?: SpecUtilsStringified<EpochTime<UnitSeconds>>;
   t?: SpecUtilsStringified<EpochTime<UnitSeconds>>;
@@ -7515,8 +7171,7 @@ export interface CatMlDataFrameAnalyticsRequest extends CatCatRequestBase {
   s?: CatCatDfaColumns;
   time?: Duration;
 }
-export type CatMlDataFrameAnalyticsResponse =
-  CatMlDataFrameAnalyticsDataFrameAnalyticsRecord[];
+export type CatMlDataFrameAnalyticsResponse = CatMlDataFrameAnalyticsDataFrameAnalyticsRecord[];
 export interface CatMlDatafeedsDatafeedsRecord {
   id?: string;
   state?: MlDatafeedState;
@@ -7753,8 +7408,7 @@ export interface CatMlTrainedModelsRequest extends CatCatRequestBase {
   from?: integer;
   size?: integer;
 }
-export type CatMlTrainedModelsResponse =
-  CatMlTrainedModelsTrainedModelsRecord[];
+export type CatMlTrainedModelsResponse = CatMlTrainedModelsTrainedModelsRecord[];
 export interface CatMlTrainedModelsTrainedModelsRecord {
   id?: Id;
   created_by?: string;
@@ -9036,8 +8690,7 @@ export interface ClusterDeleteComponentTemplateRequest extends RequestBase {
   timeout?: Duration;
 }
 export type ClusterDeleteComponentTemplateResponse = AcknowledgedResponseBase;
-export interface ClusterDeleteVotingConfigExclusionsRequest
-  extends RequestBase {
+export interface ClusterDeleteVotingConfigExclusionsRequest extends RequestBase {
   wait_for_removal?: boolean;
 }
 export type ClusterDeleteVotingConfigExclusionsResponse = boolean;
@@ -9200,10 +8853,7 @@ export interface ClusterRemoteInfoClusterRemoteSniffInfo {
   seeds: string[];
 }
 export interface ClusterRemoteInfoRequest extends RequestBase {}
-export type ClusterRemoteInfoResponse = Record<
-  string,
-  ClusterRemoteInfoClusterRemoteInfo
->;
+export type ClusterRemoteInfoResponse = Record<string, ClusterRemoteInfoClusterRemoteInfo>;
 export interface ClusterRerouteCommand {
   cancel?: ClusterRerouteCommandCancelAction;
   move?: ClusterRerouteCommandMoveAction;
@@ -9552,14 +9202,8 @@ export interface ConnectorConnectorConfigProperties {
   validations?: ConnectorValidation[];
   value: any;
 }
-export type ConnectorConnectorConfiguration = Record<
-  string,
-  ConnectorConnectorConfigProperties
->;
-export type ConnectorConnectorCustomScheduling = Record<
-  string,
-  ConnectorCustomScheduling
->;
+export type ConnectorConnectorConfiguration = Record<string, ConnectorConnectorConfigProperties>;
+export type ConnectorConnectorCustomScheduling = Record<string, ConnectorCustomScheduling>;
 export interface ConnectorConnectorFeatures {
   document_level_security?: ConnectorFeatureEnabled;
   incremental_sync?: ConnectorFeatureEnabled;
@@ -9615,12 +9259,7 @@ export interface ConnectorDependency {
   field: string;
   value: ScalarValue;
 }
-export type ConnectorDisplayType =
-  | 'textbox'
-  | 'textarea'
-  | 'numeric'
-  | 'toggle'
-  | 'dropdown';
+export type ConnectorDisplayType = 'textbox' | 'textarea' | 'numeric' | 'toggle' | 'dropdown';
 export interface ConnectorFeatureEnabled {
   enabled: boolean;
 }
@@ -9936,24 +9575,21 @@ export interface DanglingIndicesDeleteDanglingIndexRequest extends RequestBase {
   master_timeout?: Duration;
   timeout?: Duration;
 }
-export type DanglingIndicesDeleteDanglingIndexResponse =
-  AcknowledgedResponseBase;
+export type DanglingIndicesDeleteDanglingIndexResponse = AcknowledgedResponseBase;
 export interface DanglingIndicesImportDanglingIndexRequest extends RequestBase {
   index_uuid: Uuid;
   accept_data_loss: boolean;
   master_timeout?: Duration;
   timeout?: Duration;
 }
-export type DanglingIndicesImportDanglingIndexResponse =
-  AcknowledgedResponseBase;
+export type DanglingIndicesImportDanglingIndexResponse = AcknowledgedResponseBase;
 export interface DanglingIndicesListDanglingIndicesDanglingIndex {
   index_name: string;
   index_uuid: string;
   creation_date_millis: EpochTime<UnitMillis>;
   node_ids: Ids;
 }
-export interface DanglingIndicesListDanglingIndicesRequest
-  extends RequestBase {}
+export interface DanglingIndicesListDanglingIndicesRequest extends RequestBase {}
 export interface DanglingIndicesListDanglingIndicesResponse {
   dangling_indices: DanglingIndicesListDanglingIndicesDanglingIndex[];
 }
@@ -9973,11 +9609,7 @@ export interface EnrichDeletePolicyRequest extends RequestBase {
   name: Name;
 }
 export type EnrichDeletePolicyResponse = AcknowledgedResponseBase;
-export type EnrichExecutePolicyEnrichPolicyPhase =
-  | 'SCHEDULED'
-  | 'RUNNING'
-  | 'COMPLETE'
-  | 'FAILED';
+export type EnrichExecutePolicyEnrichPolicyPhase = 'SCHEDULED' | 'RUNNING' | 'COMPLETE' | 'FAILED';
 export interface EnrichExecutePolicyExecuteEnrichPolicyStatus {
   phase: EnrichExecutePolicyEnrichPolicyPhase;
 }
@@ -10094,8 +9726,7 @@ export interface EqlSearchRequest extends RequestBase {
   result_position?: EqlSearchResultPosition;
   runtime_mappings?: MappingRuntimeFields;
 }
-export type EqlSearchResponse<TEvent = unknown> =
-  EqlEqlSearchResponseBase<TEvent>;
+export type EqlSearchResponse<TEvent = unknown> = EqlEqlSearchResponseBase<TEvent>;
 export type EqlSearchResultPosition = 'tail' | 'head';
 export interface EsqlTableValuesContainer {
   integer?: EsqlTableValuesIntegerValue[];
@@ -10602,11 +10233,7 @@ export interface IndicesFielddataFrequencyFilter {
   min: double;
   min_segment_size: integer;
 }
-export type IndicesIndexCheckOnStartup =
-  | boolean
-  | 'true'
-  | 'false'
-  | 'checksum';
+export type IndicesIndexCheckOnStartup = boolean | 'true' | 'false' | 'checksum';
 export interface IndicesIndexRouting {
   allocation?: IndicesIndexRoutingAllocation;
   rebalance?: IndicesIndexRoutingRebalance;
@@ -10627,19 +10254,11 @@ export interface IndicesIndexRoutingAllocationInclude {
 export interface IndicesIndexRoutingAllocationInitialRecovery {
   _id?: Id;
 }
-export type IndicesIndexRoutingAllocationOptions =
-  | 'all'
-  | 'primaries'
-  | 'new_primaries'
-  | 'none';
+export type IndicesIndexRoutingAllocationOptions = 'all' | 'primaries' | 'new_primaries' | 'none';
 export interface IndicesIndexRoutingRebalance {
   enable: IndicesIndexRoutingRebalanceOptions;
 }
-export type IndicesIndexRoutingRebalanceOptions =
-  | 'all'
-  | 'primaries'
-  | 'replicas'
-  | 'none';
+export type IndicesIndexRoutingRebalanceOptions = 'all' | 'primaries' | 'replicas' | 'none';
 export interface IndicesIndexSegmentSort {
   field?: Fields;
   order?: IndicesSegmentSortOrder | IndicesSegmentSortOrder[];
@@ -10785,10 +10404,7 @@ export interface IndicesIndexingSlowlogSettings {
 export interface IndicesIndexingSlowlogTresholds {
   index?: IndicesSlowlogTresholdLevels;
 }
-export type IndicesManagedBy =
-  | 'Index Lifecycle Management'
-  | 'Data stream lifecycle'
-  | 'Unmanaged';
+export type IndicesManagedBy = 'Index Lifecycle Management' | 'Data stream lifecycle' | 'Unmanaged';
 export interface IndicesMappingLimitSettings {
   coerce?: boolean;
   total_fields?: IndicesMappingLimitSettingsTotalFields;
@@ -10925,12 +10541,7 @@ export interface IndicesStorage {
   type: IndicesStorageType;
   allow_mmap?: boolean;
 }
-export type IndicesStorageType =
-  | 'fs'
-  | 'niofs'
-  | 'mmapfs'
-  | 'hybridfs'
-  | string;
+export type IndicesStorageType = 'fs' | 'niofs' | 'mmapfs' | 'hybridfs' | string;
 export interface IndicesTemplateMapping {
   aliases: Record<IndexName, IndicesAlias>;
   index_patterns: Name[];
@@ -10945,20 +10556,12 @@ export interface IndicesTranslog {
   flush_threshold_size?: ByteSize;
   retention?: IndicesTranslogRetention;
 }
-export type IndicesTranslogDurability =
-  | 'request'
-  | 'REQUEST'
-  | 'async'
-  | 'ASYNC';
+export type IndicesTranslogDurability = 'request' | 'REQUEST' | 'async' | 'ASYNC';
 export interface IndicesTranslogRetention {
   size?: ByteSize;
   age?: Duration;
 }
-export type IndicesAddBlockIndicesBlockOptions =
-  | 'metadata'
-  | 'read'
-  | 'read_only'
-  | 'write';
+export type IndicesAddBlockIndicesBlockOptions = 'metadata' | 'read' | 'read_only' | 'write';
 export interface IndicesAddBlockIndicesBlockStatus {
   name: IndexName;
   blocked: boolean;
@@ -11011,10 +10614,9 @@ export interface IndicesAnalyzeExplainAnalyzeTokenKeys {
   token: string;
   type: string;
 }
-export type IndicesAnalyzeExplainAnalyzeToken =
-  IndicesAnalyzeExplainAnalyzeTokenKeys & {
-    [property: string]: any;
-  };
+export type IndicesAnalyzeExplainAnalyzeToken = IndicesAnalyzeExplainAnalyzeTokenKeys & {
+  [property: string]: any;
+};
 export interface IndicesAnalyzeRequest extends RequestBase {
   index?: IndexName;
   analyzer?: string;
@@ -11225,10 +10827,7 @@ export interface IndicesExplainDataLifecycleRequest extends RequestBase {
   master_timeout?: Duration;
 }
 export interface IndicesExplainDataLifecycleResponse {
-  indices: Record<
-    IndexName,
-    IndicesExplainDataLifecycleDataStreamLifecycleExplain
-  >;
+  indices: Record<IndexName, IndicesExplainDataLifecycleDataStreamLifecycleExplain>;
 }
 export interface IndicesFieldUsageStatsFieldSummary {
   any: uint;
@@ -11243,10 +10842,9 @@ export interface IndicesFieldUsageStatsFieldSummary {
 export interface IndicesFieldUsageStatsFieldsUsageBodyKeys {
   _shards: ShardStatistics;
 }
-export type IndicesFieldUsageStatsFieldsUsageBody =
-  IndicesFieldUsageStatsFieldsUsageBodyKeys & {
-    [property: string]: IndicesFieldUsageStatsUsageStatsIndex | ShardStatistics;
-  };
+export type IndicesFieldUsageStatsFieldsUsageBody = IndicesFieldUsageStatsFieldsUsageBodyKeys & {
+  [property: string]: IndicesFieldUsageStatsUsageStatsIndex | ShardStatistics;
+};
 export interface IndicesFieldUsageStatsInvertedIndex {
   terms: uint;
   postings: uint;
@@ -11266,8 +10864,7 @@ export interface IndicesFieldUsageStatsRequest extends RequestBase {
   timeout?: Duration;
   wait_for_active_shards?: WaitForActiveShards;
 }
-export type IndicesFieldUsageStatsResponse =
-  IndicesFieldUsageStatsFieldsUsageBody;
+export type IndicesFieldUsageStatsResponse = IndicesFieldUsageStatsFieldsUsageBody;
 export interface IndicesFieldUsageStatsShardsStats {
   all_fields: IndicesFieldUsageStatsFieldSummary;
   fields: Record<Field, IndicesFieldUsageStatsFieldSummary>;
@@ -11301,8 +10898,7 @@ export interface IndicesForcemergeRequest extends RequestBase {
   wait_for_completion?: boolean;
 }
 export type IndicesForcemergeResponse = IndicesForcemergeForceMergeResponseBody;
-export interface IndicesForcemergeForceMergeResponseBody
-  extends ShardsOperationResponseBase {
+export interface IndicesForcemergeForceMergeResponseBody extends ShardsOperationResponseBase {
   task?: string;
 }
 export type IndicesGetFeature = 'aliases' | 'mappings' | 'settings';
@@ -11330,10 +10926,7 @@ export interface IndicesGetAliasRequest extends RequestBase {
   ignore_unavailable?: boolean;
   local?: boolean;
 }
-export type IndicesGetAliasResponse = Record<
-  IndexName,
-  IndicesGetAliasIndexAliases
->;
+export type IndicesGetAliasResponse = Record<IndexName, IndicesGetAliasIndexAliases>;
 export interface IndicesGetDataLifecycleDataStreamWithLifecycle {
   name: DataStreamName;
   lifecycle?: IndicesDataStreamLifecycle;
@@ -11399,10 +10992,7 @@ export interface IndicesGetMappingRequest extends RequestBase {
   local?: boolean;
   master_timeout?: Duration;
 }
-export type IndicesGetMappingResponse = Record<
-  IndexName,
-  IndicesGetMappingIndexMappingRecord
->;
+export type IndicesGetMappingResponse = Record<IndexName, IndicesGetMappingIndexMappingRecord>;
 export interface IndicesGetSettingsRequest extends RequestBase {
   index?: Indices;
   name?: Names;
@@ -11612,10 +11202,7 @@ export interface IndicesRecoveryRequest extends RequestBase {
   active_only?: boolean;
   detailed?: boolean;
 }
-export type IndicesRecoveryResponse = Record<
-  IndexName,
-  IndicesRecoveryRecoveryStatus
->;
+export type IndicesRecoveryResponse = Record<IndexName, IndicesRecoveryRecoveryStatus>;
 export interface IndicesRecoveryShardRecovery {
   id: long;
   index: IndicesRecoveryRecoveryIndexStatus;
@@ -11670,8 +11257,7 @@ export interface IndicesReloadSearchAnalyzersRequest extends RequestBase {
   expand_wildcards?: ExpandWildcards;
   ignore_unavailable?: boolean;
 }
-export type IndicesReloadSearchAnalyzersResponse =
-  IndicesReloadSearchAnalyzersReloadResult;
+export type IndicesReloadSearchAnalyzersResponse = IndicesReloadSearchAnalyzersReloadResult;
 export interface IndicesResolveClusterRequest extends RequestBase {
   name: Names;
   allow_no_indices?: boolean;
@@ -11755,10 +11341,7 @@ export interface IndicesRolloverRolloverConditions {
   min_primary_shard_docs?: long;
 }
 export interface IndicesSegmentsIndexSegment {
-  shards: Record<
-    string,
-    IndicesSegmentsShardsSegment | IndicesSegmentsShardsSegment[]
-  >;
+  shards: Record<string, IndicesSegmentsShardsSegment | IndicesSegmentsShardsSegment[]>;
 }
 export interface IndicesSegmentsRequest extends RequestBase {
   index?: Indices;
@@ -11801,9 +11384,7 @@ export interface IndicesShardStoresRequest extends RequestBase {
   allow_no_indices?: boolean;
   expand_wildcards?: ExpandWildcards;
   ignore_unavailable?: boolean;
-  status?:
-    | IndicesShardStoresShardStoreStatus
-    | IndicesShardStoresShardStoreStatus[];
+  status?: IndicesShardStoresShardStoreStatus | IndicesShardStoresShardStoreStatus[];
 }
 export interface IndicesShardStoresResponse {
   indices: Record<IndexName, IndicesShardStoresIndicesShardStores>;
@@ -11820,10 +11401,7 @@ export type IndicesShardStoresShardStore = IndicesShardStoresShardStoreKeys & {
     | Id
     | IndicesShardStoresShardStoreException;
 };
-export type IndicesShardStoresShardStoreAllocation =
-  | 'primary'
-  | 'replica'
-  | 'unused';
+export type IndicesShardStoresShardStoreAllocation = 'primary' | 'replica' | 'unused';
 export interface IndicesShardStoresShardStoreException {
   reason: string;
   type: string;
@@ -11836,11 +11414,7 @@ export interface IndicesShardStoresShardStoreNode {
   roles: string[];
   transport_address: TransportAddress;
 }
-export type IndicesShardStoresShardStoreStatus =
-  | 'green'
-  | 'yellow'
-  | 'red'
-  | 'all';
+export type IndicesShardStoresShardStoreStatus = 'green' | 'yellow' | 'red' | 'all';
 export interface IndicesShardStoresShardStoreWrapper {
   stores: IndicesShardStoresShardStore[];
 }
@@ -12129,8 +11703,7 @@ export interface IndicesValidateQueryResponse {
 export interface InferenceCompletionResult {
   result: string;
 }
-export interface InferenceDeleteInferenceEndpointResult
-  extends AcknowledgedResponseBase {
+export interface InferenceDeleteInferenceEndpointResult extends AcknowledgedResponseBase {
   pipelines: string[];
 }
 export type InferenceDenseByteVector = byte[];
@@ -12140,8 +11713,7 @@ export interface InferenceInferenceEndpoint {
   service_settings: InferenceServiceSettings;
   task_settings?: InferenceTaskSettings;
 }
-export interface InferenceInferenceEndpointInfo
-  extends InferenceInferenceEndpoint {
+export interface InferenceInferenceEndpointInfo extends InferenceInferenceEndpoint {
   inference_id: string;
   task_type: InferenceTaskType;
 }
@@ -12163,11 +11735,7 @@ export interface InferenceSparseEmbeddingResult {
 }
 export type InferenceSparseVector = Record<string, float>;
 export type InferenceTaskSettings = any;
-export type InferenceTaskType =
-  | 'sparse_embedding'
-  | 'text_embedding'
-  | 'rerank'
-  | 'completion';
+export type InferenceTaskType = 'sparse_embedding' | 'text_embedding' | 'rerank' | 'completion';
 export interface InferenceTextEmbeddingByteResult {
   embedding: InferenceDenseByteVector;
 }
@@ -12312,12 +11880,7 @@ export interface IngestEnrichProcessor extends IngestProcessorBase {
 export interface IngestFailProcessor extends IngestProcessorBase {
   message: string;
 }
-export type IngestFingerprintDigest =
-  | 'MD5'
-  | 'SHA-1'
-  | 'SHA-256'
-  | 'SHA-512'
-  | 'MurmurHash3';
+export type IngestFingerprintDigest = 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-512' | 'MurmurHash3';
 export interface IngestFingerprintProcessor extends IngestProcessorBase {
   fields: Fields;
   target_field?: Field;
@@ -12607,12 +12170,7 @@ export interface IngestUserAgentProcessor extends IngestProcessorBase {
   properties?: IngestUserAgentProperty[];
   extract_device_type?: boolean;
 }
-export type IngestUserAgentProperty =
-  | 'name'
-  | 'os'
-  | 'device'
-  | 'original'
-  | 'version';
+export type IngestUserAgentProperty = 'name' | 'os' | 'device' | 'original' | 'version';
 export interface IngestDeleteGeoipDatabaseRequest extends RequestBase {
   id: Ids;
   master_timeout?: Duration;
@@ -12703,17 +12261,16 @@ export interface IngestSimulateDocumentSimulationKeys {
   _version?: SpecUtilsStringified<VersionNumber>;
   _version_type?: VersionType;
 }
-export type IngestSimulateDocumentSimulation =
-  IngestSimulateDocumentSimulationKeys & {
-    [property: string]:
-      | string
-      | Id
-      | IndexName
-      | IngestSimulateIngest
-      | Record<string, any>
-      | SpecUtilsStringified<VersionNumber>
-      | VersionType;
-  };
+export type IngestSimulateDocumentSimulation = IngestSimulateDocumentSimulationKeys & {
+  [property: string]:
+    | string
+    | Id
+    | IndexName
+    | IngestSimulateIngest
+    | Record<string, any>
+    | SpecUtilsStringified<VersionNumber>
+    | VersionType;
+};
 export interface IngestSimulateIngest {
   _redact?: IngestSimulateRedact;
   timestamp: DateTime;
@@ -12873,11 +12430,7 @@ export interface MigrationDeprecationsDeprecation {
   message: string;
   url: string;
 }
-export type MigrationDeprecationsDeprecationLevel =
-  | 'none'
-  | 'info'
-  | 'warning'
-  | 'critical';
+export type MigrationDeprecationsDeprecationLevel = 'none' | 'info' | 'warning' | 'critical';
 export interface MigrationDeprecationsRequest extends RequestBase {
   index?: IndexName;
 }
@@ -13041,9 +12594,7 @@ export interface MlCalendarEvent {
   end_time: DateTime;
   start_time: DateTime;
 }
-export type MlCategorizationAnalyzer =
-  | string
-  | MlCategorizationAnalyzerDefinition;
+export type MlCategorizationAnalyzer = string | MlCategorizationAnalyzerDefinition;
 export interface MlCategorizationAnalyzerDefinition {
   char_filter?: AnalysisCharFilter[];
   filter?: AnalysisTokenFilter[];
@@ -13339,8 +12890,7 @@ export interface MlDataframeEvaluationClassification {
   top_classes_field?: Field;
   metrics?: MlDataframeEvaluationClassificationMetrics;
 }
-export interface MlDataframeEvaluationClassificationMetrics
-  extends MlDataframeEvaluationMetrics {
+export interface MlDataframeEvaluationClassificationMetrics extends MlDataframeEvaluationMetrics {
   accuracy?: Record<string, any>;
   multiclass_confusion_matrix?: Record<string, any>;
 }
@@ -13363,8 +12913,7 @@ export interface MlDataframeEvaluationOutlierDetection {
   predicted_probability_field: Field;
   metrics?: MlDataframeEvaluationOutlierDetectionMetrics;
 }
-export interface MlDataframeEvaluationOutlierDetectionMetrics
-  extends MlDataframeEvaluationMetrics {
+export interface MlDataframeEvaluationOutlierDetectionMetrics extends MlDataframeEvaluationMetrics {
   confusion_matrix?: Record<string, any>;
 }
 export interface MlDataframeEvaluationRegression {
@@ -13384,25 +12933,13 @@ export interface MlDataframeEvaluationRegressionMetricsHuber {
 export interface MlDataframeEvaluationRegressionMetricsMsle {
   offset?: double;
 }
-export type MlDataframeState =
-  | 'started'
-  | 'stopped'
-  | 'starting'
-  | 'stopping'
-  | 'failed';
+export type MlDataframeState = 'started' | 'stopped' | 'starting' | 'stopping' | 'failed';
 export interface MlDelayedDataCheckConfig {
   check_window?: Duration;
   enabled: boolean;
 }
-export type MlDeploymentAllocationState =
-  | 'started'
-  | 'starting'
-  | 'fully_allocated';
-export type MlDeploymentAssignmentState =
-  | 'started'
-  | 'starting'
-  | 'stopping'
-  | 'failed';
+export type MlDeploymentAllocationState = 'started' | 'starting' | 'fully_allocated';
+export type MlDeploymentAssignmentState = 'started' | 'starting' | 'stopping' | 'failed';
 export interface MlDetectionRule {
   actions?: MlRuleAction[];
   conditions?: MlRuleCondition[];
@@ -13764,12 +13301,7 @@ export interface MlRegressionInferenceOptions {
   results_field?: Field;
   num_top_feature_importance_values?: integer;
 }
-export type MlRoutingState =
-  | 'failed'
-  | 'started'
-  | 'starting'
-  | 'stopped'
-  | 'stopping';
+export type MlRoutingState = 'failed' | 'started' | 'starting' | 'stopped' | 'stopping';
 export type MlRuleAction = 'skip_result' | 'skip_model_update';
 export interface MlRuleCondition {
   applies_to: MlAppliesTo;
@@ -14159,10 +13691,7 @@ export interface MlEvaluateDataFrameDataframeOutlierDetectionSummary {
   auc_roc?: MlEvaluateDataFrameDataframeEvaluationSummaryAucRoc;
   precision?: Record<string, double>;
   recall?: Record<string, double>;
-  confusion_matrix?: Record<
-    string,
-    MlEvaluateDataFrameConfusionMatrixThreshold
-  >;
+  confusion_matrix?: Record<string, MlEvaluateDataFrameConfusionMatrixThreshold>;
 }
 export interface MlEvaluateDataFrameDataframeRegressionSummary {
   huber?: MlEvaluateDataFrameDataframeEvaluationValue;
@@ -15050,10 +14579,8 @@ export interface MlValidateDetectorRequest extends RequestBase {
   detector?: MlDetector;
 }
 export type MlValidateDetectorResponse = AcknowledgedResponseBase;
-export interface MonitoringBulkRequest<
-  TDocument = unknown,
-  TPartialDocument = unknown,
-> extends RequestBase {
+export interface MonitoringBulkRequest<TDocument = unknown, TPartialDocument = unknown>
+  extends RequestBase {
   type?: string;
   system_id: string;
   system_api_version: string;
@@ -15501,25 +15028,21 @@ export interface NodesTransportHistogram {
   lt_millis?: long;
   ge_millis?: long;
 }
-export interface NodesClearRepositoriesMeteringArchiveRequest
-  extends RequestBase {
+export interface NodesClearRepositoriesMeteringArchiveRequest extends RequestBase {
   node_id: NodeIds;
   max_archive_version: long;
 }
 export type NodesClearRepositoriesMeteringArchiveResponse =
   NodesClearRepositoriesMeteringArchiveResponseBase;
-export interface NodesClearRepositoriesMeteringArchiveResponseBase
-  extends NodesNodesResponseBase {
+export interface NodesClearRepositoriesMeteringArchiveResponseBase extends NodesNodesResponseBase {
   cluster_name: Name;
   nodes: Record<string, NodesRepositoryMeteringInformation>;
 }
 export interface NodesGetRepositoriesMeteringInfoRequest extends RequestBase {
   node_id: NodeIds;
 }
-export type NodesGetRepositoriesMeteringInfoResponse =
-  NodesGetRepositoriesMeteringInfoResponseBase;
-export interface NodesGetRepositoriesMeteringInfoResponseBase
-  extends NodesNodesResponseBase {
+export type NodesGetRepositoriesMeteringInfoResponse = NodesGetRepositoriesMeteringInfoResponseBase;
+export interface NodesGetRepositoriesMeteringInfoResponseBase extends NodesNodesResponseBase {
   cluster_name: Name;
   nodes: Record<string, NodesRepositoryMeteringInformation>;
 }
@@ -15852,10 +15375,8 @@ export interface NodesReloadSecureSettingsRequest extends RequestBase {
   timeout?: Duration;
   secure_settings_password?: Password;
 }
-export type NodesReloadSecureSettingsResponse =
-  NodesReloadSecureSettingsResponseBase;
-export interface NodesReloadSecureSettingsResponseBase
-  extends NodesNodesResponseBase {
+export type NodesReloadSecureSettingsResponse = NodesReloadSecureSettingsResponseBase;
+export interface NodesReloadSecureSettingsResponseBase extends NodesNodesResponseBase {
   cluster_name: Name;
   nodes: Record<string, NodesNodeReloadResult>;
 }
@@ -16072,10 +15593,7 @@ export interface RollupGetJobsRollupJobStatus {
 export interface RollupGetRollupCapsRequest extends RequestBase {
   id?: Id;
 }
-export type RollupGetRollupCapsResponse = Record<
-  IndexName,
-  RollupGetRollupCapsRollupCapabilities
->;
+export type RollupGetRollupCapsResponse = Record<IndexName, RollupGetRollupCapsRollupCapabilities>;
 export interface RollupGetRollupCapsRollupCapabilities {
   rollup_jobs: RollupGetRollupCapsRollupCapabilitySummary[];
 }
@@ -16178,18 +15696,15 @@ export interface SearchApplicationDeleteRequest extends RequestBase {
   name: Name;
 }
 export type SearchApplicationDeleteResponse = AcknowledgedResponseBase;
-export interface SearchApplicationDeleteBehavioralAnalyticsRequest
-  extends RequestBase {
+export interface SearchApplicationDeleteBehavioralAnalyticsRequest extends RequestBase {
   name: Name;
 }
-export type SearchApplicationDeleteBehavioralAnalyticsResponse =
-  AcknowledgedResponseBase;
+export type SearchApplicationDeleteBehavioralAnalyticsResponse = AcknowledgedResponseBase;
 export interface SearchApplicationGetRequest extends RequestBase {
   name: Name;
 }
 export type SearchApplicationGetResponse = SearchApplicationSearchApplication;
-export interface SearchApplicationGetBehavioralAnalyticsRequest
-  extends RequestBase {
+export interface SearchApplicationGetBehavioralAnalyticsRequest extends RequestBase {
   name?: Name[];
 }
 export type SearchApplicationGetBehavioralAnalyticsResponse = Record<
@@ -16223,8 +15738,7 @@ export interface SearchApplicationPutBehavioralAnalyticsAnalyticsAcknowledgeResp
   extends AcknowledgedResponseBase {
   name: Name;
 }
-export interface SearchApplicationPutBehavioralAnalyticsRequest
-  extends RequestBase {
+export interface SearchApplicationPutBehavioralAnalyticsRequest extends RequestBase {
   name: Name;
 }
 export type SearchApplicationPutBehavioralAnalyticsResponse =
@@ -16562,8 +16076,7 @@ export interface SecurityActivateUserProfileRequest extends RequestBase {
   password?: string;
   username?: string;
 }
-export type SecurityActivateUserProfileResponse =
-  SecurityUserProfileWithMetadata;
+export type SecurityActivateUserProfileResponse = SecurityUserProfileWithMetadata;
 export interface SecurityAuthenticateRequest extends RequestBase {}
 export interface SecurityAuthenticateResponse {
   api_key?: SecurityApiKey;
@@ -16815,10 +16328,7 @@ export interface SecurityGetRoleRole {
 export interface SecurityGetRoleMappingRequest extends RequestBase {
   name?: Names;
 }
-export type SecurityGetRoleMappingResponse = Record<
-  string,
-  SecurityRoleMapping
->;
+export type SecurityGetRoleMappingResponse = Record<string, SecurityRoleMapping>;
 export interface SecurityGetServiceAccountsRequest extends RequestBase {
   namespace?: Namespace;
   service?: Service;
@@ -16832,10 +16342,7 @@ export interface SecurityGetServiceAccountsRoleDescriptorWrapper {
 }
 export interface SecurityGetServiceCredentialsNodesCredentials {
   _nodes: NodeStatistics;
-  file_tokens: Record<
-    string,
-    SecurityGetServiceCredentialsNodesCredentialsFileToken
-  >;
+  file_tokens: Record<string, SecurityGetServiceCredentialsNodesCredentialsFileToken>;
 }
 export interface SecurityGetServiceCredentialsNodesCredentialsFileToken {
   nodes: string[];
@@ -16960,10 +16467,7 @@ export interface SecurityHasPrivilegesRequest extends RequestBase {
   cluster?: SecurityClusterPrivilege[];
   index?: SecurityHasPrivilegesIndexPrivilegesCheck[];
 }
-export type SecurityHasPrivilegesResourcePrivileges = Record<
-  Name,
-  SecurityHasPrivilegesPrivileges
->;
+export type SecurityHasPrivilegesResourcePrivileges = Record<Name, SecurityHasPrivilegesPrivileges>;
 export interface SecurityHasPrivilegesResponse {
   application: SecurityHasPrivilegesApplicationsPrivileges;
   cluster: Record<string, boolean>;
@@ -17024,10 +16528,7 @@ export interface SecurityPutPrivilegesRequest extends RequestBase {
   refresh?: Refresh;
   privileges?: Record<string, Record<string, SecurityPutPrivilegesActions>>;
 }
-export type SecurityPutPrivilegesResponse = Record<
-  string,
-  Record<string, SecurityCreatedStatus>
->;
+export type SecurityPutPrivilegesResponse = Record<string, Record<string, SecurityCreatedStatus>>;
 export interface SecurityPutRoleRequest extends RequestBase {
   name: Name;
   refresh?: Refresh;
@@ -17243,8 +16744,7 @@ export interface SecuritySamlPrepareAuthenticationResponse {
   realm: string;
   redirect: string;
 }
-export interface SecuritySamlServiceProviderMetadataRequest
-  extends RequestBase {
+export interface SecuritySamlServiceProviderMetadataRequest extends RequestBase {
   realm_name: Name;
 }
 export interface SecuritySamlServiceProviderMetadataResponse {
@@ -17330,11 +16830,7 @@ export interface ShutdownGetNodeResponse {
 export interface ShutdownGetNodeShardMigrationStatus {
   status: ShutdownGetNodeShutdownStatus;
 }
-export type ShutdownGetNodeShutdownStatus =
-  | 'not_started'
-  | 'in_progress'
-  | 'stalled'
-  | 'complete';
+export type ShutdownGetNodeShutdownStatus = 'not_started' | 'in_progress' | 'stalled' | 'complete';
 export type ShutdownGetNodeShutdownType = 'remove' | 'restart';
 export interface ShutdownPutNodeRequest extends RequestBase {
   node_id: NodeId;
@@ -17456,8 +16952,7 @@ export interface SnapshotAzureRepository extends SnapshotRepositoryBase {
   type: 'azure';
   settings: SnapshotAzureRepositorySettings;
 }
-export interface SnapshotAzureRepositorySettings
-  extends SnapshotRepositorySettingsBase {
+export interface SnapshotAzureRepositorySettings extends SnapshotRepositorySettingsBase {
   client?: string;
   container?: string;
   base_path?: string;
@@ -17472,8 +16967,7 @@ export interface SnapshotGcsRepository extends SnapshotRepositoryBase {
   type: 'gcs';
   settings: SnapshotGcsRepositorySettings;
 }
-export interface SnapshotGcsRepositorySettings
-  extends SnapshotRepositorySettingsBase {
+export interface SnapshotGcsRepositorySettings extends SnapshotRepositorySettingsBase {
   bucket: string;
   client?: string;
   base_path?: string;
@@ -17494,8 +16988,7 @@ export interface SnapshotReadOnlyUrlRepository extends SnapshotRepositoryBase {
   type: 'url';
   settings: SnapshotReadOnlyUrlRepositorySettings;
 }
-export interface SnapshotReadOnlyUrlRepositorySettings
-  extends SnapshotRepositorySettingsBase {
+export interface SnapshotReadOnlyUrlRepositorySettings extends SnapshotRepositorySettingsBase {
   http_max_retries?: integer;
   http_socket_timeout?: Duration;
   max_number_of_snapshots?: integer;
@@ -17521,8 +17014,7 @@ export interface SnapshotS3Repository extends SnapshotRepositoryBase {
   type: 's3';
   settings: SnapshotS3RepositorySettings;
 }
-export interface SnapshotS3RepositorySettings
-  extends SnapshotRepositorySettingsBase {
+export interface SnapshotS3RepositorySettings extends SnapshotRepositorySettingsBase {
   bucket: string;
   client?: string;
   base_path?: string;
@@ -17540,12 +17032,7 @@ export interface SnapshotShardsStats {
   started: long;
   total: long;
 }
-export type SnapshotShardsStatsStage =
-  | 'DONE'
-  | 'FAILURE'
-  | 'FINALIZE'
-  | 'INIT'
-  | 'STARTED';
+export type SnapshotShardsStatsStage = 'DONE' | 'FAILURE' | 'FINALIZE' | 'INIT' | 'STARTED';
 export interface SnapshotShardsStatsSummary {
   incremental: SnapshotShardsStatsSummaryItem;
   total: SnapshotShardsStatsSummaryItem;
@@ -17557,13 +17044,11 @@ export interface SnapshotShardsStatsSummaryItem {
   file_count: long;
   size_in_bytes: long;
 }
-export interface SnapshotSharedFileSystemRepository
-  extends SnapshotRepositoryBase {
+export interface SnapshotSharedFileSystemRepository extends SnapshotRepositoryBase {
   type: 'fs';
   settings: SnapshotSharedFileSystemRepositorySettings;
 }
-export interface SnapshotSharedFileSystemRepositorySettings
-  extends SnapshotRepositorySettingsBase {
+export interface SnapshotSharedFileSystemRepositorySettings extends SnapshotRepositorySettingsBase {
   location: string;
   max_number_of_snapshots?: integer;
   readonly?: boolean;
@@ -17627,8 +17112,7 @@ export interface SnapshotSourceOnlyRepository extends SnapshotRepositoryBase {
   type: 'source';
   settings: SnapshotSourceOnlyRepositorySettings;
 }
-export interface SnapshotSourceOnlyRepositorySettings
-  extends SnapshotRepositorySettingsBase {
+export interface SnapshotSourceOnlyRepositorySettings extends SnapshotRepositorySettingsBase {
   delegate_type?: string;
   max_number_of_snapshots?: integer;
   read_only?: boolean;
@@ -17860,14 +17344,7 @@ export interface SqlQueryResponse {
   cursor?: string;
   rows: SqlRow[];
 }
-export type SqlQuerySqlFormat =
-  | 'csv'
-  | 'json'
-  | 'tsv'
-  | 'txt'
-  | 'yaml'
-  | 'cbor'
-  | 'smile';
+export type SqlQuerySqlFormat = 'csv' | 'json' | 'tsv' | 'txt' | 'yaml' | 'cbor' | 'smile';
 export interface SqlTranslateRequest extends RequestBase {
   fetch_size?: integer;
   filter?: QueryDslQueryContainer;
@@ -17984,9 +17461,7 @@ export interface TasksTaskInfo {
   type: string;
   parent_task_id?: TaskId;
 }
-export type TasksTaskInfos =
-  | TasksTaskInfo[]
-  | Record<string, TasksParentTaskInfo>;
+export type TasksTaskInfos = TasksTaskInfo[] | Record<string, TasksParentTaskInfo>;
 export interface TasksTaskListResponseBase {
   node_failures?: ErrorCause[];
   task_failures?: TaskFailure[];
@@ -18342,10 +17817,7 @@ export interface WatcherAcknowledgeState {
   state: WatcherAcknowledgementOptions;
   timestamp: DateTime;
 }
-export type WatcherAcknowledgementOptions =
-  | 'awaits_successful_execution'
-  | 'ackable'
-  | 'acked';
+export type WatcherAcknowledgementOptions = 'awaits_successful_execution' | 'ackable' | 'acked';
 export interface WatcherAction {
   action_type?: WatcherActionType;
   condition?: WatcherConditionContainer;
@@ -18374,18 +17846,8 @@ export interface WatcherActionStatus {
   last_successful_execution?: WatcherExecutionState;
   last_throttle?: WatcherThrottleState;
 }
-export type WatcherActionStatusOptions =
-  | 'success'
-  | 'failure'
-  | 'simulated'
-  | 'throttled';
-export type WatcherActionType =
-  | 'email'
-  | 'webhook'
-  | 'index'
-  | 'logging'
-  | 'slack'
-  | 'pagerduty';
+export type WatcherActionStatusOptions = 'success' | 'failure' | 'simulated' | 'throttled';
+export type WatcherActionType = 'email' | 'webhook' | 'index' | 'logging' | 'slack' | 'pagerduty';
 export type WatcherActions = Record<IndexName, WatcherActionStatus>;
 export interface WatcherActivationState {
   active: boolean;
@@ -18413,19 +17875,12 @@ export interface WatcherChainInput {
 export interface WatcherConditionContainer {
   always?: WatcherAlwaysCondition;
   array_compare?: Partial<Record<string, WatcherArrayCompareCondition>>;
-  compare?: Partial<
-    Record<string, Partial<Record<WatcherConditionOp, FieldValue>>>
-  >;
+  compare?: Partial<Record<string, Partial<Record<WatcherConditionOp, FieldValue>>>>;
   never?: WatcherNeverCondition;
   script?: WatcherScriptCondition;
 }
 export type WatcherConditionOp = 'not_eq' | 'eq' | 'lt' | 'gt' | 'lte' | 'gte';
-export type WatcherConditionType =
-  | 'always'
-  | 'never'
-  | 'script'
-  | 'compare'
-  | 'array_compare';
+export type WatcherConditionType = 'always' | 'never' | 'script' | 'compare' | 'array_compare';
 export type WatcherConnectionScheme = 'http' | 'https';
 export type WatcherCronExpression = string;
 export interface WatcherDailySchedule {
@@ -18466,12 +17921,7 @@ export interface WatcherEmailBody {
   html?: string;
   text?: string;
 }
-export type WatcherEmailPriority =
-  | 'lowest'
-  | 'low'
-  | 'normal'
-  | 'high'
-  | 'highest';
+export type WatcherEmailPriority = 'lowest' | 'low' | 'normal' | 'high' | 'highest';
 export interface WatcherEmailResult {
   account?: string;
   message: WatcherEmail;
@@ -18578,8 +18028,7 @@ export interface WatcherHttpInputRequestDefinition {
   scheme?: WatcherConnectionScheme;
   url?: string;
 }
-export interface WatcherHttpInputRequestResult
-  extends WatcherHttpInputRequestDefinition {}
+export interface WatcherHttpInputRequestResult extends WatcherHttpInputRequestDefinition {}
 export interface WatcherHttpInputResponseResult {
   body: string;
   headers: HttpHeaders;
@@ -18815,8 +18264,7 @@ export interface WatcherWatchStatus {
   version: VersionNumber;
   execution_state?: string;
 }
-export interface WatcherWebhookAction
-  extends WatcherHttpInputRequestDefinition {}
+export interface WatcherWebhookAction extends WatcherHttpInputRequestDefinition {}
 export interface WatcherWebhookResult {
   request: WatcherHttpInputRequestResult;
   response?: WatcherHttpInputResponseResult;
@@ -18935,8 +18383,7 @@ export interface WatcherStatsResponse {
 export interface WatcherStatsWatchRecordQueuedStats {
   execution_time: DateTime;
 }
-export interface WatcherStatsWatchRecordStats
-  extends WatcherStatsWatchRecordQueuedStats {
+export interface WatcherStatsWatchRecordStats extends WatcherStatsWatchRecordQueuedStats {
   execution_phase: WatcherExecutionPhase;
   triggered_time: DateTime;
   executed_actions?: string[];
@@ -18957,11 +18404,7 @@ export interface WatcherStatsWatcherNodeStats {
   watcher_state: WatcherStatsWatcherState;
   node_id: Id;
 }
-export type WatcherStatsWatcherState =
-  | 'stopped'
-  | 'starting'
-  | 'started'
-  | 'stopping';
+export type WatcherStatsWatcherState = 'stopped' | 'starting' | 'started' | 'stopping';
 export interface WatcherStopRequest extends RequestBase {}
 export type WatcherStopResponse = AcknowledgedResponseBase;
 export interface XpackInfoBuildInformation {
@@ -19392,19 +18835,12 @@ export interface XpackUsageWatcherWatchTrigger {
   schedule?: XpackUsageWatcherWatchTriggerSchedule;
   _all: XpackUsageCounter;
 }
-export interface XpackUsageWatcherWatchTriggerSchedule
-  extends XpackUsageCounter {
+export interface XpackUsageWatcherWatchTriggerSchedule extends XpackUsageCounter {
   cron: XpackUsageCounter;
   _all: XpackUsageCounter;
 }
-export interface SpecUtilsAdditionalProperties<
-  TKey = unknown,
-  TValue = unknown,
-> {}
-export interface SpecUtilsAdditionalProperty<
-  TKey = unknown,
-  TValue = unknown,
-> {}
+export interface SpecUtilsAdditionalProperties<TKey = unknown, TValue = unknown> {}
+export interface SpecUtilsAdditionalProperty<TKey = unknown, TValue = unknown> {}
 export interface SpecUtilsCommonQueryParameters {
   error_trace?: boolean;
   filter_path?: string | string[];

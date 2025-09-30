@@ -8,21 +8,19 @@
  * Do not edit the class manually.
  */
 
-
 /**
  * DOI server details
  */
-export interface DoiServerDto { 
-    description?: string;
-    id?: number;
-    landingPageTemplate?: string;
-    name?: string;
-    password?: string;
-    pattern?: string;
-    prefix?: string;
-    publicUrl?: string;
-    publicationGroups?: Set<number>;
-    url?: string;
-    username?: string;
+export interface DoiServerDto {
+  description?: string;
+  id?: number;
+  landingPageTemplate?: string;
+  name?: string;
+  password?: string;
+  pattern?: string;
+  prefix?: string;
+  publicUrl?: string;
+  publicationGroups?: Set<number>;
+  url?: string;
+  username?: string;
 }
-

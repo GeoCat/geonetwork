@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface Category { 
-    id?: string;
-    label?: string;
+export interface Category {
+  id?: string;
+  label?: string;
 }
-

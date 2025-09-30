@@ -8,9 +8,7 @@
  * Do not edit the class manually.
  */
 
-
-export interface GroupOperations { 
-    group?: number;
-    operations?: { [key: string]: boolean; };
+export interface GroupOperations {
+  group?: number;
+  operations?: { [key: string]: boolean };
 }
-

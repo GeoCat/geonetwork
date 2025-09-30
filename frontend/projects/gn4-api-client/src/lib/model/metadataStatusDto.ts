@@ -10,21 +10,19 @@
 import { ISODate } from './iSODate';
 import { StatusValue } from './statusValue';
 
-
-export interface MetadataStatusDto { 
-    changeDate?: ISODate;
-    changeMessage?: string;
-    closeDate?: ISODate;
-    currentState?: string;
-    dueDate?: ISODate;
-    id?: number;
-    metadataId?: number;
-    owner?: number;
-    previousState?: string;
-    relatedMetadataStatusId?: number;
-    statusValue?: StatusValue;
-    titles?: { [key: string]: string; };
-    userId?: number;
-    uuid?: string;
+export interface MetadataStatusDto {
+  changeDate?: ISODate;
+  changeMessage?: string;
+  closeDate?: ISODate;
+  currentState?: string;
+  dueDate?: ISODate;
+  id?: number;
+  metadataId?: number;
+  owner?: number;
+  previousState?: string;
+  relatedMetadataStatusId?: number;
+  statusValue?: StatusValue;
+  titles?: { [key: string]: string };
+  userId?: number;
+  uuid?: string;
 }
-

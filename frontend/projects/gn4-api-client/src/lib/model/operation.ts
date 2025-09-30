@@ -8,24 +8,22 @@
  * Do not edit the class manually.
  */
 
-
-export interface Operation { 
-    id?: number;
-    label?: { [key: string]: string; };
-    name?: string;
-    reserved?: boolean;
-    reservedOperation?: Operation.ReservedOperationEnum;
+export interface Operation {
+  id?: number;
+  label?: { [key: string]: string };
+  name?: string;
+  reserved?: boolean;
+  reservedOperation?: Operation.ReservedOperationEnum;
 }
 export namespace Operation {
-    export const ReservedOperationEnum = {
-        View: 'view',
-        Download: 'download',
-        Editing: 'editing',
-        Notify: 'notify',
-        Dynamic: 'dynamic',
-        Featured: 'featured'
-    } as const;
-    export type ReservedOperationEnum = typeof ReservedOperationEnum[keyof typeof ReservedOperationEnum];
+  export const ReservedOperationEnum = {
+    View: 'view',
+    Download: 'download',
+    Editing: 'editing',
+    Notify: 'notify',
+    Dynamic: 'dynamic',
+    Featured: 'featured',
+  } as const;
+  export type ReservedOperationEnum =
+    (typeof ReservedOperationEnum)[keyof typeof ReservedOperationEnum];
 }
-
-

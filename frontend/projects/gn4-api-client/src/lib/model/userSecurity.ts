@@ -8,19 +8,17 @@
  * Do not edit the class manually.
  */
 
-
-export interface UserSecurity { 
-    authType?: string;
-    nodeId?: string;
-    securityNotifications?: Set<UserSecurity.SecurityNotificationsEnum>;
-    securityNotificationsString?: UserSecurity;
+export interface UserSecurity {
+  authType?: string;
+  nodeId?: string;
+  securityNotifications?: Set<UserSecurity.SecurityNotificationsEnum>;
+  securityNotificationsString?: UserSecurity;
 }
 export namespace UserSecurity {
-    export const SecurityNotificationsEnum = {
-        UpdateHashRequired: 'UPDATE_HASH_REQUIRED',
-        Unknown: 'UNKNOWN'
-    } as const;
-    export type SecurityNotificationsEnum = typeof SecurityNotificationsEnum[keyof typeof SecurityNotificationsEnum];
+  export const SecurityNotificationsEnum = {
+    UpdateHashRequired: 'UPDATE_HASH_REQUIRED',
+    Unknown: 'UNKNOWN',
+  } as const;
+  export type SecurityNotificationsEnum =
+    (typeof SecurityNotificationsEnum)[keyof typeof SecurityNotificationsEnum];
 }
-
-

@@ -8,15 +8,13 @@
  * Do not edit the class manually.
  */
 
-
-export interface Field { 
-    codelist?: string;
-    indexField?: string;
-    insertMode?: string;
-    name?: string;
-    removable?: boolean;
-    template?: string;
-    use?: string;
-    xpath?: string;
+export interface Field {
+  codelist?: string;
+  indexField?: string;
+  insertMode?: string;
+  name?: string;
+  removable?: boolean;
+  template?: string;
+  use?: string;
+  xpath?: string;
 }
-

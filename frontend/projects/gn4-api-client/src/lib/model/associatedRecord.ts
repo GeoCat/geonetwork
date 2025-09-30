@@ -8,11 +8,9 @@
  * Do not edit the class manually.
  */
 
-
-export interface AssociatedRecord { 
-    _id?: string;
-    _source?: object;
-    origin?: string;
-    properties?: { [key: string]: string; };
+export interface AssociatedRecord {
+  _id?: string;
+  _source?: object;
+  origin?: string;
+  properties?: { [key: string]: string };
 }
-

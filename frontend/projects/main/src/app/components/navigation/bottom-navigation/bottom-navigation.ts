@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-bottom-navigation',
   imports: [],
   templateUrl: './bottom-navigation.html',
-  styleUrl: './bottom-navigation.scss'
+  styleUrl: './bottom-navigation.scss',
 })
-export class BottomNavigation {
-
-}
+export class BottomNavigation {}

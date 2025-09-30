@@ -9,14 +9,12 @@
  */
 import { CodeListValue } from './codeListValue';
 
-
-export interface AttributeTable { 
-    name?: string;
-    definition?: string;
-    code?: string;
-    link?: string;
-    type?: string;
-    cardinality?: string;
-    values?: Array<CodeListValue>;
+export interface AttributeTable {
+  name?: string;
+  definition?: string;
+  code?: string;
+  link?: string;
+  type?: string;
+  cardinality?: string;
+  values?: Array<CodeListValue>;
 }
-

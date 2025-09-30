@@ -11,12 +11,10 @@ import { OgcApiRecordsLinkTemplateDto } from './ogcApiRecordsLinkTemplateDto';
 import { OgcApiRecordsCatalogDto } from './ogcApiRecordsCatalogDto';
 import { OgcApiRecordsLinkDto } from './ogcApiRecordsLinkDto';
 
-
-export interface OgcApiRecordsLandingPageDto { 
-    title?: string;
-    description?: string;
-    catalogInfo?: OgcApiRecordsCatalogDto;
-    links?: Array<OgcApiRecordsLinkDto>;
-    linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
+export interface OgcApiRecordsLandingPageDto {
+  title?: string;
+  description?: string;
+  catalogInfo?: OgcApiRecordsCatalogDto;
+  links?: Array<OgcApiRecordsLinkDto>;
+  linkTemplates?: Array<OgcApiRecordsLinkTemplateDto>;
 }
-

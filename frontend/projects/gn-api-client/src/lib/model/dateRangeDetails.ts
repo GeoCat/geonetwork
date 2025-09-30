@@ -9,9 +9,7 @@
  */
 import { DateRangeDetailsInfo } from './dateRangeDetailsInfo';
 
-
-export interface DateRangeDetails { 
-    start?: DateRangeDetailsInfo;
-    end?: DateRangeDetailsInfo;
+export interface DateRangeDetails {
+  start?: DateRangeDetailsInfo;
+  end?: DateRangeDetailsInfo;
 }
-

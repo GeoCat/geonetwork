@@ -8,28 +8,25 @@
  * Do not edit the class manually.
  */
 
-
-export interface Setting { 
-    dataType?: Setting.DataTypeEnum;
-    editable?: boolean;
-    editable_JpaWorkaround?: string;
-    encrypted?: boolean;
-    encrypted_JpaWorkaround?: string;
-    internal?: boolean;
-    internal_JpaWorkaround?: string;
-    name?: string;
-    position?: number;
-    storedValue?: string;
-    value?: string;
+export interface Setting {
+  dataType?: Setting.DataTypeEnum;
+  editable?: boolean;
+  editable_JpaWorkaround?: string;
+  encrypted?: boolean;
+  encrypted_JpaWorkaround?: string;
+  internal?: boolean;
+  internal_JpaWorkaround?: string;
+  name?: string;
+  position?: number;
+  storedValue?: string;
+  value?: string;
 }
 export namespace Setting {
-    export const DataTypeEnum = {
-        String: 'STRING',
-        Int: 'INT',
-        Boolean: 'BOOLEAN',
-        Json: 'JSON'
-    } as const;
-    export type DataTypeEnum = typeof DataTypeEnum[keyof typeof DataTypeEnum];
+  export const DataTypeEnum = {
+    String: 'STRING',
+    Int: 'INT',
+    Boolean: 'BOOLEAN',
+    Json: 'JSON',
+  } as const;
+  export type DataTypeEnum = (typeof DataTypeEnum)[keyof typeof DataTypeEnum];
 }
-
-

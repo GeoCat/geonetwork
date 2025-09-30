@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface MetadataBatchSubmitParameter { 
-    bucket?: string;
-    message?: string;
-    uuids?: Array<string>;
+export interface MetadataBatchSubmitParameter {
+  bucket?: string;
+  message?: string;
+  uuids?: Array<string>;
 }
-

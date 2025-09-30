@@ -8,10 +8,8 @@
  * Do not edit the class manually.
  */
 
-
-export interface BatchEditParameter { 
-    xpath: string;
-    value: string;
-    condition?: string;
+export interface BatchEditParameter {
+  xpath: string;
+  value: string;
+  condition?: string;
 }
-

@@ -8,20 +8,18 @@
  * Do not edit the class manually.
  */
 
-
-export interface MeResponse { 
-    admin?: boolean;
-    email?: string;
-    groupsWithEditor?: Array<number>;
-    groupsWithRegisteredUser?: Array<number>;
-    groupsWithReviewer?: Array<number>;
-    groupsWithUserAdmin?: Array<number>;
-    hash?: string;
-    id?: string;
-    name?: string;
-    organisation?: string;
-    profile?: string;
-    surname?: string;
-    username?: string;
+export interface MeResponse {
+  admin?: boolean;
+  email?: string;
+  groupsWithEditor?: Array<number>;
+  groupsWithRegisteredUser?: Array<number>;
+  groupsWithReviewer?: Array<number>;
+  groupsWithUserAdmin?: Array<number>;
+  hash?: string;
+  id?: string;
+  name?: string;
+  organisation?: string;
+  profile?: string;
+  surname?: string;
+  username?: string;
 }
-
