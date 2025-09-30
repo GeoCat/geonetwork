@@ -67,12 +67,7 @@ export class SearchBox implements OnInit {
     this.query = value;
     this.queryChange.emit(value);
 
-    const trimmedValue = value.trim();
-    if (trimmedValue.length >= 2) {
-      this.updateUrlAndSearch(trimmedValue);
-    } else if (trimmedValue.length === 0) {
-      this.updateUrlAndSearch('');
-    }
+    this.updateUrlAndSearch(value.trim());
   }
 
   private updateUrlAndSearch(query: string) {
