@@ -1,12 +1,10 @@
-import { SearchComponent } from '../search-component/search-component';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SearchStore } from '../../stores/store-search';
-import { SearchService } from '../../services/search.service';
+import { SearchStore, SearchService, SearchBox } from 'gn-library';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SearchComponent],
+  imports: [SearchBox],
   templateUrl: './home-component.html',
   providers: [SearchStore, SearchService],
   changeDetection: ChangeDetectionStrategy.OnPush,

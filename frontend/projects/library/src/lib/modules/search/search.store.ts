@@ -3,7 +3,7 @@ import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { SearchService } from '../services/search.service';
+import { SearchService } from './search.service';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
 
 type searchState = {

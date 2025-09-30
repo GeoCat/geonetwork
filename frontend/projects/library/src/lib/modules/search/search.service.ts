@@ -9,6 +9,36 @@ import { SearchService as ApiSearchService } from 'gn4-api-client';
 export class SearchService {
   searchService: ApiSearchService = inject(ApiSearchService);
 
+  buildQuery(query: string): elasticsearch.QueryDslQueryContainer {
+    const filter = [
+      {
+        terms: {
+          isTemplate: ['n'],
+        },
+      },
+    ];
+    const must: elasticsearch.QueryDslQueryContainer[] = [];
+    if (query) {
+      must.push({
+        query_string: {
+          query: query,
+          default_operator: 'AND',
+          fields: ['resourceTitleObject.*^5', 'any.*', 'uuid'],
+        },
+      });
+    }
+    const must_not: elasticsearch.QueryDslQueryContainer[] = [];
+    const should: elasticsearch.QueryDslQueryContainer[] = [];
+    return {
+      bool: {
+        must,
+        must_not,
+        should,
+        filter,
+      },
+    };
+  }
+
   getByQuery(
     query: string,
     page: number = 0,
@@ -24,12 +54,7 @@ export class SearchService {
     let searchRequest: elasticsearch.SearchRequest = {
       from: page * size,
       size: size,
-      query: {
-        multi_match: {
-          query: query.trim(),
-          fields: ['resourceTitleObject.*', 'overview.*', '*'],
-        },
-      },
+      query: this.buildQuery(query),
     };
 
     return this.searchService.search(searchRequest).pipe(

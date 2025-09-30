@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 
 import { Paginator } from 'primeng/paginator';
-import { SearchStore } from '../../stores/store-search';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResultItemList } from '../result-item-list/result-item-list';
 import { ResultItemGrid } from '../result-item-grid/result-item-grid';
 import { ResultHeader } from '../result-header/result-header';
 import { LoadingComponent } from '../loading-component/loading-component';
 import { EmptyStateComponent } from '../empty-state/empty-state';
+import { SearchStore } from 'gn-library';
 
 @Component({
   selector: 'app-result-view',

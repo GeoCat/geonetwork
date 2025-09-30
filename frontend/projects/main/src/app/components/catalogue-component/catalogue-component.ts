@@ -2,13 +2,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FacetComponent } from '../facet-component/facet-component';
 import { ResultViewComponent } from '../result-view-component/result-view-component';
-import { SearchComponent } from '../search-component/search-component';
-import { SearchStore } from '../../stores/store-search';
-import { SearchService } from '../../services/search.service';
+import { SearchBox } from 'gn-library';
+import { SearchStore } from 'gn-library';
+import { SearchService } from 'gn-library';
 
 @Component({
   selector: 'app-catalogue-component',
-  imports: [FacetComponent, ResultViewComponent, SearchComponent],
+  imports: [FacetComponent, ResultViewComponent, SearchBox],
   standalone: true,
   templateUrl: './catalogue-component.html',
   styleUrl: './catalogue-component.scss',

@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --project main",
+    "watch-lib": "ng build library --watch",
     "build": "ng build gn-api-client && ng build gn4-api-client && ng build library && ng build main",
     "watch": "ng build --watch --configuration development",
     "download-api-geonetwork4-client": "curl -H 'Accept: application/json' http://localhost:8080/geonetwork/srv/api/doc -o projects/gn4-api-client/openapi.json",
