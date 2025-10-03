@@ -8,7 +8,7 @@ import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
-import Sextant from './sextant'
+import Sextant from './sextant';
 
 export const appConfig: ApplicationConfig = {
   providers: [

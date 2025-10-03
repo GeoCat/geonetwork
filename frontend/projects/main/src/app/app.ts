@@ -10,7 +10,7 @@ import { Gn4ApiModule } from 'gn4-api-client';
   imports: [TopNavigation, BottomNavigation, RouterOutlet, FormsModule, Gn4ApiModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  standalone: true
+  standalone: true,
 })
 export class App {
   protected readonly title = signal('main');
