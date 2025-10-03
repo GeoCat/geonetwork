@@ -1,11 +1,15 @@
-/* app.component.scss */
-:host ::ng-deep p-button.my-active .p-button {
-  border-color: #0b74de;
-  background-color: rgba(11, 116, 222, 0.08);
-  box-shadow: 0 0 0 0.125rem rgba(11, 116, 222, 0.12);
-  color: #0b74de;
-}
+.p-button.active {
+  border-color: #1A75AE !important;
+  background-color: #1A75AE !important;
+  color: #fff !important;
 
-:host ::ng-deep p-button.my-active .p-button-label {
-  font-weight: 600;
+  .p-button-label {
+    font-weight: 600;
+    color: #fff !important;
+  }
+
+  .p-button-icon {
+    color: #fff !important;
+  }
+
 }

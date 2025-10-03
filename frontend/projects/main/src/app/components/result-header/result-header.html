@@ -8,7 +8,7 @@
       severity="secondary"
       icon="pi pi-th-large"
       (onClick)="setActive('all')"
-      [styleClass]="active === 'all' ? 'my-active' : ''"
+      [styleClass]="active === 'all' ? 'active' : ''"
       [attr.aria-pressed]="active === 'all'"
       size="small"
     ></p-button>
@@ -19,7 +19,7 @@
       severity="secondary"
       icon="pi pi-database"
       (onClick)="setActive('datasets')"
-      [styleClass]="active === 'datasets' ? 'my-active' : ''"
+      [styleClass]="active === 'datasets' ? 'active' : ''"
       [attr.aria-pressed]="active === 'datasets'"
       size="small"
     ></p-button>
@@ -30,7 +30,7 @@
       severity="secondary"
       icon="pi pi-file"
       (onClick)="setActive('documentation')"
-      [styleClass]="active === 'documentation' ? 'my-active' : ''"
+      [styleClass]="active === 'documentation' ? 'active' : ''"
       [attr.aria-pressed]="active === 'documentation'"
       size="small"
     ></p-button>
@@ -41,7 +41,7 @@
       severity="secondary"
       icon="pi pi-code"
       (onClick)="setActive('services')"
-      [styleClass]="active === 'services' ? 'my-active' : ''"
+      [styleClass]="active === 'services' ? 'active' : ''"
       [attr.aria-pressed]="active === 'services'"
       size="small"
     ></p-button>
@@ -51,7 +51,7 @@
       variant="outlined"
       severity="secondary"
       (onClick)="setActive('other')"
-      [styleClass]="active === 'other' ? 'my-active' : ''"
+      [styleClass]="active === 'other' ? 'active' : ''"
       [attr.aria-pressed]="active === 'other'"
       size="small"
     ></p-button>
