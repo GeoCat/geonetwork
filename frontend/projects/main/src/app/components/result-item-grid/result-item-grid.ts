@@ -27,10 +27,6 @@ export class ResultItemGrid {
     this.viewDetails.emit(this.result._id);
   }
 
-  onDownload() {
-    this.download.emit(this.result._id);
-  }
-
   getOverviewImage(): string | null {
     const overview = this.result?._source?.overview;
     if (overview && overview.length > 0) {

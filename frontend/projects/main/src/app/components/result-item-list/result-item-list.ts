@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { elasticsearch, IndexRecord } from 'gn-api-client';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ButtonModule} from 'primeng/button';
+import {elasticsearch, IndexRecord} from 'gn-api-client';
 
 @Component({
   selector: 'app-result-item-list',
@@ -14,21 +14,24 @@ export class ResultItemList {
   @Input() result!: elasticsearch.SearchHit<IndexRecord>;
   @Input() isFirst: boolean = false;
   @Output() viewDetails = new EventEmitter<string>();
-  @Output() download = new EventEmitter<string>();
 
   getTruncatedDescription(): string {
     const description = this.result._source?.resourceAbstractObject?.['default'];
+    const descriptionLength = 550;
     if (!description) return 'No description available';
 
-    return description.length > 100 ? description.substring(0, 100) + '...' : description;
+    return description.length > descriptionLength ? description.substring(0, descriptionLength) + '...' : description;
   }
+
+  getSourceName(): string {
+    const nameObject = this.result._source?.OrgObject as { [key: string]: string } | undefined;
+    const name = nameObject?.['default'];
+    return name ?? 'No name available';
+  }
+
 
   onViewDetails() {
     this.viewDetails.emit(this.result._id);
-  }
-
-  onDownload() {
-    this.download.emit(this.result._id);
   }
 
   getOverviewImage(): string | null {
