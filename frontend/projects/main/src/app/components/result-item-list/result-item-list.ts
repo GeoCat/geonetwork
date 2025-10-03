@@ -15,13 +15,17 @@ export class ResultItemList {
   @Input() isFirst: boolean = false;
   @Output() viewDetails = new EventEmitter<string>();
 
-  getTruncatedDescription(): string {
-    const description = this.result._source?.resourceAbstractObject?.['default'];
-    const descriptionLength = 550;
-    if (!description) return 'No description available';
-
-    return description.length > descriptionLength ? description.substring(0, descriptionLength) + '...' : description;
+  getTruncatedTitle(): string {
+    const title =  this.result._source?.resourceTitleObject?.['default'] ?? 'No title available';
+    return title.substring(0, 180) + '...';
   }
+
+
+  getTruncatedDescription(): string {
+    const description = this.result._source?.resourceAbstractObject?.['default'] ?? 'No description available';
+    return description.substring(0, 250) + '...';
+  }
+
 
   getSourceName(): string {
     const nameObject = this.result._source?.OrgObject as { [key: string]: string } | undefined;

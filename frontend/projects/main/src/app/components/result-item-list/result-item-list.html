@@ -1,13 +1,22 @@
 <div
   (click)="onViewDetails()"
-  class="flex flex-col lg:flex-row items-center gap-4 cursor-pointer border rounded-xl p-[27px]"
+  class="flex flex-col lg:flex-row items-center gap-4 cursor-pointer rounded-xl p-[27px] border border-surface-200"
   [ngClass]="{ 'mt-4': !isFirst }"
 >
       @if (getOverviewImage()) {
         <div class="w-full lg:w-[190px] lg:aspect-square lg:flex-shrink-0 lg:overflow-hidden rounded">
-          <img [src]="getOverviewImage()" alt="Preview"
-               class="w-full h-full object-cover object-center">
+          <img
+            [src]="getOverviewImage()"
+            [attr.width]="190"
+            [attr.height]="190"
+            alt="Preview"
+            class="w-full h-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
+            (error)="onImageError($event)"
+          >
         </div>
+
 
       } @else {
         <div class="w-full lg:w-[190px] lg:aspect-square flex-shrink-0 overflow-hidden rounded">
@@ -28,17 +37,17 @@
         </div>
         <div>
           <div class="flex gap-3 justify-around">
-            <i class="pi pi-map" style="font-size: 1rem"></i>
-            <i class="pi pi-share-alt" style="font-size: 1rem"></i>
-            <i class="pi pi-download" style="font-size: 1rem"></i>
-            <i class="pi pi-info-circle" style="font-size: 1rem"></i>
+            <i class="pi pi-map" style="font-size: 0.75rem"></i>
+            <i class="pi pi-share-alt" style="font-size: 0.75rem"></i>
+            <i class="pi pi-download" style="font-size: 0.75rem"></i>
+            <i class="pi pi-info-circle" style="font-size: 0.75rem"></i>
           </div>
 
         </div>
       </div>
 
       <div class="text-primary text-xl">
-        {{ result._source?.resourceTitleObject?.['default'] }}
+       {{ getTruncatedTitle() }}
       </div>
 
       <span class="text-base">
