@@ -1,7 +1,10 @@
-<section class="px-4 py-10 md:py-18">
-  <app-search-component [(query)]="currentQuery"></app-search-component>
+<section>
+  <div class="py-4">
+    <app-search-component [(query)]="currentQuery"></app-search-component>
+  </div>
+  <hr />
 
-  <div class="flex flex-col md:flex-row min-h-screen gap-6">
+  <div class="flex flex-col md:flex-row min-h-screen gap-6 py-4">
     <div class="w-full xl:w-1/4">
       <app-facet-component></app-facet-component>
     </div>

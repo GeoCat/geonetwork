@@ -1,38 +1,35 @@
-<section class="px-4 py-16 sm:py-18">
-  <div class="max-w-3xl mx-auto text-center">
-    <h1 class="text-3xl font-bold mb-4 text-gray-600">Search our catalogue</h1>
-
-    <form class="relative w-full max-w-md mx-auto flex items-center">
-      <div class="relative flex-1">
-        <p-inputgroup>
-          <input
-            type="text"
-            pInputText
-            placeholder="Search"
-            class="border border-gray-400 focus:border-blue-400"
-            [value]="query"
-            (input)="onInput($event)"
+<div class="mx-auto text-center">
+  <form class="relative w-full max-w-md mx-auto flex items-center">
+    <div class="relative flex-1">
+      <p-inputgroup>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search datasets, documentation, services, maps"
+          class="border border-gray-400 focus:border-blue-400 rounded-full"
+          [value]="query"
+          (input)="onInput($event)"
+        />
+        <p-inputgroup-addon>
+          <p-button
+            icon="pi pi-search"
+            severity="secondary"
+            variant="text"
+            (onClick)="onSearch()"
           />
-          <p-inputgroup-addon>
-            <p-button
-              icon="pi pi-search"
-              severity="secondary"
-              variant="text"
-              (onClick)="onSearch()"
-            />
-          </p-inputgroup-addon>
-        </p-inputgroup>
+        </p-inputgroup-addon>
+      </p-inputgroup>
 
-        @if (query) {
-          <button
-            type="button"
-            (click)="clearQuery()"
-            class="z-50 absolute right-15 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-          >
-            <i class="pi pi-times"></i>
-          </button>
-        }
-      </div>
-    </form>
-  </div>
-</section>
+      @if (query) {
+        <button
+          type="button"
+          (click)="clearQuery()"
+          class="z-50 absolute right-15 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+          <i class="pi pi-times"></i>
+        </button>
+      }
+    </div>
+  </form>
+</div>
+

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "primeng-quickstart": {
+    "main": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,17 +17,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/primeng-quickstart",
+            "outputPath": "dist/main",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": ["src/styles.scss"],
             "scripts": []
@@ -38,12 +36,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "10000kB",
-                  "maximumError": "10MB"
+                  "maximumError": "10000000MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "40kB",
-                  "maximumError": "80kB"
+                  "maximumWarning": "400kB",
+                  "maximumError": "800kB"
                 }
               ],
               "outputHashing": "all"
@@ -60,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "primeng-quickstart:build:production"
+              "buildTarget": "main:build:production"
             },
             "development": {
-              "buildTarget": "primeng-quickstart:build:development"
+              "buildTarget": "main:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,10 +76,8 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": ["src/styles.scss"],
             "scripts": []
