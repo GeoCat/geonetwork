@@ -150,21 +150,19 @@ export class SearchService extends BaseService {
 
     let localVarPath = `/search/records/_msearch`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<elasticsearch.SearchResponse<IndexRecord>>(
-      'post',
-      `${basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        body: body,
-        params: localVarQueryParameters,
-        responseType: <any>responseType_,
-        ...(withCredentials ? { withCredentials } : {}),
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      },
-    );
+    return this.httpClient.request<
+      elasticsearch.SearchResponse<IndexRecord, Record<string, elasticsearch.AggregationsAggregate>>
+    >('post', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      body: body,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
   }
 
   /**
@@ -187,7 +185,9 @@ export class SearchService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<elasticsearch.SearchResponse<IndexRecord>>;
+  ): Observable<
+    elasticsearch.SearchResponse<IndexRecord, Record<string, elasticsearch.AggregationsAggregate>>
+  >;
   // public search(body: string, bucket?: string, relatedType?: Array<RelatedItemType>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<elasticsearch.SearchResponse<IndexRecord>>>;
   public search(
     body: elasticsearch.SearchRequest,
@@ -200,7 +200,11 @@ export class SearchService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<elasticsearch.SearchResponse<IndexRecord>>>;
+  ): Observable<
+    HttpEvent<
+      elasticsearch.SearchResponse<IndexRecord, Record<string, elasticsearch.AggregationsAggregate>>
+    >
+  >;
   public search(
     body: elasticsearch.SearchRequest,
     bucket?: string,
@@ -262,20 +266,18 @@ export class SearchService extends BaseService {
 
     let localVarPath = `/search/records/_search`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<elasticsearch.SearchResponse<IndexRecord>>(
-      'post',
-      `${basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        body: body,
-        params: localVarQueryParameters,
-        responseType: <any>responseType_,
-        ...(withCredentials ? { withCredentials } : {}),
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress,
-      },
-    );
+    return this.httpClient.request<
+      elasticsearch.SearchResponse<IndexRecord, Record<string, elasticsearch.AggregationsAggregate>>
+    >('post', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      body: body,
+      params: localVarQueryParameters,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      transferCache: localVarTransferCache,
+      reportProgress: reportProgress,
+    });
   }
 }

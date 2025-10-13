@@ -71,3 +71,14 @@
     </p-accordion-content>
   </p-accordion-panel>
 </p-accordion>
+
+@if (aggregations) {
+  <ul>
+    @for (agg of aggregations | keyvalue; track agg.key) {
+      <li>
+        {{ agg.key }}:
+        {{ getBuckets(agg.value) | json }}
+      </li>
+    }
+  </ul>
+}

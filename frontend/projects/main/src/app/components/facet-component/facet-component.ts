@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { KeyValuePipe, JsonPipe } from '@angular/common';
+import { SearchStore } from 'gn-library';
 import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TreeSelect } from 'primeng/treeselect';
@@ -37,17 +39,33 @@ interface Availability {
   key: string;
 }
 
-
 @Component({
   selector: 'app-facet-component',
   templateUrl: './facet-component.html',
   styleUrl: './facet-component.scss',
   standalone: true,
-  imports: [FormsModule, FloatLabel, TreeSelect, AccordionHeader, AccordionContent, AccordionPanel, Accordion, CommonModule, Checkbox],
+  imports: [ FormsModule, FloatLabel, TreeSelect, KeyValuePipe, JsonPipe, AccordionHeader, AccordionContent, AccordionPanel, Accordion, CommonModule, Checkbox],
   providers: [NodeService],
 })
 
 export class FacetComponent implements OnInit {
+  readonly searchStore = inject(SearchStore);
+
+  get aggregations() {
+    return this.searchStore.aggregations();
+  }
+  aggregationKeys = computed(() => {
+    // TODO: Get ordered keys from configuration
+    return Object.keys(this.aggregations) || [];
+  });
+  aggregationList = computed(() => {
+    return Object.values(this.aggregations) || [];
+  });
+
+  getBuckets(agg: any) {
+    return agg?.buckets || [];
+  }
+
   nodes!: any[];
   selectedNodes: any;
   catalogues!: Catalogue[];

@@ -96,12 +96,10 @@ export interface Home {
   showSocialBarInFooter: boolean;
   showMosaic: boolean;
   showMaps: boolean;
-  facetConfig: FacetConfig;
+  facetConfig: Record<string, elasticsearch.AggregationsAggregationContainer>;
   info: Info[];
   fluidLayout: boolean;
 }
-
-export interface FacetConfig {}
 
 export interface Info {
   type: string;
@@ -142,7 +140,7 @@ export interface Search {
   moreLikeThisConfig: MoreLikeThisConfig;
   facetTabField: string;
   isVegaEnabled: boolean;
-  facetConfig: FacetConfig;
+  facetConfig: Record<string, elasticsearch.AggregationsAggregationContainer>;
   filters: any;
   sortbyValues: SortbyValue[];
   sortBy: string;
@@ -356,7 +354,7 @@ export interface Recordview {
   internalThesaurus: any[];
   collectionTableConfig: CollectionTableConfig;
   distributionConfig: DistributionConfig;
-  relatedFacetConfig: FacetConfig;
+  relatedFacetConfig: Record<string, elasticsearch.AggregationsAggregationContainer>;
 }
 
 export interface ShowCitation {
@@ -394,20 +392,20 @@ export interface Editor {
   editorIndentType: string;
   allowRemoteRecordLink: boolean;
   workflowSearchRecordTypes: string[];
-  facetConfig: FacetConfig;
+  facetConfig: Record<string, elasticsearch.AggregationsAggregationContainer>;
 }
 
 export interface Directory {
   sortbyValues: SortbyValue[];
   sortBy: string;
-  facetConfig: FacetConfig;
+  facetConfig: Record<string, elasticsearch.AggregationsAggregationContainer>;
   queryBase: string;
 }
 
 export interface Admin {
   enabled: boolean;
   appUrl: string;
-  facetConfig: FacetConfig;
+  facetConfig: Record<string, elasticsearch.AggregationsAggregationContainer>;
 }
 
 export interface Authentication {
