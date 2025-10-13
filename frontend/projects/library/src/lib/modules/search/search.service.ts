@@ -1,13 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
-import { IndexRecord, elasticsearch } from 'gn-api-client';
+import { map, Observable } from 'rxjs';
+import { elasticsearch, IndexRecord } from 'gn-api-client';
 import { SearchService as ApiSearchService } from 'gn4-api-client';
+import { APPLICATION_CONFIGURATION } from '../config/config.loader';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
   searchService: ApiSearchService = inject(ApiSearchService);
+
+  uiConfiguration = inject(APPLICATION_CONFIGURATION).config;
 
   buildQuery(query: string): elasticsearch.QueryDslQueryContainer {
     const filter = [
@@ -39,42 +42,70 @@ export class SearchService {
     };
   }
 
+  buildAggregation(
+    aggregationConfig: (string | Record<string, elasticsearch.AggregationsAggregationContainer>)[],
+  ): Record<string, elasticsearch.AggregationsAggregationContainer> {
+    const aggregations: Record<string, elasticsearch.AggregationsAggregationContainer> = {};
+
+    for (const config of aggregationConfig) {
+      if (typeof config === 'string') {
+        aggregations[config] = {
+          terms: {
+            field: config,
+            size: 10,
+          },
+        };
+      } else if (typeof config === 'object' && config !== null) {
+        Object.assign(aggregations, config);
+      }
+    }
+    return aggregations;
+  }
+
   getByQuery(
     query: string,
     page: number = 0,
     size: number = 10,
   ): Observable<{
     results: elasticsearch.SearchHit<IndexRecord>[];
+    aggregations: Record<string, elasticsearch.AggregationsAggregationContainer> | {};
     totalCount: number;
   }> {
-    if (!query || !query.trim()) {
-      return of({ results: [], totalCount: 0 });
-    }
-
     let searchRequest: elasticsearch.SearchRequest = {
       from: page * size,
       size: size,
       query: this.buildQuery(query),
+      aggregations: this.buildAggregation(this.uiConfiguration?.apps?.search?.aggregations ?? []),
     };
+    // TODO: add sorting
+    // TODO: add _source fields
 
     return this.searchService.search(searchRequest).pipe(
-      map((response: elasticsearch.SearchResponse<IndexRecord>) => {
-        let totalCount = 0;
-        if (typeof response.hits.total === 'number') {
-          totalCount = response.hits.total;
-        } else if (
-          response.hits.total &&
-          typeof response.hits.total === 'object' &&
-          'value' in response.hits.total
-        ) {
-          totalCount = response.hits.total.value;
-        }
+      map(
+        (
+          response: elasticsearch.SearchResponse<
+            IndexRecord,
+            Record<string, elasticsearch.AggregationsAggregate>
+          >,
+        ) => {
+          let totalCount = 0;
+          if (typeof response.hits.total === 'number') {
+            totalCount = response.hits.total;
+          } else if (
+            response.hits.total &&
+            typeof response.hits.total === 'object' &&
+            'value' in response.hits.total
+          ) {
+            totalCount = response.hits.total.value;
+          }
 
-        return {
-          results: response.hits.hits,
-          totalCount: totalCount,
-        };
-      }),
+          return {
+            results: response.hits.hits,
+            aggregations: response.aggregations ?? {},
+            totalCount: totalCount,
+          };
+        },
+      ),
     );
   }
 
@@ -89,15 +120,22 @@ export class SearchService {
     };
 
     return this.searchService.search(searchRequest).pipe(
-      map((response: elasticsearch.SearchResponse<IndexRecord>) => {
-        const hits = response.hits.hits;
+      map(
+        (
+          response: elasticsearch.SearchResponse<
+            IndexRecord,
+            Record<string, elasticsearch.AggregationsAggregate>
+          >,
+        ) => {
+          const hits = response.hits.hits;
 
-        if (hits.length === 0) {
-          return null;
-        }
+          if (hits.length === 0) {
+            return null;
+          }
 
-        return hits[0];
-      }),
+          return hits[0];
+        },
+      ),
     );
   }
 }

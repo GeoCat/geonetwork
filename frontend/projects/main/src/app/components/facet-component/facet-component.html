@@ -106,3 +106,14 @@
     <label for="availability">Available in</label>
   </p-floatlabel>
 </div>
+
+@if (aggregations) {
+  <ul>
+    @for (agg of aggregations | keyvalue; track agg.key) {
+      <li>
+        {{ agg.key }}:
+        {{ getBuckets(agg.value) | json }}
+      </li>
+    }
+  </ul>
+}

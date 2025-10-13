@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-result-header',
@@ -29,13 +29,10 @@ export class ResultHeader {
     { label: 'Other', value: 'other', icon: '' },
   ];
 
-
   layoutOptions: ('list' | 'grid')[] = ['list', 'grid'];
 
   onLayoutChange(layout: any) {
     // Cast to the correct type to handle PrimeNG's type inference issue
     this.layoutChange.emit(layout as 'list' | 'grid');
   }
-
-
 }

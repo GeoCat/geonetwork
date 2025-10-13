@@ -9,6 +9,7 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 type searchState = {
   searchQuery: string;
   results: elasticsearch.SearchHit<IndexRecord>[] | [];
+  aggregations: Record<string, elasticsearch.AggregationsAggregate> | {};
   totalCount: number;
   isLoading: boolean;
   filter: { query: string; order: 'asc' | 'desc' };
@@ -19,6 +20,7 @@ type searchState = {
 const initialState: searchState = {
   searchQuery: '',
   results: [],
+  aggregations: {},
   totalCount: 0,
   isLoading: false,
   filter: { query: '', order: 'asc' },
@@ -51,6 +53,7 @@ export const SearchStore = signalStore(
               next: (response) =>
                 patchState(store, {
                   results: response.results,
+                  aggregations: response.aggregations || {},
                   totalCount: response.totalCount,
                 }),
               error: console.error,
@@ -82,6 +85,7 @@ export const SearchStore = signalStore(
               next: (response) =>
                 patchState(store, {
                   results: response.results,
+                  aggregations: response.aggregations || {},
                   totalCount: response.totalCount,
                 }),
               error: console.error,

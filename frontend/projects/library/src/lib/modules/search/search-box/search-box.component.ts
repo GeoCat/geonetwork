@@ -102,5 +102,4 @@ export class SearchBox implements OnInit {
 
     this.store.searchWithPagination(query, 0, 10);
   }
-
 }

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ButtonModule} from 'primeng/button';
-import {elasticsearch, IndexRecord} from 'gn-api-client';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { elasticsearch, IndexRecord } from 'gn-api-client';
 
 @Component({
   selector: 'app-result-item-list',
@@ -16,23 +16,21 @@ export class ResultItemList {
   @Output() viewDetails = new EventEmitter<string>();
 
   getTruncatedTitle(): string {
-    const title =  this.result._source?.resourceTitleObject?.['default'] ?? 'No title available';
+    const title = this.result._source?.resourceTitleObject?.['default'] ?? 'No title available';
     return title.substring(0, 180) + '...';
   }
 
-
   getTruncatedDescription(): string {
-    const description = this.result._source?.resourceAbstractObject?.['default'] ?? 'No description available';
+    const description =
+      this.result._source?.resourceAbstractObject?.['default'] ?? 'No description available';
     return description.substring(0, 250) + '...';
   }
-
 
   getSourceName(): string {
     const nameObject = this.result._source?.OrgObject as { [key: string]: string } | undefined;
     const name = nameObject?.['default'];
     return name ?? 'No name available';
   }
-
 
   onViewDetails() {
     this.viewDetails.emit(this.result._id);
