@@ -2,59 +2,19 @@
   <div class="flex items-center gap-3 flex-start">
     <span class="font-semibold text-primary me-4 text-base">{{ totalCount }} results:</span>
 
-    <p-button
-      label="All"
-      variant="outlined"
-      severity="secondary"
-      icon="pi pi-th-large"
-      (onClick)="setActive('all')"
-      [styleClass]="active === 'all' ? 'active' : ''"
-      [attr.aria-pressed]="active === 'all'"
-      size="small"
-    ></p-button>
+    @for (btn of buttons; track btn.value) {
+      <p-button
+        [label]="btn.label"
+        variant="outlined"
+        severity="secondary"
+        [icon]="btn.icon"
+        (onClick)="setActive(btn.value)"
+        [styleClass]="active === btn.value ? 'active' : ''"
+        [attr.aria-pressed]="active === btn.value"
+        size="small"
+      ></p-button>
+    }
 
-    <p-button
-      label="Datasets"
-      variant="outlined"
-      severity="secondary"
-      icon="pi pi-database"
-      (onClick)="setActive('datasets')"
-      [styleClass]="active === 'datasets' ? 'active' : ''"
-      [attr.aria-pressed]="active === 'datasets'"
-      size="small"
-    ></p-button>
-
-    <p-button
-      label="Documentation"
-      variant="outlined"
-      severity="secondary"
-      icon="pi pi-file"
-      (onClick)="setActive('documentation')"
-      [styleClass]="active === 'documentation' ? 'active' : ''"
-      [attr.aria-pressed]="active === 'documentation'"
-      size="small"
-    ></p-button>
-
-    <p-button
-      label="Services"
-      variant="outlined"
-      severity="secondary"
-      icon="pi pi-code"
-      (onClick)="setActive('services')"
-      [styleClass]="active === 'services' ? 'active' : ''"
-      [attr.aria-pressed]="active === 'services'"
-      size="small"
-    ></p-button>
-
-    <p-button
-      label="Other"
-      variant="outlined"
-      severity="secondary"
-      (onClick)="setActive('other')"
-      [styleClass]="active === 'other' ? 'active' : ''"
-      [attr.aria-pressed]="active === 'other'"
-      size="small"
-    ></p-button>
   </div>
 
   <!--  <p-select-button-->

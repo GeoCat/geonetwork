@@ -21,6 +21,14 @@ export class ResultHeader {
     this.active = this.active === name ? null : name;
   }
 
+  buttons = [
+    { label: 'All', value: 'all', icon: 'pi pi-th-large' },
+    { label: 'Datasets', value: 'datasets', icon: 'pi pi-database' },
+    { label: 'Documentation', value: 'documentation', icon: 'pi pi-file' },
+    { label: 'Services', value: 'services', icon: 'pi pi-code' },
+    { label: 'Other', value: 'other', icon: '' },
+  ];
+
 
   layoutOptions: ('list' | 'grid')[] = ['list', 'grid'];
 
