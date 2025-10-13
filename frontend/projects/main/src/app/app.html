@@ -1,6 +1,12 @@
 <main class="min-h-screen flex flex-col justify-between">
   <app-top-navigation />
-  <section class="flex-grow">
+  <section
+    class="flex-grow"
+    appSearchContext="main"
+    [aggregations]=""
+    [routing]="true"
+    filter="+isTemplate:n"
+  >
     <router-outlet></router-outlet>
   </section>
   <app-bottom-navigation />

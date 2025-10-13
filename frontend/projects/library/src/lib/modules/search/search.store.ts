@@ -6,10 +6,15 @@ import { tapResponse } from '@ngrx/operators';
 import { SearchService } from './search.service';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
 
+export const DEFAULT_PAGE_SIZE = 10;
+
 type searchState = {
+  id: string;
+  routing: boolean;
   searchQuery: string;
   results: elasticsearch.SearchHit<IndexRecord>[] | [];
   topFilter?: string;
+  aggregationsConfig: (string | Record<string, elasticsearch.AggregationsAggregationContainer>)[];
   aggregations: Record<string, elasticsearch.AggregationsAggregate> | {};
   totalCount: number;
   isLoading: boolean;
@@ -19,14 +24,17 @@ type searchState = {
 };
 
 const initialState: searchState = {
+  id: 'default',
+  routing: false,
   searchQuery: '',
   results: [],
+  aggregationsConfig: [],
   aggregations: {},
   totalCount: 0,
   isLoading: false,
   filter: { query: '', order: 'asc' },
   currentPage: 0,
-  pageSize: 10,
+  pageSize: DEFAULT_PAGE_SIZE,
 };
 
 export const SearchStore = signalStore(
@@ -37,6 +45,23 @@ export const SearchStore = signalStore(
     totalPages: computed(() => Math.ceil(store.totalCount() / store.pageSize())),
   })),
   withMethods((store, searchService = inject(SearchService)) => ({
+    init(
+      searchId: string,
+      aggregationsConfig: (
+        | string
+        | Record<string, elasticsearch.AggregationsAggregationContainer>
+      )[],
+      size: number,
+      routing: boolean = false,
+    ) {
+      console.log(`Initializing search store with id: ${searchId}`);
+      patchState(store, {
+        id: searchId,
+        aggregationsConfig,
+        pageSize: size,
+        routing: routing,
+      });
+    },
     loadByQuery: rxMethod<string>(
       pipe(
         debounceTime(300),
@@ -102,3 +127,9 @@ export const SearchStore = signalStore(
     },
   })),
 );
+
+export type SearchStoreType = InstanceType<typeof SearchStore>;
+
+export interface SearchRegistry {
+  [searchId: string]: SearchStoreType;
+}

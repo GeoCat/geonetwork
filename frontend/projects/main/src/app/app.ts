@@ -4,10 +4,19 @@ import { TopNavigation } from './components/navigation/top-navigation/top-naviga
 import { BottomNavigation } from './components/navigation/bottom-navigation/bottom-navigation';
 import { FormsModule } from '@angular/forms';
 import { Gn4ApiModule } from 'gn4-api-client';
+import { SearchContextDirective, SearchService } from 'gn-library';
 
 @Component({
   selector: 'app-root',
-  imports: [TopNavigation, BottomNavigation, RouterOutlet, FormsModule, Gn4ApiModule],
+  providers: [SearchService],
+  imports: [
+    TopNavigation,
+    BottomNavigation,
+    RouterOutlet,
+    FormsModule,
+    Gn4ApiModule,
+    SearchContextDirective,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   standalone: true,

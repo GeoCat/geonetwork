@@ -3,14 +3,43 @@ import { map, Observable } from 'rxjs';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
 import { SearchService as ApiSearchService } from 'gn4-api-client';
 import { APPLICATION_CONFIGURATION } from '../config/config.loader';
+import { SearchRegistry, SearchStoreType } from './search.store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
+  // All searches running in current app.
+  // Each search has its own context
+  store: SearchRegistry = {};
+
   searchService: ApiSearchService = inject(ApiSearchService);
 
   uiConfiguration = inject(APPLICATION_CONFIGURATION).config;
+
+  constructor() {
+    console.log('SearchService constructor');
+  }
+
+  register(searchId: string, searchStore: SearchStoreType) {
+    if (this.store[searchId]) {
+      console.log(`Search ${searchId} already registered. Reusing it.`);
+      // throw new Error(
+      //   `Search ${searchId} already registered. Choose another search id.`
+      // );
+    }
+    this.store[searchId] = searchStore;
+  }
+
+  getSearch(searchId: string): SearchStoreType {
+    if (this.store[searchId]) {
+      return this.store[searchId];
+    } else {
+      throw new Error(
+        `Search ${searchId} not found. Available search contexts are: ${Object.keys(this.store).join(', ')}`,
+      );
+    }
+  }
 
   buildQuery(query: string): elasticsearch.QueryDslQueryContainer {
     const filter = [

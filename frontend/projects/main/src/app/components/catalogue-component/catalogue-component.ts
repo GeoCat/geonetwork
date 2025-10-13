@@ -12,7 +12,6 @@ import { SearchService } from 'gn-library';
   standalone: true,
   templateUrl: './catalogue-component.html',
   styleUrl: './catalogue-component.scss',
-  providers: [SearchStore, SearchService],
 })
 export class CatalogueComponent implements OnInit {
   currentQuery = '';

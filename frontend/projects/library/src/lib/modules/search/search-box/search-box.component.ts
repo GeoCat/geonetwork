@@ -15,6 +15,7 @@ import { InputGroupAddon } from 'primeng/inputgroupaddon';
 import { Button } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchStore } from '../search.store';
+import { SearchBase } from '../search-base/search-base';
 
 @Component({
   selector: 'app-search-component',
@@ -23,7 +24,7 @@ import { SearchStore } from '../search.store';
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBox implements OnInit {
+export class SearchBox extends SearchBase implements OnInit {
   @Input() query = '';
   @Input() isHomepage: boolean = false;
   @Output() queryChange = new EventEmitter<string>();
@@ -32,7 +33,8 @@ export class SearchBox implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  ngOnInit() {
+  override ngOnInit() {
+    super.ngOnInit();
     const urlQuery = this.route.snapshot.queryParamMap.get('q') || '';
     if (urlQuery) {
       this.query = urlQuery;

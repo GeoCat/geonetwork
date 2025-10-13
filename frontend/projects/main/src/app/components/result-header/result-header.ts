@@ -4,10 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { APPLICATION_CONFIGURATION, SearchStore } from 'gn-library';
 import { elasticsearch } from 'gn-api-client';
-import {
-  AggregationsStringTermsBucket,
-  AggregationsStringTermsBucketKeys,
-} from '../../../../../gn-api-client/src/lib';
 
 @Component({
   selector: 'app-result-header',
