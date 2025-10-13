@@ -1,4 +1,4 @@
-.p-button.active {
+::ng-deep .p-button.active {
   border-color: #1A75AE !important;
   background-color: #1A75AE !important;
   color: #fff !important;
@@ -11,5 +11,4 @@
   .p-button-icon {
     color: #fff !important;
   }
-
 }
