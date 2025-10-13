@@ -1,36 +1,19 @@
-<div class="flex items-center mb-4 bg-[#F2F5F9] py-[23px] px-[17px] rounded">
-  <div class="flex items-center gap-3 flex-start">
-    <span class="font-semibold text-primary me-4 text-base">{{ totalCount }} results:</span>
+@if (topTabFilter) {
+  <div class="flex items-center mb-4 bg-[#F2F5F9] py-[23px] px-[17px] rounded">
+    <div class="flex items-center gap-3 flex-start">
+      <span class="font-semibold text-primary me-4 text-base">{{ totalCount }} results:</span>
 
-    @for (btn of buttons; track btn.value) {
-      <p-button
-        [label]="btn.label"
-        variant="outlined"
-        severity="secondary"
-        [icon]="btn.icon"
-        (onClick)="setActive(btn.value)"
-        [styleClass]="active === btn.value ? 'active' : ''"
-        [attr.aria-pressed]="active === btn.value"
-        size="small"
-      ></p-button>
-    }
+      @for (bucket of getFilterBuckets; track $index) {
+        <p-button
+          [label]="bucket.key + ' (' + bucket.doc_count + ')'"
+          variant="outlined"
+          severity="secondary"
+          (onClick)="setActive(bucket.key)"
+          [styleClass]="active === bucket.key ? 'active' : ''"
+          [attr.aria-pressed]="active === bucket.key"
+          size="small"
+        ></p-button>
+      }
+    </div>
   </div>
-
-  <!--  <p-select-button-->
-  <!--    [ngModel]="layout"-->
-  <!--    (ngModelChange)="onLayoutChange($event)"-->
-  <!--    [options]="layoutOptions"-->
-  <!--    [allowEmpty]="false"-->
-  <!--    styleClass="layout-toggle"-->
-  <!--  >-->
-  <!--    <ng-template #item let-item>-->
-  <!--      <i-->
-  <!--        class="pi"-->
-  <!--        [ngClass]="{-->
-  <!--          'pi-bars': item === 'list',-->
-  <!--          'pi-table': item === 'grid',-->
-  <!--        }"-->
-  <!--      ></i>-->
-  <!--    </ng-template>-->
-  <!--  </p-select-button>-->
-</div>
+}

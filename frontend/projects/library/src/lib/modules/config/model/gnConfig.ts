@@ -13,6 +13,7 @@ export interface App {
 }
 
 export interface SearchApp extends App {
+  topTabFilter?: string;
   aggregations: (string | Record<string, elasticsearch.AggregationsAggregationContainer>)[];
   advanced?: SearchAppAdvanced;
 }

@@ -36,6 +36,12 @@ export function migrateGn4Config(gn4config: UiConfiguration): AppsConfiguration 
           [key]: value,
         })),
       };
+      if (
+        (module as Search).facetTabField &&
+        (module as Search).facetConfig[(module as Search).facetTabField]
+      ) {
+        conf.apps.search.topTabFilter = (module as Search).facetTabField;
+      }
     }
   }
 

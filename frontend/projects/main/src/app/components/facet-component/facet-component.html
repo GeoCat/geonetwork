@@ -1,10 +1,14 @@
-
 <p-accordion [value]="['0']" [multiple]="true">
   <p-accordion-panel value="0">
     <p-accordion-header>Catalogue</p-accordion-header>
     <p-accordion-content>
       <div *ngFor="let catalogue of catalogues" class="flex items-center">
-        <p-checkbox [inputId]="catalogue.key" name="group" [value]="catalogue" [(ngModel)]="selectedCatalogue" />
+        <p-checkbox
+          [inputId]="catalogue.key"
+          name="group"
+          [value]="catalogue"
+          [(ngModel)]="selectedCatalogue"
+        />
         <label [for]="catalogue.key" class="ml-2"> {{ catalogue.name }} </label>
       </div>
     </p-accordion-content>
@@ -28,7 +32,12 @@
     <p-accordion-header>INSPIRE themes</p-accordion-header>
     <p-accordion-content>
       <div *ngFor="let theme of inspireThemes" class="flex items-center">
-        <p-checkbox [inputId]="theme.key" name="group" [value]="theme" [(ngModel)]="selectedTheme" />
+        <p-checkbox
+          [inputId]="theme.key"
+          name="group"
+          [value]="theme"
+          [(ngModel)]="selectedTheme"
+        />
         <label [for]="theme.key" class="ml-2"> {{ theme.name }} </label>
       </div>
     </p-accordion-content>
@@ -37,7 +46,12 @@
     <p-accordion-header>Keywords</p-accordion-header>
     <p-accordion-content>
       <div *ngFor="let keyword of keywords" class="flex items-center">
-        <p-checkbox [inputId]="keyword.key" name="group" [value]="keyword" [(ngModel)]="selectedKeyword" />
+        <p-checkbox
+          [inputId]="keyword.key"
+          name="group"
+          [value]="keyword"
+          [(ngModel)]="selectedKeyword"
+        />
         <label [for]="keyword.key" class="ml-2"> {{ keyword.name }} </label>
       </div>
     </p-accordion-content>
@@ -56,7 +70,12 @@
     <p-accordion-header>Resource types</p-accordion-header>
     <p-accordion-content>
       <div *ngFor="let resourceType of resourceTypes" class="flex items-center">
-        <p-checkbox [inputId]="resourceType.key" name="group" [value]="resourceType" [(ngModel)]="selectedResourceType" />
+        <p-checkbox
+          [inputId]="resourceType.key"
+          name="group"
+          [value]="resourceType"
+          [(ngModel)]="selectedResourceType"
+        />
         <label [for]="resourceType.key" class="ml-2"> {{ resourceType.name }} </label>
       </div>
     </p-accordion-content>
@@ -65,7 +84,12 @@
     <p-accordion-header>Available in</p-accordion-header>
     <p-accordion-content>
       <div *ngFor="let availability of availabilities" class="flex items-center">
-        <p-checkbox [inputId]="availability.key" name="group" [value]="availability" [(ngModel)]="selectedAvailability" />
+        <p-checkbox
+          [inputId]="availability.key"
+          name="group"
+          [value]="availability"
+          [(ngModel)]="selectedAvailability"
+        />
         <label [for]="availability.key" class="ml-2"> {{ availability.name }} </label>
       </div>
     </p-accordion-content>

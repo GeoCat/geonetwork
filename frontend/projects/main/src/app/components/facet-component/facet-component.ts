@@ -7,7 +7,7 @@ import { TreeSelect } from 'primeng/treeselect';
 import { NodeService } from '../../services/nodeservice.service';
 import { CommonModule } from '@angular/common';
 import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
-import {Checkbox} from 'primeng/checkbox';
+import { Checkbox } from 'primeng/checkbox';
 
 interface Catalogue {
   name: string;
@@ -44,10 +44,21 @@ interface Availability {
   templateUrl: './facet-component.html',
   styleUrl: './facet-component.scss',
   standalone: true,
-  imports: [ FormsModule, FloatLabel, TreeSelect, KeyValuePipe, JsonPipe, AccordionHeader, AccordionContent, AccordionPanel, Accordion, CommonModule, Checkbox],
+  imports: [
+    FormsModule,
+    FloatLabel,
+    TreeSelect,
+    KeyValuePipe,
+    JsonPipe,
+    AccordionHeader,
+    AccordionContent,
+    AccordionPanel,
+    Accordion,
+    CommonModule,
+    Checkbox,
+  ],
   providers: [NodeService],
 })
-
 export class FacetComponent implements OnInit {
   readonly searchStore = inject(SearchStore);
 
@@ -147,7 +158,6 @@ export class FacetComponent implements OnInit {
       { name: 'Image', key: 'image' },
       { name: 'XML', key: 'collection' },
     ];
-
   }
 
   ngOnInit(): void {}

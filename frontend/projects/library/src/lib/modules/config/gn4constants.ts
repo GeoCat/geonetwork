@@ -338,7 +338,7 @@ export const DEFAULT_UI_CONFIGURATION: UiConfiguration = {
           minimum_should_match: '70%',
         },
       },
-      facetTabField: '',
+      facetTabField: 'resourceType',
       // Enable vega only if using vega facet type
       // See https://github.com/geonetwork/core-geonetwork/pull/5349
       isVegaEnabled: true,

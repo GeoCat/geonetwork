@@ -9,6 +9,7 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 type searchState = {
   searchQuery: string;
   results: elasticsearch.SearchHit<IndexRecord>[] | [];
+  topFilter?: string;
   aggregations: Record<string, elasticsearch.AggregationsAggregate> | {};
   totalCount: number;
   isLoading: boolean;
