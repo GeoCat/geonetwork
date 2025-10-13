@@ -1,13 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SelectButton } from 'primeng/selectbutton';
 import {ButtonModule} from 'primeng/button';
 
 @Component({
   selector: 'app-result-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectButton, ButtonModule],
+  imports: [CommonModule, FormsModule, ButtonModule],
   templateUrl: './result-header.html',
   styleUrl: './result-header.scss',
 })

@@ -3,12 +3,14 @@
     <div class="relative flex-1">
       <p-inputgroup>
         <input
-          type="text"
-          pInputText
           placeholder="Search datasets, documentation, services, maps"
           class="border border-gray-400 focus:border-blue-400 rounded-full"
-          [value]="query"
+          type="text"
+          pInputText
+          name="search"
+          [(ngModel)]="query"
           (input)="onInput($event)"
+          (keydown)="onKeyDown($event)"
         />
         <p-inputgroup-addon>
           <p-button

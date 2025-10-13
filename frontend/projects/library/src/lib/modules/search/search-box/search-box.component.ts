@@ -62,6 +62,8 @@ export class SearchBox implements OnInit {
   }
 
   onInput(event: Event) {
+    if (this.isHomepage) return;
+
     const target = event.target as HTMLInputElement;
     const value = target?.value || '';
     this.query = value;
@@ -70,10 +72,15 @@ export class SearchBox implements OnInit {
     this.updateUrlAndSearch(value.trim());
   }
 
+  onKeyDown(event: KeyboardEvent) {
+    if (this.isHomepage && event.key === 'Enter') {
+      this.onSearch();
+    }
+  }
+
   private updateUrlAndSearch(query: string) {
     if (this.isHomepage) {
       this.router.navigate(['/catalogue'], {
-        relativeTo: this.route,
         queryParams: {
           q: query || null,
           page: null,
@@ -95,4 +102,5 @@ export class SearchBox implements OnInit {
 
     this.store.searchWithPagination(query, 0, 10);
   }
+
 }

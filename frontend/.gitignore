@@ -41,8 +41,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/projects/main/.angular/cache/20.3.2/main/.tsbuildinfo
-/frontend/projects/main/.angular/cache/20.3.2/main/angular-compiler.db
-/frontend/projects/main/.angular/cache/20.3.2/main/angular-compiler.db-lock
-/projects/main/.angular/cache/20.3.2/main/angular-compiler.db
-/projects/main/.angular/cache/20.3.2/main/angular-compiler.db-lock
+/frontend/projects/main/.angular/*
+/projects/main/.angular/cache/*
