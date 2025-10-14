@@ -5,12 +5,10 @@ import { faEnvelope } from '@ng-icons/font-awesome/regular';
 
 @Component({
   selector: 'app-bottom-navigation',
-  imports: [
-    NgIcon
-  ],
+  imports: [NgIcon],
   templateUrl: './bottom-navigation.html',
   styleUrl: './bottom-navigation.scss',
-  viewProviders: [provideIcons({faBrandGithub, faEnvelope})],
+  viewProviders: [provideIcons({ faBrandGithub, faEnvelope })],
   standalone: true,
 })
 export class BottomNavigation {}

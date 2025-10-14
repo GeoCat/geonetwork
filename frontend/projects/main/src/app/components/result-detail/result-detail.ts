@@ -8,7 +8,12 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 import { LoadingComponent } from '../loading-component/loading-component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faImage } from '@ng-icons/font-awesome/regular';
-import { faSolidArrowLeft, faSolidCircleExclamation, faSolidDownload, faSolidShareNodes } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidArrowLeft,
+  faSolidCircleExclamation,
+  faSolidDownload,
+  faSolidShareNodes,
+} from '@ng-icons/font-awesome/solid';
 
 // TODO: Move to model if needed
 type ExtendedIndexRecord = IndexRecord & {
@@ -23,8 +28,24 @@ type ExtendedIndexRecord = IndexRecord & {
 @Component({
   selector: 'app-result-detail',
   standalone: true,
-  imports: [CommonModule, ButtonModule, ButtonLabel, ButtonIcon, CardModule, LoadingComponent, NgIcon],
-  viewProviders: [provideIcons({faImage, faSolidArrowLeft, faSolidDownload, faSolidShareNodes, faSolidCircleExclamation})],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    ButtonLabel,
+    ButtonIcon,
+    CardModule,
+    LoadingComponent,
+    NgIcon,
+  ],
+  viewProviders: [
+    provideIcons({
+      faImage,
+      faSolidArrowLeft,
+      faSolidDownload,
+      faSolidShareNodes,
+      faSolidCircleExclamation,
+    }),
+  ],
   templateUrl: './result-detail.html',
 })
 export class ResultDetailComponent implements OnInit {

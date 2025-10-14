@@ -5,10 +5,8 @@ import { faSolidMagnifyingGlass } from '@ng-icons/font-awesome/solid';
 @Component({
   selector: 'app-empty-state',
   standalone: true,
-  imports: [
-    NgIcon
-  ],
-  viewProviders: [provideIcons({faSolidMagnifyingGlass})],
+  imports: [NgIcon],
+  viewProviders: [provideIcons({ faSolidMagnifyingGlass })],
   templateUrl: './empty-state.html',
 })
 export class EmptyStateComponent {

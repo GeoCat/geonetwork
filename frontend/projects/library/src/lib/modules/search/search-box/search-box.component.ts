@@ -23,7 +23,7 @@ import { faSolidXmark, faSolidMagnifyingGlass } from '@ng-icons/font-awesome/sol
   selector: 'app-search-component',
   standalone: true,
   imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button, NgIcon, ButtonIcon],
-  viewProviders: [provideIcons({faSolidMagnifyingGlass, faSolidXmark})],
+  viewProviders: [provideIcons({ faSolidMagnifyingGlass, faSolidXmark })],
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

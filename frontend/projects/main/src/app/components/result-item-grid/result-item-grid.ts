@@ -12,7 +12,7 @@ import { faSolidEye } from '@ng-icons/font-awesome/solid';
   standalone: true,
   imports: [ButtonModule, TooltipModule, NgIcon],
   templateUrl: './result-item-grid.html',
-  viewProviders: [provideIcons({faImage, faSolidEye})],
+  viewProviders: [provideIcons({ faImage, faSolidEye })],
   styleUrl: './result-item-grid.scss',
 })
 export class ResultItemGrid {

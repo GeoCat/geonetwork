@@ -11,8 +11,8 @@ import { faUser } from '@ng-icons/font-awesome/regular';
   templateUrl: './top-navigation.html',
   styleUrl: './top-navigation.scss',
   standalone: true,
-  viewProviders: [provideIcons({faUser})],
-  imports: [ButtonModule, StyleClassModule, RouterLink, NgIcon]
+  viewProviders: [provideIcons({ faUser })],
+  imports: [ButtonModule, StyleClassModule, RouterLink, NgIcon],
 })
 export class TopNavigation {
   logo = '/images/logo.svg';
