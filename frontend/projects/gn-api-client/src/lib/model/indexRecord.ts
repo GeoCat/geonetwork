@@ -25,6 +25,11 @@ import { Link } from './link';
 import { VerticalRange } from './verticalRange';
 
 export interface IndexRecord {
+  [key: string]: any;
+  info?: {
+    _id: string;
+    [key: string]: any;
+  };
   docType?: IndexRecord.DocTypeEnum;
   document?: string;
   metadataIdentifier?: string;

@@ -87,12 +87,22 @@ export class SearchService {
     return aggregations;
   }
 
+  buildIndexRecord(hit: elasticsearch.SearchHit<IndexRecord>): IndexRecord {
+    // TODO: Handle multilingual fields
+    return {
+      ...hit._source,
+      info: {
+        _id: hit._id,
+      },
+    } as IndexRecord;
+  }
+
   getByQuery(
     query: string,
     page: number = 0,
     size: number = 10,
   ): Observable<{
-    results: elasticsearch.SearchHit<IndexRecord>[];
+    results: IndexRecord[];
     aggregations: Record<string, elasticsearch.AggregationsAggregationContainer> | {};
     totalCount: number;
   }> {
@@ -126,7 +136,9 @@ export class SearchService {
           }
 
           return {
-            results: response.hits.hits,
+            results: response.hits.hits.map((hit) => {
+              return this.buildIndexRecord(hit);
+            }),
             aggregations: response.aggregations ?? {},
             totalCount: totalCount,
           };
@@ -135,7 +147,7 @@ export class SearchService {
     );
   }
 
-  getById(id: string): Observable<elasticsearch.SearchHit<IndexRecord> | null> {
+  getById(id: string): Observable<IndexRecord | null> {
     let searchRequest: elasticsearch.SearchRequest = {
       query: {
         term: {
@@ -159,7 +171,7 @@ export class SearchService {
             return null;
           }
 
-          return hits[0];
+          return this.buildIndexRecord(hits[0]);
         },
       ),
     );

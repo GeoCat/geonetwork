@@ -12,23 +12,23 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
   styleUrl: './result-item-grid.scss',
 })
 export class ResultItemGrid {
-  @Input() result!: elasticsearch.SearchHit<IndexRecord>;
+  @Input() result!: IndexRecord;
   @Output() viewDetails = new EventEmitter<string>();
   @Output() download = new EventEmitter<string>();
 
   getTruncatedDescription(): string {
-    const description = this.result._source?.resourceAbstractObject?.['default'];
+    const description = this.result.resourceAbstractObject?.['default'];
     if (!description) return 'No description available';
 
     return description.length > 100 ? description.substring(0, 100) + '...' : description;
   }
 
   onViewDetails() {
-    this.viewDetails.emit(this.result._id);
+    this.viewDetails.emit(this.result.info?._id);
   }
 
   getOverviewImage(): string | null {
-    const overview = this.result?._source?.overview;
+    const overview = this.result?.overview;
     if (overview && overview.length > 0) {
       if (overview[0].data && overview[0].data.startsWith('data:image')) {
         return overview[0].data;
@@ -41,7 +41,7 @@ export class ResultItemGrid {
   }
 
   getOverviewImageName(): string {
-    const overview = this.result?._source?.overview;
+    const overview = this.result?.overview;
     if (overview && overview.length > 0 && overview[0].nameObject) {
       return overview[0].nameObject['default'] || overview[0].nameObject['langfre'] || 'Image';
     }

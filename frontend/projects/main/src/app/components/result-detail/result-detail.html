@@ -21,10 +21,10 @@
       <ng-template pTemplate="header">
         <div class="p-4 bg-surface-50">
           <h1 class="text-2xl font-bold">
-            {{ result()?._source?.resourceTitleObject?.['default'] }}
+            {{ result()?.resourceTitleObject?.['default'] }}
           </h1>
-          <h2 class="text-xl">{{ result()?._source?.resourceType }}</h2>
-          <p class="text-surface-600 mt-2">ID: {{ result()?._source?.uuid }}</p>
+          <h2 class="text-xl">{{ result()?.resourceType }}</h2>
+          <p class="text-surface-600 mt-2">ID: {{ result()?.uuid }}</p>
         </div>
       </ng-template>
       <div class="p-4">
@@ -47,9 +47,7 @@
           <div class="md:col-span-2">
             <h3 class="text-xl font-semibold mb-3">Description</h3>
             <p class="text-surface-700 leading-relaxed mb-6">
-              {{
-                result()?._source?.resourceAbstractObject?.['default'] || 'No description available'
-              }}
+              {{ result()?.resourceAbstractObject?.['default'] || 'No description available' }}
             </p>
             <div class="flex gap-3">
               <button

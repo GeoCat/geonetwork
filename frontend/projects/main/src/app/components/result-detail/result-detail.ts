@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { SearchService } from 'gn-library';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
 
+// TODO: Move to model if needed
 type ExtendedIndexRecord = IndexRecord & {
   cl_spatialRepresentationType?: {
     key: string;
@@ -26,7 +27,7 @@ export class ResultDetailComponent implements OnInit {
   private router = inject(Router);
   private searchService = inject(SearchService);
 
-  result = signal<elasticsearch.SearchHit<ExtendedIndexRecord> | null>(null);
+  result = signal<ExtendedIndexRecord | null>(null);
 
   isLoading = signal(true);
 
@@ -63,7 +64,7 @@ export class ResultDetailComponent implements OnInit {
   }
 
   getOverviewImage(): string | null {
-    const overview = this.result()?._source?.overview;
+    const overview = this.result()?.overview;
     if (overview && overview.length > 0) {
       if (overview[0].data && overview[0].data.startsWith('data:image')) {
         return overview[0].data;
@@ -76,7 +77,7 @@ export class ResultDetailComponent implements OnInit {
   }
 
   getOverviewImageName(): string {
-    const overview = this.result()?._source?.overview;
+    const overview = this.result()?.overview;
     if (overview && overview.length > 0 && overview[0].nameObject) {
       return overview[0].nameObject['default'] || overview[0].nameObject['langfre'] || 'Image';
     }
@@ -84,28 +85,25 @@ export class ResultDetailComponent implements OnInit {
   }
 
   getAuthors(): any[] {
-    const source = this.result()?._source as any;
-    const contacts = source?.contactForResource || [];
+    const contacts = this.result()?.['contactForResource'] || [];
     return contacts.filter((contact: any) => contact.role === 'author');
   }
 
   getOrgName(): string {
-    return (this.result()?.['_source'] as any)?.OrgObject?.default ?? '';
+    return (this.result()?.OrgObject as any)?.['default'] ?? '';
   }
 
   getContacts(): any[] {
-    const source = this.result()?._source as any;
-    const contacts = source?.contact || [];
+    const contacts = this.result()?.['contact'] || [];
     return contacts.filter((contact: any) => contact.role === 'pointOfContact');
   }
 
   getLineage(): string {
-    return (this.result()?.['_source'] as any)?.lineageObject?.default ?? '';
+    return (this.result()?.lineageObject as any)?.['default'] ?? '';
   }
 
   getConstraints(): { default: string; link: string } {
-    const constraint = (this.result()?.['_source'] as any)
-      ?.MD_LegalConstraintsUseLimitationObject?.[0];
+    const constraint = this.result()?.['MD_LegalConstraintsUseLimitationObject']?.[0];
     return {
       default: constraint?.default ?? '',
       link: constraint?.link ?? '',
@@ -113,7 +111,7 @@ export class ResultDetailComponent implements OnInit {
   }
 
   getUseConstraint(): { default: string; link: string } {
-    const constraint = (this.result()?.['_source'] as any)?.cl_useConstraints?.[0];
+    const constraint = this.result()?.['cl_useConstraints']?.[0];
     return {
       default: constraint?.default ?? '',
       link: constraint?.link ?? '',
@@ -121,8 +119,7 @@ export class ResultDetailComponent implements OnInit {
   }
 
   getOtherConstraint(): { default: string; link: string } {
-    const constraint = (this.result()?.['_source'] as any)
-      ?.MD_LegalConstraintsOtherConstraintsObject?.[0];
+    const constraint = this.result()?.['MD_LegalConstraintsOtherConstraintsObject']?.[0];
     return {
       default: constraint?.default ?? '',
       link: constraint?.link ?? '',

@@ -14,7 +14,7 @@ type searchState = {
   id: string;
   routing: boolean;
   searchQuery: string;
-  results: elasticsearch.SearchHit<IndexRecord>[] | [];
+  results: IndexRecord[] | [];
   topFilter?: string;
   aggregationsConfig: (string | Record<string, elasticsearch.AggregationsAggregationContainer>)[];
   aggregations: Record<string, elasticsearch.AggregationsAggregate> | {};
