@@ -1259,3 +1259,147 @@ export const DEFAULT_UI_CONFIGURATION: UiConfiguration = {
     },
   },
 };
+
+export const SEXTANT_UI_CONFIGURATION: UiConfiguration = {
+  ...DEFAULT_UI_CONFIGURATION,
+  mods: {
+    ...DEFAULT_UI_CONFIGURATION.mods,
+    search: {
+      ...DEFAULT_UI_CONFIGURATION.mods.search,
+      facetConfig: {
+        ...{
+          group: {
+            terms: {
+              field: 'groupPublishedId',
+              size: 300,
+              include: '.*',
+              exclude: '1',
+            },
+            meta: {
+              field: 'groupPublishedId',
+              orderByTranslation: true,
+              filterByTranslation: true,
+              displayFilter: true,
+              collapsed: true,
+            },
+          },
+          // (Experimental) A tree field which contains a URI
+          // eg. http://www.ifremer.fr/thesaurus/sextant/theme#52
+          // but with a translation which contains a hierarchy with a custom separator
+          // /Regulation and Management/Technical and Management Zonations/Sensitive Zones
+          'th_sextant-theme_tree.key': {
+            terms: {
+              field: 'th_sextant-theme_tree.key',
+              size: 300,
+              order: { _key: 'asc' },
+            },
+            meta: {
+              collapsed: true,
+              orderByTranslation: true,
+              // 'translateOnLoad': true,
+              // 'treeKeySeparator': '^'
+            },
+          },
+          'th_httpinspireeceuropaeutheme-theme_tree.key': {
+            terms: {
+              field: 'th_httpinspireeceuropaeutheme-theme_tree.key',
+              size: 34,
+              order: { _key: 'asc' },
+            },
+            meta: {
+              collapsed: true,
+              translateOnLoad: true,
+              orderByTranslation: true,
+            },
+          },
+          'tag.default': {
+            terms: {
+              field: 'tag.default',
+              include: '.*',
+              size: 10,
+            },
+            meta: {
+              collapsed: true,
+              caseInsensitiveInclude: true,
+            },
+          },
+          creationYearForResource: {
+            terms: {
+              field: 'creationYearForResource',
+              size: 10,
+              order: {
+                _key: 'desc',
+              },
+            },
+            meta: {
+              collapsed: true,
+            },
+          },
+          // resourceTemporalDateRange: {
+          //   gnBuildFilterForRange: {
+          //     field: "resourceTemporalDateRange",
+          //     buckets: 2025 - 1970,
+          //     dateFormat: "YYYY",
+          //     dateSelectMode: "years",
+          //     vegaDateFormat: "%Y",
+          //     from: 1970,
+          //     to: 2025,
+          //     mark: "area"
+          //   },
+          //   meta: {
+          //     vega: "timeline",
+          //     collapsed: true
+          //   }
+          // },
+          OrgForResource: {
+            terms: {
+              field: 'OrgForResource',
+              include: '.*',
+              size: 10,
+            },
+            meta: {
+              collapsed: true,
+              // Always display filter even no more elements
+              // This can be used when all facet values are loaded
+              // with a large size and you want to provide filtering.
+              // 'displayFilter': true,
+              caseInsensitiveInclude: true,
+            },
+          },
+          // availableInServices: {
+          //   filters: {
+          //     //"other_bucket_key": "others",
+          //     // But does not support to click on it
+          //     filters: {
+          //       availableInViewService: {
+          //         query_string: {
+          //           query: "+linkProtocol:/" + sextantViewProtocols.join("|") + "/"
+          //         }
+          //       },
+          //       availableInDownloadService: {
+          //         query_string: {
+          //           query:
+          //             "+linkProtocol:/" + sextantDownloadProtocols.join("|") + "/"
+          //         }
+          //       }
+          //     }
+          //   },
+          //   meta: {
+          //     collapsed: true
+          //   }
+          // },
+          resourceType: {
+            terms: {
+              field: 'resourceType',
+              size: 10,
+              exclude: 'map/.*',
+            },
+            meta: {
+              collapsed: true,
+            },
+          },
+        },
+      },
+    },
+  },
+};

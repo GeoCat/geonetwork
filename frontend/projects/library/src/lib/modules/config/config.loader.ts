@@ -1,6 +1,6 @@
 import { Search, UiConfiguration } from './model/gn4config';
 import { InjectionToken } from '@angular/core';
-import { DEFAULT_UI_CONFIGURATION } from './gn4constants';
+import { DEFAULT_UI_CONFIGURATION, SEXTANT_UI_CONFIGURATION } from './gn4constants';
 import { AppsConfiguration } from './model/gnConfig';
 
 export interface ApplicationConfiguration {
@@ -59,12 +59,12 @@ export function loadAppConfig() {
     .then((resp) => {
       if (!resp.ok) {
         //throw new Error('Configuration file could not be loaded')
-        return DEFAULT_UI_CONFIGURATION;
+        return SEXTANT_UI_CONFIGURATION;
       }
       return resp.json();
     })
     .then((conf) => {
-      appConfig.config = migrateGn4Config(DEFAULT_UI_CONFIGURATION);
+      appConfig.config = migrateGn4Config(SEXTANT_UI_CONFIGURATION);
       // TODO: parseGn4Config(conf);
       console.log(appConfig);
       appConfigLoading = false;
