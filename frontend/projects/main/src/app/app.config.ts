@@ -11,6 +11,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { APPLICATION_CONFIGURATION } from 'gn-library';
 import Sextant from './sextant';
 import { provideIcons } from '@ng-icons/core';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +21,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json',
+      }),
+      fallbackLang: 'en',
+      lang: 'fr',
+    }),
     providePrimeNG({
       theme: {
         preset: Sextant,

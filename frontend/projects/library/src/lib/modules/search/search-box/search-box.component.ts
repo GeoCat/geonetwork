@@ -18,11 +18,21 @@ import { SearchStore } from '../search.store';
 import { SearchBase } from '../search-base/search-base';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidXmark, faSolidMagnifyingGlass } from '@ng-icons/font-awesome/solid';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-component',
   standalone: true,
-  imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button, NgIcon, ButtonIcon],
+  imports: [
+    FormsModule,
+    InputText,
+    InputGroup,
+    InputGroupAddon,
+    Button,
+    NgIcon,
+    ButtonIcon,
+    TranslatePipe,
+  ],
   viewProviders: [provideIcons({ faSolidMagnifyingGlass, faSolidXmark })],
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

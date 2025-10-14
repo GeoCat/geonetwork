@@ -25,6 +25,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/main/src/assets"
+              },
+              {
+                "glob": "*",
+                "input": "i18n",
+                "output": "i18n"
               }
             ],
             "styles": ["projects/main/src/styles.scss"]
@@ -79,6 +84,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/main/src/assets"
+              },
+              {
+                "glob": "*",
+                "input": "i18n",
+                "output": "i18n"
               }
             ],
             "styles": ["projects/main/src/styles.scss"]
