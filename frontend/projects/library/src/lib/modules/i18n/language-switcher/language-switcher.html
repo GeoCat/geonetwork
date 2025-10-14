@@ -1,8 +1,9 @@
 @if (languages.length > 1) {
   <p-select
+    [title]="'i18n.languageSwitcher.select' | translate"
     [options]="languages"
     optionValue="iso3code"
-    optionLabel="iso3code"
+    optionLabel="label"
     [(ngModel)]="currentLanguage"
   />
 }

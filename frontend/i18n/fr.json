@@ -3,5 +3,14 @@
     "input": {
       "placeholder": "Rechercher des données, services, publications, ..."
     }
+  },
+  "i18n": {
+    "languageSwitcher": {
+      "select": "Sélectionner votre langue."
+    }
+  },
+  "languages": {
+    "eng": "English",
+    "fre": "Français"
   }
 }
