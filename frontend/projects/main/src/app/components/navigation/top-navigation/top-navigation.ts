@@ -12,5 +12,5 @@ import { RouterLink } from '@angular/router';
   imports: [ButtonModule, StyleClassModule, RouterLink],
 })
 export class TopNavigation {
-  logo = 'assets/images/logo.svg';
+  logo = '/images/logo.svg';
 }

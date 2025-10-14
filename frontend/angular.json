@@ -24,7 +24,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/main/public"
+                "input": "projects/main/src/assets"
               }
             ],
             "styles": ["projects/main/src/styles.scss"]
@@ -78,7 +78,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/main/public"
+                "input": "projects/main/src/assets"
               }
             ],
             "styles": ["projects/main/src/styles.scss"]
