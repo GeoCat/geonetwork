@@ -19,14 +19,7 @@
       <ng-icon name="faUser" />
     </button>
 
-    @if (languages.length > 1) {
-      <p-select
-        [options]="languages"
-        optionValue="iso3code"
-        optionLabel="iso3code"
-        [(ngModel)]="currentLanguage"
-      />
-    }
+    <app-language-switcher />
 
     <!--          <button-->
     <!--            type="button"-->

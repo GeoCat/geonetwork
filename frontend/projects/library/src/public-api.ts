@@ -5,6 +5,7 @@
 export * from './lib/modules/config/config.loader';
 export * from './lib/modules/config/model/gn4config';
 export * from './lib/modules/config/model/gnConfig';
+export * from './lib/modules/i18n/language-switcher/language-switcher';
 export * from './lib/modules/search/search.store';
 export * from './lib/modules/search/search.service';
 export * from './lib/modules/search/search-context.directive';

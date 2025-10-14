@@ -1,0 +1,8 @@
+@if (languages.length > 1) {
+  <p-select
+    [options]="languages"
+    optionValue="iso3code"
+    optionLabel="iso3code"
+    [(ngModel)]="currentLanguage"
+  />
+}

@@ -2574,24 +2574,24 @@ export type AggregationsAggregate =
   // | AggregationsIpRangeAggregate
   // | AggregationsIpPrefixAggregate
   | AggregationsFiltersAggregate;
-  // | AggregationsAdjacencyMatrixAggregate
-  // | AggregationsSignificantLongTermsAggregate
-  // | AggregationsSignificantStringTermsAggregate
-  // | AggregationsUnmappedSignificantTermsAggregate
-  // | AggregationsCompositeAggregate
-  // | AggregationsFrequentItemSetsAggregate
-  // | AggregationsTimeSeriesAggregate
-  // | AggregationsScriptedMetricAggregate
-  // | AggregationsTopHitsAggregate
-  // | AggregationsInferenceAggregate
-  // | AggregationsStringStatsAggregate
-  // | AggregationsBoxPlotAggregate
-  // | AggregationsTopMetricsAggregate
-  // | AggregationsTTestAggregate
-  // | AggregationsRateAggregate
-  // | AggregationsCumulativeCardinalityAggregate
-  // | AggregationsMatrixStatsAggregate
-  // | AggregationsGeoLineAggregate
+// | AggregationsAdjacencyMatrixAggregate
+// | AggregationsSignificantLongTermsAggregate
+// | AggregationsSignificantStringTermsAggregate
+// | AggregationsUnmappedSignificantTermsAggregate
+// | AggregationsCompositeAggregate
+// | AggregationsFrequentItemSetsAggregate
+// | AggregationsTimeSeriesAggregate
+// | AggregationsScriptedMetricAggregate
+// | AggregationsTopHitsAggregate
+// | AggregationsInferenceAggregate
+// | AggregationsStringStatsAggregate
+// | AggregationsBoxPlotAggregate
+// | AggregationsTopMetricsAggregate
+// | AggregationsTTestAggregate
+// | AggregationsRateAggregate
+// | AggregationsCumulativeCardinalityAggregate
+// | AggregationsMatrixStatsAggregate
+// | AggregationsGeoLineAggregate
 export interface AggregationsAggregateBase {
   meta?: Metadata;
 }
