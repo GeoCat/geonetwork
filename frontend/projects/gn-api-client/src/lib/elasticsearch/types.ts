@@ -3,7 +3,6 @@
  * If it's critical for you, please open an issue.
  * https://github.com/elastic/elasticsearch-js
  */
-export type TODO = Record<string, any>;
 export interface BulkCreateOperation extends BulkWriteOperation {}
 export interface BulkDeleteOperation extends BulkOperationBase {}
 export interface BulkIndexOperation extends BulkWriteOperation {}
@@ -2523,28 +2522,28 @@ export type AggregationsAdjacencyMatrixBucket = AggregationsAdjacencyMatrixBucke
   [property: string]: AggregationsAggregate | string | long;
 };
 export type AggregationsAggregate =
-  | AggregationsCardinalityAggregate
-  | AggregationsHdrPercentilesAggregate
-  | AggregationsHdrPercentileRanksAggregate
-  | AggregationsTDigestPercentilesAggregate
-  | AggregationsTDigestPercentileRanksAggregate
-  | AggregationsPercentilesBucketAggregate
-  | AggregationsMedianAbsoluteDeviationAggregate
-  | AggregationsMinAggregate
-  | AggregationsMaxAggregate
-  | AggregationsSumAggregate
-  | AggregationsAvgAggregate
-  | AggregationsWeightedAvgAggregate
-  | AggregationsValueCountAggregate
-  | AggregationsSimpleValueAggregate
-  | AggregationsDerivativeAggregate
-  | AggregationsBucketMetricValueAggregate
-  | AggregationsStatsAggregate
-  | AggregationsStatsBucketAggregate
-  | AggregationsExtendedStatsAggregate
-  | AggregationsExtendedStatsBucketAggregate
-  | AggregationsGeoBoundsAggregate
-  | AggregationsGeoCentroidAggregate
+  // | AggregationsCardinalityAggregate
+  // | AggregationsHdrPercentilesAggregate
+  // | AggregationsHdrPercentileRanksAggregate
+  // | AggregationsTDigestPercentilesAggregate
+  // | AggregationsTDigestPercentileRanksAggregate
+  // | AggregationsPercentilesBucketAggregate
+  // | AggregationsMedianAbsoluteDeviationAggregate
+  // | AggregationsMinAggregate
+  // | AggregationsMaxAggregate
+  // | AggregationsSumAggregate
+  // | AggregationsAvgAggregate
+  // | AggregationsWeightedAvgAggregate
+  // | AggregationsValueCountAggregate
+  // | AggregationsSimpleValueAggregate
+  // | AggregationsDerivativeAggregate
+  // | AggregationsBucketMetricValueAggregate
+  // | AggregationsStatsAggregate
+  // | AggregationsStatsBucketAggregate
+  // | AggregationsExtendedStatsAggregate
+  // | AggregationsExtendedStatsBucketAggregate
+  // | AggregationsGeoBoundsAggregate
+  // | AggregationsGeoCentroidAggregate
   | AggregationsHistogramAggregate
   | AggregationsDateHistogramAggregate
   | AggregationsAutoDateHistogramAggregate
@@ -2558,41 +2557,42 @@ export type AggregationsAggregate =
   | AggregationsUnmappedRareTermsAggregate
   | AggregationsMultiTermsAggregate
   | AggregationsMissingAggregate
-  | AggregationsNestedAggregate
-  | AggregationsReverseNestedAggregate
-  | AggregationsGlobalAggregate
-  | AggregationsFilterAggregate
-  | AggregationsChildrenAggregate
-  | AggregationsParentAggregate
-  | AggregationsSamplerAggregate
-  | AggregationsUnmappedSamplerAggregate
-  | AggregationsGeoHashGridAggregate
-  | AggregationsGeoTileGridAggregate
-  | AggregationsGeoHexGridAggregate
-  | AggregationsRangeAggregate
-  | AggregationsDateRangeAggregate
-  | AggregationsGeoDistanceAggregate
-  | AggregationsIpRangeAggregate
-  | AggregationsIpPrefixAggregate
+  // | AggregationsNestedAggregate
+  // | AggregationsReverseNestedAggregate
+  // | AggregationsGlobalAggregate
+  // | AggregationsFilterAggregate
+  // | AggregationsChildrenAggregate
+  // | AggregationsParentAggregate
+  // | AggregationsSamplerAggregate
+  // | AggregationsUnmappedSamplerAggregate
+  // | AggregationsGeoHashGridAggregate
+  // | AggregationsGeoTileGridAggregate
+  // | AggregationsGeoHexGridAggregate
+  // | AggregationsRangeAggregate
+  // | AggregationsDateRangeAggregate
+  // | AggregationsGeoDistanceAggregate
+  // | AggregationsIpRangeAggregate
+  // | AggregationsIpPrefixAggregate
   | AggregationsFiltersAggregate
-  | AggregationsAdjacencyMatrixAggregate
-  | AggregationsSignificantLongTermsAggregate
-  | AggregationsSignificantStringTermsAggregate
-  | AggregationsUnmappedSignificantTermsAggregate
-  | AggregationsCompositeAggregate
-  | AggregationsFrequentItemSetsAggregate
-  | AggregationsTimeSeriesAggregate
-  | AggregationsScriptedMetricAggregate
-  | AggregationsTopHitsAggregate
-  | AggregationsInferenceAggregate
-  | AggregationsStringStatsAggregate
-  | AggregationsBoxPlotAggregate
-  | AggregationsTopMetricsAggregate
-  | AggregationsTTestAggregate
-  | AggregationsRateAggregate
-  | AggregationsCumulativeCardinalityAggregate
-  | AggregationsMatrixStatsAggregate
-  | AggregationsGeoLineAggregate;
+  // | AggregationsAdjacencyMatrixAggregate
+  // | AggregationsSignificantLongTermsAggregate
+  // | AggregationsSignificantStringTermsAggregate
+  // | AggregationsUnmappedSignificantTermsAggregate
+  // | AggregationsCompositeAggregate
+  // | AggregationsFrequentItemSetsAggregate
+  // | AggregationsTimeSeriesAggregate
+  // | AggregationsScriptedMetricAggregate
+  // | AggregationsTopHitsAggregate
+  // | AggregationsInferenceAggregate
+  // | AggregationsStringStatsAggregate
+  // | AggregationsBoxPlotAggregate
+  // | AggregationsTopMetricsAggregate
+  // | AggregationsTTestAggregate
+  // | AggregationsRateAggregate
+  // | AggregationsCumulativeCardinalityAggregate
+  // | AggregationsMatrixStatsAggregate
+  // | AggregationsGeoLineAggregate
+;
 export interface AggregationsAggregateBase {
   meta?: Metadata;
 }
