@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
 import { SearchService as ApiSearchService } from 'gn4-api-client';
 import { APPLICATION_CONFIGURATION } from '../config/config.loader';
-import { SearchRegistry, SearchStoreType } from './search.store';
+import { SearchRegistry, SearchStoreType, TRACK_TOTAL_HITS } from './search.store';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,6 @@ export class SearchService {
   searchService: ApiSearchService = inject(ApiSearchService);
 
   uiConfiguration = inject(APPLICATION_CONFIGURATION).config;
-
-  constructor() {
-    console.log('SearchService constructor');
-  }
 
   register(searchId: string, searchStore: SearchStoreType) {
     if (this.store[searchId]) {
@@ -103,6 +99,7 @@ export class SearchService {
     let searchRequest: elasticsearch.SearchRequest = {
       from: page * size,
       size: size,
+      track_total_hits: TRACK_TOTAL_HITS,
       query: this.buildQuery(query),
       aggregations: this.buildAggregation(this.uiConfiguration?.apps?.search?.aggregations ?? []),
     };

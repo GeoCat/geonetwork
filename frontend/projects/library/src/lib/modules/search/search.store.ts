@@ -8,6 +8,8 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 
 export const DEFAULT_PAGE_SIZE = 10;
 
+export const TRACK_TOTAL_HITS = true;
+
 type searchState = {
   id: string;
   routing: boolean;
