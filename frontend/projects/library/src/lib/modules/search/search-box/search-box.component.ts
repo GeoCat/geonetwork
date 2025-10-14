@@ -12,15 +12,18 @@ import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
-import { Button } from 'primeng/button';
+import { Button, ButtonIcon } from 'primeng/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchStore } from '../search.store';
 import { SearchBase } from '../search-base/search-base';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidXmark, faSolidMagnifyingGlass } from '@ng-icons/font-awesome/solid';
 
 @Component({
   selector: 'app-search-component',
   standalone: true,
-  imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button],
+  imports: [FormsModule, InputText, InputGroup, InputGroupAddon, Button, NgIcon, ButtonIcon],
+  viewProviders: [provideIcons({faSolidMagnifyingGlass, faSolidXmark})],
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

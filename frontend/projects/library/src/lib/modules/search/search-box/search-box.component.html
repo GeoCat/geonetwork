@@ -14,11 +14,12 @@
         />
         <p-inputgroup-addon>
           <p-button
-            icon="pi pi-search"
             severity="secondary"
             variant="text"
             (onClick)="onSearch()"
-          />
+          >
+            <ng-icon name="faSolidMagnifyingGlass" pButtonIcon></ng-icon>
+          </p-button>
         </p-inputgroup-addon>
       </p-inputgroup>
 
@@ -28,7 +29,7 @@
           (click)="clearQuery()"
           class="z-50 absolute right-15 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
         >
-          <i class="pi pi-times"></i>
+          <ng-icon name="faSolidXmark"/>
         </button>
       }
     </div>

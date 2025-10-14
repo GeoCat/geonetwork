@@ -10,6 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient } from '@angular/common/http';
 import { APPLICATION_CONFIGURATION } from 'gn-library';
 import Sextant from './sextant';
+import { provideIcons } from '@ng-icons/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [

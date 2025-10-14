@@ -2,18 +2,16 @@
   <div class="mb-4">
     <button
       pButton
-      icon="pi pi-arrow-left"
-      label="Back to Results"
       (click)="goBack()"
       [outlined]="true"
-    ></button>
+    >
+      <ng-icon name="faSolidArrowLeft" pButtonIcon></ng-icon>
+      <span pButtonLabel>Back to Results</span>
+    </button>
   </div>
 
   @if (isLoading()) {
-    <div class="text-center p-8">
-      <i class="pi pi-spin pi-spinner text-3xl"></i>
-      <p class="mt-2">Loading details...</p>
-    </div>
+    <app-loading-component/>
   }
 
   @if (result() && !isLoading()) {
@@ -39,7 +37,7 @@
                   (error)="$event.target.style.display = 'none'"
                 />
               } @else {
-                <i class="pi pi-file-o text-6xl text-surface-400"></i>
+                <ng-icon name="faImage" class="text-6xl text-surface-400"></ng-icon>
                 <p class="mt-2 text-sm text-surface-600">No preview available</p>
               }
             </div>
@@ -52,11 +50,15 @@
             <div class="flex gap-3">
               <button
                 pButton
-                icon="pi pi-download"
-                label="Download"
                 class="flex-auto md:flex-initial"
-              ></button>
-              <button pButton icon="pi pi-share-alt" label="Share" [outlined]="true"></button>
+              >
+                <ng-icon name="faSolidDownload" pButtonIcon></ng-icon>
+                <span pButtonLabel>Download</span>
+              </button>
+              <button pButton [outlined]="true">
+                <ng-icon name="faSolidShareNodes" pButtonIcon></ng-icon>
+                <span pButtonLabel>Share</span>
+              </button>
             </div>
           </div>
         </div>
@@ -164,7 +166,7 @@
 
   @if (!result() && !isLoading()) {
     <div class="text-center p-8">
-      <i class="pi pi-exclamation-triangle text-4xl text-orange-500"></i>
+      <ng-icon name="faSolidCircleExclamation" class="text-4xl text-orange-500"/>
       <h2 class="text-xl font-semibold mt-3">Record Not Found</h2>
       <p class="text-surface-600 mt-2">The requested catalogue item could not be found.</p>
     </div>

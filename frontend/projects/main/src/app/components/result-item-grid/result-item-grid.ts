@@ -3,12 +3,16 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faImage } from '@ng-icons/font-awesome/regular';
+import { faSolidEye } from '@ng-icons/font-awesome/solid';
 
 @Component({
   selector: 'app-result-item-grid',
   standalone: true,
-  imports: [ButtonModule, TooltipModule],
+  imports: [ButtonModule, TooltipModule, NgIcon],
   templateUrl: './result-item-grid.html',
+  viewProviders: [provideIcons({faImage, faSolidEye})],
   styleUrl: './result-item-grid.scss',
 })
 export class ResultItemGrid {

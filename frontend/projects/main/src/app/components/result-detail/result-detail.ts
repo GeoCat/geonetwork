@@ -1,10 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+import { ButtonIcon, ButtonLabel, ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { SearchService } from 'gn-library';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
+import { LoadingComponent } from '../loading-component/loading-component';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faImage } from '@ng-icons/font-awesome/regular';
+import { faSolidArrowLeft, faSolidCircleExclamation, faSolidDownload, faSolidShareNodes } from '@ng-icons/font-awesome/solid';
 
 // TODO: Move to model if needed
 type ExtendedIndexRecord = IndexRecord & {
@@ -19,7 +23,8 @@ type ExtendedIndexRecord = IndexRecord & {
 @Component({
   selector: 'app-result-detail',
   standalone: true,
-  imports: [CommonModule, ButtonModule, CardModule],
+  imports: [CommonModule, ButtonModule, ButtonLabel, ButtonIcon, CardModule, LoadingComponent, NgIcon],
+  viewProviders: [provideIcons({faImage, faSolidArrowLeft, faSolidDownload, faSolidShareNodes, faSolidCircleExclamation})],
   templateUrl: './result-detail.html',
 })
 export class ResultDetailComponent implements OnInit {
