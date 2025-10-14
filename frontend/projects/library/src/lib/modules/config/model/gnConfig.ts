@@ -6,10 +6,19 @@ export interface AppsConfiguration {
 
 export interface Apps {
   search?: SearchApp;
+  i18n?: I18nApp;
 }
 
 export interface App {
   enabled: boolean;
+}
+
+export interface I18nApp extends App {
+  languages: {
+    [iso3code: string]: string;
+  };
+  language: string;
+  detection?: 'browser' | 'url' | 'html' | 'none';
 }
 
 export interface SearchApp extends App {

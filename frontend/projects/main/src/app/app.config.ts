@@ -10,7 +10,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient } from '@angular/common/http';
 import { APPLICATION_CONFIGURATION } from 'gn-library';
 import Sextant from './sextant';
-import { provideIcons } from '@ng-icons/core';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -27,7 +26,7 @@ export const appConfig: ApplicationConfig = {
         suffix: '.json',
       }),
       fallbackLang: 'en',
-      lang: 'fr',
+      lang: 'en',
     }),
     providePrimeNG({
       theme: {

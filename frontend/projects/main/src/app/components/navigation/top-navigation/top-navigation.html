@@ -18,6 +18,16 @@
     >
       <ng-icon name="faUser" />
     </button>
+
+    @if (languages.length > 1) {
+      <p-select
+        [options]="languages"
+        optionValue="iso3code"
+        optionLabel="iso3code"
+        [(ngModel)]="currentLanguage"
+      />
+    }
+
     <!--          <button-->
     <!--            type="button"-->
     <!--            class="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-100 dark:hover:bg-surface-800 transition-all text-surface-900 dark:text-surface-0 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 dark:focus-visible:ring-offset-surface-950"-->

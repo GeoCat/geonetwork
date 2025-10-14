@@ -1,7 +1,7 @@
 import { Search, UiConfiguration } from './model/gn4config';
 import { InjectionToken } from '@angular/core';
 import { DEFAULT_UI_CONFIGURATION, SEXTANT_UI_CONFIGURATION } from './gn4constants';
-import { AppsConfiguration } from './model/gnConfig';
+import { AppsConfiguration, I18nApp } from './model/gnConfig';
 
 export interface ApplicationConfiguration {
   config: AppsConfiguration | undefined;
@@ -9,6 +9,8 @@ export interface ApplicationConfiguration {
 }
 
 export const DEFAULT_SPACE = 'srv';
+
+export const DEFAULT_LANGUAGE = 'eng';
 
 export const APPLICATION_CONFIGURATION = new InjectionToken<ApplicationConfiguration>('app.config');
 
@@ -42,6 +44,12 @@ export function migrateGn4Config(gn4config: UiConfiguration): AppsConfiguration 
       ) {
         conf.apps.search.topTabFilter = (module as Search).facetTabField;
       }
+    } else if (modKey === 'header') {
+      conf.apps.i18n = {
+        enabled: true,
+        languages: (module as any).languages || DEFAULT_UI_CONFIGURATION.mods.header.languages,
+        language: gn4config.langDetector.default || DEFAULT_LANGUAGE,
+      };
     }
   }
 

@@ -2573,7 +2573,7 @@ export type AggregationsAggregate =
   // | AggregationsGeoDistanceAggregate
   // | AggregationsIpRangeAggregate
   // | AggregationsIpPrefixAggregate
-  | AggregationsFiltersAggregate
+  | AggregationsFiltersAggregate;
   // | AggregationsAdjacencyMatrixAggregate
   // | AggregationsSignificantLongTermsAggregate
   // | AggregationsSignificantStringTermsAggregate
@@ -2592,7 +2592,6 @@ export type AggregationsAggregate =
   // | AggregationsCumulativeCardinalityAggregate
   // | AggregationsMatrixStatsAggregate
   // | AggregationsGeoLineAggregate
-;
 export interface AggregationsAggregateBase {
   meta?: Metadata;
 }
