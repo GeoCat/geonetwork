@@ -37,10 +37,6 @@ export class ResultViewComponent implements OnInit {
     return this.store.results();
   }
 
-  trackByResultId(index: number, result: any): string {
-    return result._id;
-  }
-
   // Add this method to handle layout changes
   onLayoutChange(newLayout: 'list' | 'grid') {
     this.layout = newLayout;

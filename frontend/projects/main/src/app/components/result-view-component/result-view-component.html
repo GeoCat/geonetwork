@@ -24,7 +24,7 @@
         <!-- List View -->
         @if (layout === 'list') {
           <div class="results-list">
-            @for (result of results; track trackByResultId($index, result); let first = $first) {
+            @for (result of results; track $index; let first = $first) {
               <app-result-item-list
                 [result]="result"
                 [isFirst]="first"
@@ -39,7 +39,7 @@
           <div
             class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
-            @for (result of results; track trackByResultId($index, result)) {
+            @for (result of results; track $index) {
               <app-result-item-grid [result]="result" (viewDetails)="viewDetails($event)">
               </app-result-item-grid>
             }
