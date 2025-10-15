@@ -28,6 +28,6 @@ export class App {
   protected readonly title = signal('main');
 
   constructor() {
-    this.translate.addLangs(['fr', 'en']);
+    this.translate.addLangs(['en']);
   }
 }

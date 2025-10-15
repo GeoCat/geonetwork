@@ -7,11 +7,19 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpBackend, provideHttpClient } from '@angular/common/http';
 import { APPLICATION_CONFIGURATION } from 'gn-library';
 import Sextant from './sextant';
-import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
+import { TranslationsLoader } from 'gn-library';
+
+export function TranslationsLoaderFactory(_httpBackend: HttpBackend) {
+  return new TranslationsLoader(_httpBackend, [
+    // Order is important. The last files can override previous ones.
+    { prefix: '/geonetwork/srv/api/i18n/packages/gnui', suffix: '', useHeader: true },
+    { prefix: '/i18n/', suffix: '.json' },
+  ]);
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,10 +29,11 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     provideTranslateService({
-      loader: provideTranslateHttpLoader({
-        prefix: '/i18n/',
-        suffix: '.json',
-      }),
+      loader: {
+        provide: TranslateLoader,
+        useFactory: TranslationsLoaderFactory,
+        deps: [HttpBackend],
+      },
       fallbackLang: 'en',
       lang: 'en',
     }),

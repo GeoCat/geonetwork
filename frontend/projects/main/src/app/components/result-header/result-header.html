@@ -5,7 +5,7 @@
 
       @for (bucket of getFilterBuckets; track $index) {
         <p-button
-          [label]="bucket.key + ' (' + bucket.doc_count + ')'"
+          [label]="(bucket.key | translate) + ' (' + bucket.doc_count + ')'"
           variant="outlined"
           severity="secondary"
           (onClick)="setActive(bucket.key)"
