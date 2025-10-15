@@ -1268,7 +1268,7 @@ export const SEXTANT_UI_CONFIGURATION: UiConfiguration = {
       ...DEFAULT_UI_CONFIGURATION.mods.search,
       facetConfig: {
         ...{
-          group: {
+          groupPublishedId: {
             terms: {
               field: 'groupPublishedId',
               size: 300,
