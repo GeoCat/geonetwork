@@ -2,10 +2,10 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { SearchStore } from 'gn-library';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {Accordion, AccordionContent, AccordionHeader, AccordionPanel} from 'primeng/accordion';
+import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
 import { Checkbox } from 'primeng/checkbox';
-import {TranslatePipe} from '@ngx-translate/core';
-import {elasticsearch} from 'gn-api-client';
+import { TranslatePipe } from '@ngx-translate/core';
+import { elasticsearch } from 'gn-api-client';
 
 interface BucketUI {
   key: string;
@@ -36,14 +36,13 @@ interface AggregationsAggregate {
     AccordionHeader,
     AccordionContent,
     TranslatePipe,
-  ]
+  ],
 })
 export class FacetComponent implements OnInit {
   readonly searchStore = inject(SearchStore);
 
   get aggregations(): Record<string, elasticsearch.AggregationsAggregate> {
     return this.searchStore.aggregations();
-
   }
   aggregationKeys = computed(() => {
     // TODO: Get ordered keys from configuration
@@ -77,10 +76,7 @@ export class FacetComponent implements OnInit {
     this.selectedFilters[groupKey][bucketKey] = value;
     this.searchStore.addFilter(groupKey, bucketKey);
     this.onFilterChange(groupKey, bucketKey, value);
-
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 }

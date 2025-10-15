@@ -1,4 +1,4 @@
-import { computed, inject } from '@angular/core';
+import { computed, inject, Injector } from '@angular/core';
 import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
@@ -7,23 +7,21 @@ import { SearchService } from './search.service';
 import { elasticsearch, IndexRecord } from 'gn-api-client';
 
 export const DEFAULT_PAGE_SIZE = 10;
-
 export const TRACK_TOTAL_HITS = true;
 
 export type Filter = {
   field: string;
   values: (string | number)[];
-}
+};
 
-
-type searchState = {
+type SearchState = {
   id: string;
   routing: boolean;
   searchQuery: string;
-  results: IndexRecord[] | [];
+  results: IndexRecord[];
   topFilter?: string;
   aggregationsConfig: (string | Record<string, elasticsearch.AggregationsAggregationContainer>)[];
-  aggregations: Record<string, elasticsearch.AggregationsAggregate> | {};
+  aggregations: Record<string, elasticsearch.AggregationsAggregate>;
   totalCount: number;
   isLoading: boolean;
   filters: Filter[];
@@ -31,7 +29,7 @@ type searchState = {
   pageSize: number;
 };
 
-const initialState: searchState = {
+const initialState: SearchState = {
   id: 'default',
   routing: false,
   searchQuery: '',
@@ -47,104 +45,108 @@ const initialState: searchState = {
 
 export const SearchStore = signalStore(
   withState(initialState),
+
   withComputed((store) => ({
-    hasResults: computed(() => store.results() !== null && store.results()!.length > 0),
-    isEmpty: computed(() => store.results() !== null && store.results()!.length === 0),
+    hasResults: computed(() => store.results().length > 0),
+    isEmpty: computed(() => store.results().length === 0),
     totalPages: computed(() => Math.ceil(store.totalCount() / store.pageSize())),
   })),
-  withMethods((store, searchService = inject(SearchService)) => ({
-    init(
-      searchId: string,
-      aggregationsConfig: (
-        | string
-        | Record<string, elasticsearch.AggregationsAggregationContainer>
-      )[],
-      size: number,
-      routing: boolean = false,
-    ) {
-      console.log(`Initializing search store with id: ${searchId}`);
-      patchState(store, {
-        id: searchId,
-        aggregationsConfig,
-        pageSize: size,
-        routing: routing,
-      });
-    },
-    loadByQuery: rxMethod<string>(
-      pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => patchState(store, { isLoading: true })),
-        switchMap((query) => {
-          patchState(store, {
-            currentPage: 0,
-            pageSize: 10,
-            searchQuery: query,
-          });
 
-          return searchService.getByQuery(query, 0, 10, store.filters()).pipe(
-            tapResponse({
-              next: (response) =>
-                patchState(store, {
-                  results: response.results,
-                  aggregations: response.aggregations || {},
-                  totalCount: response.totalCount,
-                }),
-              error: console.error,
-              finalize: () => patchState(store, { isLoading: false }),
-            }),
-          );
-        }),
+  withMethods((store, searchService = inject(SearchService)) => {
+    const injector = inject(Injector);
+
+    return {
+      init(
+        searchId: string,
+        aggregationsConfig: (
+          | string
+          | Record<string, elasticsearch.AggregationsAggregationContainer>
+        )[],
+        size: number,
+        routing: boolean = false,
+      ) {
+        console.log(`Initializing search store with id: ${searchId}`);
+        patchState(store, {
+          id: searchId,
+          aggregationsConfig,
+          pageSize: size,
+          routing,
+        });
+      },
+
+      loadByQuery: rxMethod<string>(
+        pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((query) => {
+            patchState(store, {
+              currentPage: 0,
+              pageSize: DEFAULT_PAGE_SIZE,
+              searchQuery: query,
+            });
+
+            return searchService.getByQuery(query, 0, DEFAULT_PAGE_SIZE, store.filters()).pipe(
+              tapResponse({
+                next: (response) =>
+                  patchState(store, {
+                    results: response.results,
+                    aggregations: response.aggregations || {},
+                    totalCount: response.totalCount,
+                  }),
+                error: console.error,
+                finalize: () => patchState(store, { isLoading: false }),
+              }),
+            );
+          }),
+        ),
       ),
-    ),
 
-    loadByQueryWithPagination: rxMethod<{
-      query: string;
-      page: number;
-      size: number;
-    }>(
-      pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => patchState(store, { isLoading: true })),
-        switchMap(({ query, page, size }) => {
-          patchState(store, {
-            currentPage: page,
-            pageSize: size,
-            searchQuery: query,
-          });
+      loadByQueryWithPagination: rxMethod<{ query: string; page: number; size: number }>(
+        pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap(({ query, page, size }) => {
+            patchState(store, {
+              currentPage: page,
+              pageSize: size,
+              searchQuery: query,
+            });
 
-          return searchService.getByQuery(query, page, size, store.filters()).pipe(
-            tapResponse({
-              next: (response) =>
-                patchState(store, {
-                  results: response.results,
-                  aggregations: response.aggregations || {},
-                  totalCount: response.totalCount,
-                }),
-              error: console.error,
-              finalize: () => patchState(store, { isLoading: false }),
-            }),
-          );
-        }),
+            return searchService.getByQuery(query, page, size, store.filters()).pipe(
+              tapResponse({
+                next: (response) =>
+                  patchState(store, {
+                    results: response.results,
+                    aggregations: response.aggregations || {},
+                    totalCount: response.totalCount,
+                  }),
+                error: console.error,
+                finalize: () => patchState(store, { isLoading: false }),
+              }),
+            );
+          }),
+        ),
       ),
-    ),
 
-    searchWithPagination(query: string, page: number = 0, size: number = 10): void {
-      this.loadByQueryWithPagination({ query, page, size });
-    },
+      searchWithPagination(
+        query: string,
+        page: number = 0,
+        size: number = DEFAULT_PAGE_SIZE,
+      ): void {
+        this.loadByQueryWithPagination({ query, page, size });
+      },
 
-    addFilter(field: string, values: string | number){
-      console.log('added filters')
-      patchState(store, {
-        filters: [{ field, values: [values] }]
-      })
+      addFilter(field: string, value: string | number): void {
+        patchState(store, {
+          filters: [{ field, values: [value] }],
+        });
 
-      this.loadByQuery(store.searchQuery);
-
-
-    }
-  })),
+        this.loadByQuery(store.searchQuery(), { injector });
+      },
+    };
+  }),
 );
 
 export type SearchStoreType = InstanceType<typeof SearchStore>;

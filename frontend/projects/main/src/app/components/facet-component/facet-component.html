@@ -6,7 +6,7 @@
 <p-accordion [multiple]="true">
   @for (key of aggregationKeys(); track $index) {
     <p-accordion-panel [value]="$index">
-      <p-accordion-header>{{key | translate}}</p-accordion-header>
+      <p-accordion-header>{{ key | translate }}</p-accordion-header>
       <p-accordion-content>
         @for (bucket of getBuckets(aggregations[key]); track $index) {
           <div class="flex items-center">
@@ -16,7 +16,9 @@
               [ngModel]="getSelected(key, bucket.key)"
               (ngModelChange)="setSelected(key, bucket.key, $event)"
             ></p-checkbox>
-            <label [for]="key + '_' + bucket.key">{{bucket.key | translate}} ({{bucket.doc_count}})</label>
+            <label [for]="key + '_' + bucket.key"
+              >{{ bucket.key | translate }} ({{ bucket.doc_count }})</label
+            >
           </div>
         }
       </p-accordion-content>

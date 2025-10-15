@@ -4,7 +4,7 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 import { SearchService as ApiSearchService } from 'gn4-api-client';
 import { APPLICATION_CONFIGURATION } from '../config/config.loader';
 import { SearchRegistry, SearchStoreType, TRACK_TOTAL_HITS } from './search.store';
-import { Filter } from './search.store'
+import { Filter } from './search.store';
 
 @Injectable({
   providedIn: 'root',
@@ -109,7 +109,7 @@ export class SearchService {
     query: string,
     page: number = 0,
     size: number = 10,
-    filters: Filter[]
+    filters: Filter[],
   ): Observable<{
     results: IndexRecord[];
     aggregations: Record<string, elasticsearch.AggregationsAggregationContainer> | {};
