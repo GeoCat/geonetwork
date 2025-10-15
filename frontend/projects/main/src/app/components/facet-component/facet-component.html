@@ -1,108 +1,29 @@
-<p-accordion [value]="['0']" [multiple]="true">
-  <p-accordion-panel value="0">
-    <p-accordion-header>Catalogue</p-accordion-header>
-    <p-accordion-content>
-      <div *ngFor="let catalogue of catalogues" class="flex items-center">
-        <p-checkbox
-          [inputId]="catalogue.key"
-          name="group"
-          [value]="catalogue"
-          [(ngModel)]="selectedCatalogue"
-        />
-        <label [for]="catalogue.key" class="ml-2"> {{ catalogue.name }} </label>
-      </div>
-    </p-accordion-content>
-  </p-accordion-panel>
-  <p-accordion-panel value="1">
-    <p-accordion-header>Sextant themes</p-accordion-header>
-    <p-accordion-content>
-      <p-floatlabel class="w-full" variant="on">
-        <p-treeSelect
-          class="w-full"
-          [(ngModel)]="selectedNodes"
-          [options]="nodes"
-          placeholder="Sextant themes"
-          [filter]="true"
-          [filterInputAutoFocus]="true"
-        />
-      </p-floatlabel>
-    </p-accordion-content>
-  </p-accordion-panel>
-  <p-accordion-panel value="2">
-    <p-accordion-header>INSPIRE themes</p-accordion-header>
-    <p-accordion-content>
-      <div *ngFor="let theme of inspireThemes" class="flex items-center">
-        <p-checkbox
-          [inputId]="theme.key"
-          name="group"
-          [value]="theme"
-          [(ngModel)]="selectedTheme"
-        />
-        <label [for]="theme.key" class="ml-2"> {{ theme.name }} </label>
-      </div>
-    </p-accordion-content>
-  </p-accordion-panel>
-  <p-accordion-panel value="3">
-    <p-accordion-header>Keywords</p-accordion-header>
-    <p-accordion-content>
-      <div *ngFor="let keyword of keywords" class="flex items-center">
-        <p-checkbox
-          [inputId]="keyword.key"
-          name="group"
-          [value]="keyword"
-          [(ngModel)]="selectedKeyword"
-        />
-        <label [for]="keyword.key" class="ml-2"> {{ keyword.name }} </label>
-      </div>
-    </p-accordion-content>
-  </p-accordion-panel>
+<div class="mt-4">
+  <strong>Debug — aggregations:</strong>
+  <pre style="max-height:200px; overflow:auto">{{ aggregations | json }}</pre>
 
-  <p-accordion-panel value="4">
-    <p-accordion-header>Years</p-accordion-header>
+  <strong>Selected filters:</strong>
+  <pre>{{ selectedFilters | json }}</pre>
+</div>
+
+<p-accordion [multiple]="true">
+  <p-accordion-panel *ngFor="let group of filterGroups; let i = index" [value]="i">
+    <p-accordion-header> {{ group.label }} </p-accordion-header>
     <p-accordion-content>
-      <div *ngFor="let year of years" class="flex items-center">
-        <p-checkbox [inputId]="year.key" name="group" [value]="year" [(ngModel)]="selectedYear" />
-        <label [for]="year.key" class="ml-2"> {{ year.name }} </label>
-      </div>
-    </p-accordion-content>
-  </p-accordion-panel>
-  <p-accordion-panel value="5">
-    <p-accordion-header>Resource types</p-accordion-header>
-    <p-accordion-content>
-      <div *ngFor="let resourceType of resourceTypes" class="flex items-center">
+      <div *ngIf="group.buckets?.length === 0"><em>No options</em></div>
+
+      <div *ngFor="let bucket of group.buckets" class="flex items-center gap-2 my-1">
         <p-checkbox
-          [inputId]="resourceType.key"
-          name="group"
-          [value]="resourceType"
-          [(ngModel)]="selectedResourceType"
-        />
-        <label [for]="resourceType.key" class="ml-2"> {{ resourceType.name }} </label>
-      </div>
-    </p-accordion-content>
-  </p-accordion-panel>
-  <p-accordion-panel value="6">
-    <p-accordion-header>Available in</p-accordion-header>
-    <p-accordion-content>
-      <div *ngFor="let availability of availabilities" class="flex items-center">
-        <p-checkbox
-          [inputId]="availability.key"
-          name="group"
-          [value]="availability"
-          [(ngModel)]="selectedAvailability"
-        />
-        <label [for]="availability.key" class="ml-2"> {{ availability.name }} </label>
+          [binary]="true"
+          [inputId]="group.key + '_' + bucket.key"
+          [ngModel]="getSelected(group.key, bucket.key)"
+          (ngModelChange)="setSelected(group.key, bucket.key, $event)"
+        ></p-checkbox>
+
+        <label [for]="group.key + '_' + bucket.key">
+          {{ bucket?.name }} ({{ bucket?.count }})
+        </label>
       </div>
     </p-accordion-content>
   </p-accordion-panel>
 </p-accordion>
-
-@if (aggregations) {
-  <ul>
-    @for (agg of aggregations | keyvalue; track agg.key) {
-      <li>
-        {{ agg.key }}:
-        {{ getBuckets(agg.value) | json }}
-      </li>
-    }
-  </ul>
-}

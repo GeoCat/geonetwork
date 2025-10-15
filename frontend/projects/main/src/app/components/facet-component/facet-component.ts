@@ -1,43 +1,13 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
-import { KeyValuePipe, JsonPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { SearchStore } from 'gn-library';
 import { FormsModule } from '@angular/forms';
-import { FloatLabel } from 'primeng/floatlabel';
-import { TreeSelect } from 'primeng/treeselect';
-import { NodeService } from '../../services/nodeservice.service';
 import { CommonModule } from '@angular/common';
 import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
 import { Checkbox } from 'primeng/checkbox';
 
-interface Catalogue {
-  name: string;
-  key: string;
-}
-
-interface Theme {
-  name: string;
-  key: string;
-}
-
-interface Keyword {
-  name: string;
-  key: string;
-}
-
-interface Year {
-  name: string;
-  key: string;
-}
-
-interface resourceType {
-  name: string;
-  key: string;
-}
-
-interface Availability {
-  name: string;
-  key: string;
-}
+interface BucketUI { key: string; name: string; count: number; }
+interface AggregationBucket { key: string; doc_count: number; }
+interface AggregationsAggregate { buckets: AggregationBucket[]; }
 
 @Component({
   selector: 'app-facet-component',
@@ -46,119 +16,93 @@ interface Availability {
   standalone: true,
   imports: [
     FormsModule,
-    FloatLabel,
-    TreeSelect,
-    KeyValuePipe,
-    JsonPipe,
-    AccordionHeader,
-    AccordionContent,
     AccordionPanel,
     Accordion,
     CommonModule,
     Checkbox,
-  ],
-  providers: [NodeService],
+    AccordionHeader,
+    AccordionContent,
+  ]
 })
 export class FacetComponent implements OnInit {
   readonly searchStore = inject(SearchStore);
 
+  // if searchStore.aggregations() is a signal or method, call it when updating
   get aggregations() {
     return this.searchStore.aggregations();
   }
-  aggregationKeys = computed(() => {
-    // TODO: Get ordered keys from configuration
-    return Object.keys(this.aggregations) || [];
-  });
-  aggregationList = computed(() => {
-    return Object.values(this.aggregations) || [];
-  });
+
+  filterGroups: { key: string; label: string; buckets: BucketUI[] }[] = [];
+  selectedFilters: Record<string, Record<string, boolean>> = {};
 
   getBuckets(agg: any) {
     return agg?.buckets || [];
   }
 
-  nodes!: any[];
-  selectedNodes: any;
-  catalogues!: Catalogue[];
-  inspireThemes!: Theme[];
-  keywords!: Keyword[];
-  years!: Year[];
-  resourceTypes!: resourceType[];
-  availabilities!: Availability[];
-  selectedCatalogue!: Catalogue[];
-  selectedTheme!: Theme[];
-  selectedKeyword!: Keyword[];
-  selectedYear!: Year[];
-  selectedResourceType!: resourceType[];
-  selectedAvailability!: Availability[];
-
-  constructor(private nodeService: NodeService) {
-    this.nodeService.getFiles().then((files) => (this.nodes = files));
-
-    this.catalogues = [
-      { name: 'Catalogue 1', key: '1' },
-      { name: 'Catalogue 2', key: '2' },
-      { name: 'Catalogue 3', key: '3' },
-    ];
-
-    this.inspireThemes = [
-      { name: 'Theme 1', key: '1' },
-      { name: 'Theme 2', key: '2' },
-      { name: 'Theme 3', key: '3' },
-      { name: 'Theme 4', key: '4' },
-      { name: 'Theme 5', key: '5' },
-      { name: 'Theme 6', key: '6' },
-    ];
-
-    this.keywords = [
-      { name: 'Marine', key: 'marine' },
-      { name: 'Ocean', key: 'ocean' },
-      { name: 'Sea', key: 'sea' },
-      { name: 'Rivers', key: 'rivers' },
-      { name: 'Lakes', key: 'lakes' },
-      { name: 'Coast', key: 'coast' },
-      { name: 'Water', key: 'water' },
-      { name: 'Wildlife', key: 'wildlife' },
-      { name: 'Biodiversity', key: 'biodiversity' },
-      { name: 'Ecosystem', key: 'ecosystem' },
-      { name: 'Environment', key: 'environment' },
-      { name: 'Conservation', key: 'conservation' },
-      { name: 'Sustainability', key: 'sustainability' },
-      { name: 'Biodiversity', key: 'biodiversity' },
-    ];
-
-    this.years = [
-      { name: '2025', key: '2025' },
-      { name: '2024', key: '2024' },
-      { name: '2023', key: '2023' },
-      { name: '2022', key: '2022' },
-      { name: '2021', key: '2021' },
-      { name: '2020', key: '2020' },
-      { name: '2019', key: '2019' },
-      { name: '2018', key: '2018' },
-      { name: '2017', key: '2017' },
-    ];
-
-    this.resourceTypes = [
-      { name: 'Data Set', key: 'dataset' },
-      { name: 'Collection', key: 'collection' },
-      { name: 'API', key: 'api' },
-    ];
-
-    this.availabilities = [
-      { name: 'Documents', key: 'documents' },
-      { name: 'Data Set', key: 'dataset' },
-      { name: 'API', key: 'api' },
-      { name: 'Service', key: 'service' },
-      { name: 'Web Map', key: 'webmap' },
-      { name: 'Web Scene', key: 'webscene' },
-      { name: 'Web Mapping Application', key: 'webmappingapplication' },
-      { name: 'Mobile Application', key: 'mobileapplication' },
-      { name: 'Desktop Application', key: 'desktopapplication' },
-      { name: 'Image', key: 'image' },
-      { name: 'XML', key: 'collection' },
-    ];
+  // pure read-only getter for template
+  getSelected(groupKey: string, bucketKey: string): boolean {
+    return !!this.selectedFilters?.[groupKey]?.[bucketKey];
   }
 
-  ngOnInit(): void {}
+  // write path that ensures nested object exists
+  setSelected(groupKey: string, bucketKey: string, value: boolean) {
+    if (!this.selectedFilters[groupKey]) {
+      this.selectedFilters[groupKey] = {};
+    }
+    this.selectedFilters[groupKey][bucketKey] = value;
+    // any additional handling on change:
+    this.onFilterChange(groupKey, bucketKey, value);
+  }
+
+  onFilterChange(groupKey: string, bucketKey: string, checked: boolean) {
+    // your existing side-effect when a filter changes
+  }
+
+  ngOnInit(): void {
+    // initial attempt to populate (may be empty)
+    this.updateFilterGroups();
+
+    // If your SearchStore exposes an observable or a callback when aggregations change,
+    // subscribe or hook into that and call updateFilterGroups() there.
+    //
+    // Example when searchStore exposes an observable `aggregations$`:
+    // this.searchStore.aggregations$.subscribe(() => this.updateFilterGroups());
+    //
+    // If it exposes a signal-like API, create an effect that calls updateFilterGroups()
+    // whenever aggregations change. The exact subscription depends on your SearchStore API.
+  }
+
+  // call this whenever aggregations become available/updated
+  updateFilterGroups(): void {
+    const aggs = this.aggregations as Record<string, AggregationsAggregate> | undefined;
+    if (!aggs || Object.keys(aggs).length === 0) {
+      this.filterGroups = [];
+      return;
+    }
+
+    this.filterGroups = Object.keys(aggs).map((key) => {
+      const raw = aggs[key];
+      const buckets = this.getBuckets(raw) || [];
+
+      const mapped: BucketUI[] = buckets.map((b: any) => ({
+        key: String(b.key),
+        name: String(b.key),
+        count: b.doc_count ?? 0,
+      }));
+
+      return { key, label: key, buckets: mapped };
+    });
+
+    // ensure selectedFilters has entries for each group and bucket (no mutation during render)
+    for (const group of this.filterGroups) {
+      if (!this.selectedFilters[group.key]) {
+        this.selectedFilters[group.key] = {};
+      }
+      for (const bucket of group.buckets) {
+        if (this.selectedFilters[group.key][bucket.key] === undefined) {
+          this.selectedFilters[group.key][bucket.key] = false;
+        }
+      }
+    }
+  }
 }
