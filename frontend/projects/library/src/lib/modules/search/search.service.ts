@@ -4,6 +4,7 @@ import { elasticsearch, IndexRecord } from 'gn-api-client';
 import { SearchService as ApiSearchService } from 'gn4-api-client';
 import { APPLICATION_CONFIGURATION } from '../config/config.loader';
 import { SearchRegistry, SearchStoreType, TRACK_TOTAL_HITS } from './search.store';
+import { Filter } from './search.store'
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,7 @@ export class SearchService {
     }
   }
 
-  buildQuery(query: string): elasticsearch.QueryDslQueryContainer {
+  buildQuery(query: string, filters: Filter[]): elasticsearch.QueryDslQueryContainer {
     const filter = [
       {
         terms: {
@@ -52,6 +53,13 @@ export class SearchService {
           query: query,
           default_operator: 'AND',
           fields: ['resourceTitleObject.*^5', 'any.*', 'uuid'],
+        },
+      });
+    }
+    for (const filter of filters) {
+      must.push({
+        terms: {
+          [filter.field]: filter.values,
         },
       });
     }
@@ -101,6 +109,7 @@ export class SearchService {
     query: string,
     page: number = 0,
     size: number = 10,
+    filters: Filter[]
   ): Observable<{
     results: IndexRecord[];
     aggregations: Record<string, elasticsearch.AggregationsAggregationContainer> | {};
@@ -110,7 +119,7 @@ export class SearchService {
       from: page * size,
       size: size,
       track_total_hits: TRACK_TOTAL_HITS,
-      query: this.buildQuery(query),
+      query: this.buildQuery(query, filters),
       aggregations: this.buildAggregation(this.uiConfiguration?.apps?.search?.aggregations ?? []),
     };
     // TODO: add sorting

@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {Accordion, AccordionContent, AccordionHeader, AccordionPanel} from 'primeng/accordion';
 import { Checkbox } from 'primeng/checkbox';
+import {TranslatePipe} from '@ngx-translate/core';
+import {elasticsearch} from 'gn-api-client';
 
 interface BucketUI {
   key: string;
@@ -33,13 +35,15 @@ interface AggregationsAggregate {
     Checkbox,
     AccordionHeader,
     AccordionContent,
+    TranslatePipe,
   ]
 })
 export class FacetComponent implements OnInit {
   readonly searchStore = inject(SearchStore);
 
-  get aggregations() {
+  get aggregations(): Record<string, elasticsearch.AggregationsAggregate> {
     return this.searchStore.aggregations();
+
   }
   aggregationKeys = computed(() => {
     // TODO: Get ordered keys from configuration
@@ -71,32 +75,9 @@ export class FacetComponent implements OnInit {
       this.selectedFilters[groupKey] = {};
     }
     this.selectedFilters[groupKey][bucketKey] = value;
+    this.searchStore.addFilter(groupKey, bucketKey);
     this.onFilterChange(groupKey, bucketKey, value);
-  }
 
-
-  get filterGroups(): { key: string; label: string; buckets: BucketUI[] }[] {
-    const aggs = this.aggregations as Record<string, AggregationsAggregate>;
-    if (!aggs || Object.keys(aggs).length === 0) {
-      return [];
-    }
-
-    return Object.keys(aggs).map((key) => {
-      const raw = aggs[key];
-      const buckets = this.getBuckets(raw) || [];
-
-      const mapped: BucketUI[] = buckets.map((b: any) => ({
-        key: String(b.key),
-        name: String(b.key),
-        count: b.doc_count ?? 0,
-      }));
-
-      return {
-        key,
-        label: key,
-        buckets: mapped,
-      };
-    });
   }
 
   ngOnInit(): void {

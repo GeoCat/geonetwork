@@ -10,6 +10,12 @@ export const DEFAULT_PAGE_SIZE = 10;
 
 export const TRACK_TOTAL_HITS = true;
 
+export type Filter = {
+  field: string;
+  values: (string | number)[];
+}
+
+
 type searchState = {
   id: string;
   routing: boolean;
@@ -20,7 +26,7 @@ type searchState = {
   aggregations: Record<string, elasticsearch.AggregationsAggregate> | {};
   totalCount: number;
   isLoading: boolean;
-  filter: { query: string; order: 'asc' | 'desc' };
+  filters: Filter[];
   currentPage: number;
   pageSize: number;
 };
@@ -34,7 +40,7 @@ const initialState: searchState = {
   aggregations: {},
   totalCount: 0,
   isLoading: false,
-  filter: { query: '', order: 'asc' },
+  filters: [],
   currentPage: 0,
   pageSize: DEFAULT_PAGE_SIZE,
 };
@@ -76,7 +82,7 @@ export const SearchStore = signalStore(
             searchQuery: query,
           });
 
-          return searchService.getByQuery(query, 0, 10).pipe(
+          return searchService.getByQuery(query, 0, 10, store.filters()).pipe(
             tapResponse({
               next: (response) =>
                 patchState(store, {
@@ -108,7 +114,7 @@ export const SearchStore = signalStore(
             searchQuery: query,
           });
 
-          return searchService.getByQuery(query, page, size).pipe(
+          return searchService.getByQuery(query, page, size, store.filters()).pipe(
             tapResponse({
               next: (response) =>
                 patchState(store, {
@@ -127,6 +133,17 @@ export const SearchStore = signalStore(
     searchWithPagination(query: string, page: number = 0, size: number = 10): void {
       this.loadByQueryWithPagination({ query, page, size });
     },
+
+    addFilter(field: string, values: string | number){
+      console.log('added filters')
+      patchState(store, {
+        filters: [{ field, values: [values] }]
+      })
+
+      this.loadByQuery(store.searchQuery);
+
+
+    }
   })),
 );
 

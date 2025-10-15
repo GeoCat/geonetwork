@@ -7,23 +7,22 @@
 </div>
 
 <p-accordion [multiple]="true">
-  <p-accordion-panel *ngFor="let group of filterGroups; let i = index" [value]="i">
-    <p-accordion-header> {{ group.label }} </p-accordion-header>
-    <p-accordion-content>
-      <div *ngIf="group.buckets?.length === 0"><em>No options</em></div>
-
-      <div *ngFor="let bucket of group.buckets" class="flex items-center gap-2 my-1">
-        <p-checkbox
-          [binary]="true"
-          [inputId]="group.key + '_' + bucket.key"
-          [ngModel]="getSelected(group.key, bucket.key)"
-          (ngModelChange)="setSelected(group.key, bucket.key, $event)"
-        ></p-checkbox>
-
-        <label [for]="group.key + '_' + bucket.key">
-          {{ bucket?.name }} ({{ bucket?.count }})
-        </label>
-      </div>
-    </p-accordion-content>
-  </p-accordion-panel>
+  @for (key of aggregationKeys(); track $index) {
+    <p-accordion-panel [value]="$index">
+      <p-accordion-header>{{key | translate}}</p-accordion-header>
+      <p-accordion-content>
+        @for (bucket of getBuckets(aggregations[key]); track $index) {
+          <div class="flex items-center">
+            <p-checkbox
+              [binary]="true"
+              [inputId]="key + '_' + bucket.key"
+              [ngModel]="getSelected(key, bucket.key)"
+              (ngModelChange)="setSelected(key, bucket.key, $event)"
+            ></p-checkbox>
+            <label [for]="key + '_' + bucket.key">{{bucket.key | translate}} ({{bucket.doc_count}})</label>
+          </div>
+        }
+      </p-accordion-content>
+    </p-accordion-panel>
+  }
 </p-accordion>
