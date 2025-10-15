@@ -16,9 +16,7 @@
   </div>
 </section>
 
-<section
-  class="relative flex flex-col justify-center items-center px-[200px] py-[35px] overflow-hidden"
->
+<section class="relative flex flex-col justify-center items-center px-[200px] py-[35px] overflow-hidden">
   <div
     class="absolute inset-0 bg-center bg-cover opacity-20"
     [style.background-image]="'url(' + bgSecond + ')'"
@@ -40,7 +38,22 @@
     </div>
 
     <div>
-      <img [src]="island" [attr.alt]="" loading="lazy" class="h-[551px] w-[467px] rounded" />
+      <img [src]="island" [attr.alt]="" loading="lazy" class="h-[551px] w-[467px] rounded-2xl" />
+    </div>
+
+    <div class="flex flex-col justify-center">
+      <h2 class="text-[60px] text-primary font-extrabold mb-[40px] w-[475px]">Discover interactive maps</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <img [src]="island" [attr.alt]="" loading="lazy" class="h-[310px] w-[310px] rounded-2xl" />
+        </div>
+        <div>
+          <img [src]="island" [attr.alt]="" loading="lazy" class="h-[310px] w-[310px] rounded-2xl" />
+        </div>
+        <div>
+          <img [src]="island" [attr.alt]="" loading="lazy" class="h-[310px] w-[310px] rounded-2xl" />
+        </div>
+      </div>
     </div>
   </div>
 </section>
