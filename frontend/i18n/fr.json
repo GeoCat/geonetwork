@@ -12,5 +12,12 @@
   "languages": {
     "eng": "English",
     "fre": "Français"
-  }
+  },
+  "groupPublishedId": "Catalogues",
+  "th_sextant-theme_tree.key": "Thèmes Sextant",
+  "th_httpinspireeceuropaeutheme-theme_tree.key": "Thèmes INSPIRE",
+  "tag.default": "Mots-clés",
+  "creationYearForResource": "Années de création",
+  "OrgForResource": "Organisation",
+  "resourceType": "Type de ressource"
 }

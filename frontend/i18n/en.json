@@ -12,5 +12,12 @@
   "languages": {
     "eng": "English",
     "fre": "Français"
-  }
+  },
+  "groupPublishedId": "Groups",
+  "th_sextant-theme_tree.key": "Sextant themes",
+  "th_httpinspireeceuropaeutheme-theme_tree.key": "INSPIRE themes",
+  "tag.default": "Keywords",
+  "creationYearForResource": "Creation year",
+  "OrgForResource": "Organisation",
+  "resourceType": "Resource type"
 }

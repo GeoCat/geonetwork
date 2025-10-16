@@ -1264,6 +1264,13 @@ export const SEXTANT_UI_CONFIGURATION: UiConfiguration = {
   ...DEFAULT_UI_CONFIGURATION,
   mods: {
     ...DEFAULT_UI_CONFIGURATION.mods,
+    header: {
+      ...DEFAULT_UI_CONFIGURATION.mods.header,
+      languages: {
+        eng: 'en',
+        fre: 'fr',
+      },
+    },
     search: {
       ...DEFAULT_UI_CONFIGURATION.mods.search,
       facetConfig: {
