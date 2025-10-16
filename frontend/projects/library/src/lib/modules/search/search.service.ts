@@ -39,6 +39,10 @@ export class SearchService {
     }
   }
 
+  escapeSpecialCharacters(queryString: string) {
+    return queryString.replace(/(\+|-|&&|\|\||!|\{|\}|\[|\]|\^|\~|\?|:|\\{1}|\(|\)|\/)/g, '\\$1');
+  }
+
   buildQuery(query: string, filters: Filter[]): elasticsearch.QueryDslQueryContainer {
     const filter = [
       {
@@ -51,7 +55,7 @@ export class SearchService {
     if (query) {
       must.push({
         query_string: {
-          query: query,
+          query: this.escapeSpecialCharacters(query),
           default_operator: 'AND',
           fields: ['resourceTitleObject.*^5', 'any.*', 'uuid'],
         },
