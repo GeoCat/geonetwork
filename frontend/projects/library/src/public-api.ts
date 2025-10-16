@@ -15,3 +15,4 @@ export * from './lib/modules/search/search-base/search-base';
 export * from './lib/modules/search/search-box/search-box.component';
 export * from './lib/modules/search/aggregation-translate-pipe';
 export * from './lib/modules/record/record-view/record-view.component';
+export * from './lib/modules/record/record-field-overview/record-field-overview.component';

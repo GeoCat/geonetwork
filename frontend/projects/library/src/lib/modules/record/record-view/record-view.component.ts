@@ -12,6 +12,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Card } from 'primeng/card';
+import { RecordFieldOverviewComponent } from '../record-field-overview/record-field-overview.component';
 
 @Component({
   selector: 'app-record-view',
@@ -25,6 +26,7 @@ import { Card } from 'primeng/card';
     ButtonLabel,
     ButtonIcon,
     Card,
+    RecordFieldOverviewComponent,
   ],
   viewProviders: [
     provideIcons({

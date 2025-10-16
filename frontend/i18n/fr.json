@@ -4,6 +4,7 @@
       "placeholder": "Rechercher des données, services, publications, ..."
     }
   },
+  "record.field.overview.notAvailable": "Pas d'aperçu",
   "i18n": {
     "languageSwitcher": {
       "select": "Sélectionner votre langue."

@@ -1,0 +1,45 @@
+@if (overviewList(); as overviews) {
+  @if (overviews.length === 0) {
+    <div class="w-full h-full flex flex-col items-center justify-center">
+      <ng-icon
+        name="faImage"
+        class="text-6xl text-surface-400"
+        [title]="'record.field.overview.notAvailable' | translate"
+      ></ng-icon>
+    </div>
+  } @else if (overviews.length === 1) {
+    <ng-container *ngTemplateOutlet="overview; context: { $implicit: overviews[0] }"></ng-container>
+  } @else if (overviews.length > 1) {
+    <p-galleria
+      [value]="overviews"
+      [showIndicators]="true"
+      indicatorsPosition="top"
+      [showThumbnails]="false"
+      [containerStyle]="{ 'max-width': '640px' }"
+      [numVisible]="5"
+    >
+      <ng-template pTemplate="item" let-item>
+        <ng-container *ngTemplateOutlet="overview; context: { $implicit: item }"></ng-container>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <div class="grid grid-nogutter justify-content-center">
+          <img [src]="item.url" />
+        </div>
+      </ng-template>
+    </p-galleria>
+  }
+}
+
+<ng-template #overview let-overview>
+  <p-image
+    #image
+    [preview]="preview()"
+    [imageClass]="'w-full h-full m-w-full object-cover object-center ' + styleClass()"
+    [class]="'w-full h-full'"
+    [src]="overview.url"
+    [title]="overview.nameObject?.default || 'overview'"
+  ></p-image>
+</ng-template>
+
+<!--[hidden]="image.hidden"-->
+<!--(onImageError)="image.hidden = true"-->

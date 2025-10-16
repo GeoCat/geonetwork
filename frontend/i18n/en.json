@@ -4,6 +4,7 @@
       "placeholder": "Search for datasets, services, publications, ..."
     }
   },
+  "record.field.overview.notAvailable": "No preview",
   "i18n": {
     "languageSwitcher": {
       "select": "Choose your language."

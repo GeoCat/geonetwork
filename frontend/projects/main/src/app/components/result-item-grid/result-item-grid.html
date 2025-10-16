@@ -4,19 +4,7 @@
   <div class="bg-surface-50 flex justify-center rounded p-4 mb-4">
     <div class="relative mx-auto">
       <div class="rounded w-full h-32 flex items-center justify-center">
-        @if (getOverviewImage()) {
-          <img
-            [src]="getOverviewImage()"
-            [alt]="getOverviewImageName()"
-            class="w-full h-auto rounded shadow-md"
-            (error)="onImageError($event)"
-          />
-        } @else {
-          <div class="flex flex-col items-center justify-center p-4">
-            <ng-icon name="faImage" class="text-6xl text-surface-400"></ng-icon>
-            <p class="mt-2 text-xs text-surface-600">No preview available</p>
-          </div>
-        }
+        <app-record-field-overview [field]="result.overview?.[0] || []" [preview]="false" />
       </div>
     </div>
   </div>

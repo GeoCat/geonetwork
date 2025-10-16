@@ -1,16 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
-import { elasticsearch, IndexRecord } from 'gn-api-client';
+import { IndexRecord } from 'gn-api-client';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faImage } from '@ng-icons/font-awesome/regular';
 import { faSolidEye } from '@ng-icons/font-awesome/solid';
+import { RecordFieldOverviewComponent } from 'gn-library';
 
 @Component({
   selector: 'app-result-item-grid',
   standalone: true,
-  imports: [ButtonModule, TooltipModule, NgIcon],
+  imports: [ButtonModule, TooltipModule, NgIcon, RecordFieldOverviewComponent],
   templateUrl: './result-item-grid.html',
   viewProviders: [provideIcons({ faImage, faSolidEye })],
   styleUrl: './result-item-grid.scss',

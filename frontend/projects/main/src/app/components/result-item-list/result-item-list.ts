@@ -9,13 +9,21 @@ import {
   faSolidDownload,
   faSolidShareNodes,
 } from '@ng-icons/font-awesome/solid';
+import { RecordFieldOverviewComponent } from 'gn-library';
 
 @Component({
   selector: 'app-result-item-list',
   templateUrl: './result-item-list.html',
   styleUrl: './result-item-list.scss',
   standalone: true,
-  imports: [CommonModule, ButtonModule, NgIcon],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    NgIcon,
+    RecordFieldOverviewComponent,
+    RecordFieldOverviewComponent,
+    RecordFieldOverviewComponent,
+  ],
   viewProviders: [
     provideIcons({ faImage, faMap, faSolidShareNodes, faSolidDownload, faSolidCircleInfo }),
   ],
