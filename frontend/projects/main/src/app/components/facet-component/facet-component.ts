@@ -37,6 +37,7 @@ interface AggregationsAggregate {
     AccordionContent,
     TranslatePipe,
     AggregationTranslatePipe,
+    AggregationTranslatePipe,
   ],
 })
 export class FacetComponent implements OnInit {
