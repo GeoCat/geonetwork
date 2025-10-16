@@ -18,6 +18,7 @@ import { SearchStore } from '../search.store';
 import { SearchBase } from '../search-base/search-base';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidXmark, faSolidMagnifyingGlass } from '@ng-icons/font-awesome/solid';
+import { faMap } from '@ng-icons/font-awesome/regular';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -33,7 +34,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     ButtonIcon,
     TranslatePipe,
   ],
-  viewProviders: [provideIcons({ faSolidMagnifyingGlass, faSolidXmark })],
+  viewProviders: [provideIcons({ faSolidMagnifyingGlass, faSolidXmark, faMap })],
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

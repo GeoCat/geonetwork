@@ -4,9 +4,9 @@
 >
   <div class="absolute inset-0 bg-primary/80"></div>
 
-  <div class="relative z-10 text-center px-4">
-    <h1 class="text-white text-[60px] font-extrabold">Charting the ocean's story through data</h1>
-    <p class="text-white text-[22px] mb-[35px]">
+  <div class="relative z-10 mx-auto md:w-[1280px] w-full">
+    <h1 class="text-white text-[60px] font-extrabold w-full md:w-[700px]">Charting the ocean's story through data</h1>
+    <p class="text-white text-[22px] mb-[35px] w-full md:w-[500px]">
       Open, high-quality marine & coastal geospatial data for science-policy from Ifremer.
     </p>
     <app-search-component [(query)]="currentQuery" [isHomepage]="true"></app-search-component>
@@ -16,15 +16,13 @@
   </div>
 </section>
 
-<section
-  class="relative flex flex-col justify-center items-center px-[200px] py-[35px] overflow-hidden"
->
+<section class="relative flex flex-col justify-center items-center py-[35px] overflow-hidden">
   <div
     class="absolute inset-0 bg-center bg-cover opacity-20"
     [style.background-image]="'url(' + bgSecond + ')'"
   ></div>
 
-  <div class="relative z-10 grid grid-cols-2 gap-48">
+  <div class="relative z-10 grid grid-cols-2 gap-48 md:w-[1280px] w-full">
     <div>
       <h2 class="text-primary text-[60px] font-extrabold">
         Infrastructure de données géographiques marines et littorales
@@ -43,34 +41,17 @@
       <img [src]="island" [attr.alt]="" loading="lazy" class="h-[551px] w-[467px] rounded-2xl" />
     </div>
 
-    <div class="flex flex-col justify-center">
-      <h2 class="text-[60px] text-primary font-extrabold mb-[40px] w-[475px]">
-        Discover interactive maps
-      </h2>
-      <div class="grid grid-cols-3 gap-4">
+    <div class="flex flex-col justify-center md:w-[1280px] w-full">
+      <h2 class="text-[60px] text-primary font-extrabold mb-[40px] w-[475px]">Discover interactive maps</h2>
+      <div class="grid grid-cols-3 gap-5">
         <div>
-          <img
-            [src]="island"
-            [attr.alt]=""
-            loading="lazy"
-            class="h-[310px] w-[310px] rounded-2xl"
-          />
+          <img [src]="island" [attr.alt]="" loading="lazy" class="h-[310px] w-[310px] rounded-2xl" />
         </div>
         <div>
-          <img
-            [src]="island"
-            [attr.alt]=""
-            loading="lazy"
-            class="h-[310px] w-[310px] rounded-2xl"
-          />
+          <img [src]="island" [attr.alt]="" loading="lazy" class="h-[310px] w-[310px] rounded-2xl" />
         </div>
         <div>
-          <img
-            [src]="island"
-            [attr.alt]=""
-            loading="lazy"
-            class="h-[310px] w-[310px] rounded-2xl"
-          />
+          <img [src]="island" [attr.alt]="" loading="lazy" class="h-[310px] w-[310px] rounded-2xl" />
         </div>
       </div>
     </div>
