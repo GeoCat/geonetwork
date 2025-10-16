@@ -5,6 +5,7 @@ import { SearchService as ApiSearchService } from 'gn4-api-client';
 import { APPLICATION_CONFIGURATION } from '../config/config.loader';
 import { SearchRegistry, SearchStoreType, TRACK_TOTAL_HITS } from './search.store';
 import { Filter } from './search.store';
+import { SEARCH_SOURCE } from './search.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -121,9 +122,9 @@ export class SearchService {
       track_total_hits: TRACK_TOTAL_HITS,
       query: this.buildQuery(query, filters),
       aggregations: this.buildAggregation(this.uiConfiguration?.apps?.search?.aggregations ?? []),
+      _source: SEARCH_SOURCE,
     };
     // TODO: add sorting
-    // TODO: add _source fields
 
     return this.searchService.search(searchRequest).pipe(
       map(
