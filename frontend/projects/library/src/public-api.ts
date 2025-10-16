@@ -13,3 +13,4 @@ export * from './lib/modules/search/search.service';
 export * from './lib/modules/search/search-context.directive';
 export * from './lib/modules/search/search-base/search-base';
 export * from './lib/modules/search/search-box/search-box.component';
+export * from './lib/modules/search/aggregation-translate-pipe';

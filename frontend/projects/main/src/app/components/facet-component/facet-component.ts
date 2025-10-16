@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { SearchStore } from 'gn-library';
+import { SearchStore, AggregationTranslatePipe } from 'gn-library';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
@@ -36,6 +36,7 @@ interface AggregationsAggregate {
     AccordionHeader,
     AccordionContent,
     TranslatePipe,
+    AggregationTranslatePipe,
   ],
 })
 export class FacetComponent implements OnInit {

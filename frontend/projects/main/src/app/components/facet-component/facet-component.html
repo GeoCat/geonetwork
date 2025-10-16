@@ -17,7 +17,7 @@
               (ngModelChange)="setSelected(key, bucket.key, $event)"
             ></p-checkbox>
             <label [for]="key + '_' + bucket.key"
-              >{{ bucket.key | translate }} ({{ bucket.doc_count }})</label
+              >{{ bucket.key | aggregationTranslate: key }} ({{ bucket.doc_count }})</label
             >
           </div>
         }
