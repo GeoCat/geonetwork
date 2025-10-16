@@ -59,13 +59,6 @@ export class FacetComponent implements OnInit {
 
   selectedFilters: Record<string, Record<string, boolean>> = {};
 
-  onFilterChange(groupKey: string, bucketKey: string, checked: boolean) {
-    if (!this.selectedFilters[groupKey]) {
-      this.selectedFilters[groupKey] = {};
-    }
-    this.selectedFilters[groupKey][bucketKey] = checked;
-  }
-
   getSelected(groupKey: string, bucketKey: string): boolean {
     return !!this.selectedFilters?.[groupKey]?.[bucketKey];
   }
@@ -75,8 +68,12 @@ export class FacetComponent implements OnInit {
       this.selectedFilters[groupKey] = {};
     }
     this.selectedFilters[groupKey][bucketKey] = value;
-    this.searchStore.addFilter(groupKey, bucketKey);
-    this.onFilterChange(groupKey, bucketKey, value);
+
+    if (value) {
+      this.searchStore.addFilter(groupKey, bucketKey);
+    } else {
+      this.searchStore.removeFilter(groupKey, bucketKey);
+    }
   }
 
   ngOnInit(): void {}

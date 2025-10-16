@@ -77,7 +77,7 @@ export const SearchStore = signalStore(
       loadByQuery: rxMethod<string>(
         pipe(
           debounceTime(300),
-          distinctUntilChanged(),
+          // distinctUntilChanged(),
           tap(() => patchState(store, { isLoading: true })),
           switchMap((query) => {
             patchState(store, {
@@ -139,11 +139,54 @@ export const SearchStore = signalStore(
       },
 
       addFilter(field: string, value: string | number): void {
+        let currentFilters = store.filters();
+
+        if (currentFilters) {
+          let clickedFilter = currentFilters.find((filter) => filter.field === field);
+
+          if (clickedFilter) {
+            let clickedFilterValues = clickedFilter.values;
+            clickedFilterValues.push(value);
+          } else {
+            currentFilters.push({ field, values: [value] });
+          }
+        } else {
+          currentFilters = [{ field, values: [value] }];
+        }
+
         patchState(store, {
-          filters: [{ field, values: [value] }],
+          filters: currentFilters,
         });
 
         this.loadByQuery(store.searchQuery(), { injector });
+      },
+
+      removeFilter(field: string, value: string | number): void {
+        let currentFilters = store.filters();
+
+        if (currentFilters) {
+          let clickedFilter = currentFilters.find((filter) => filter.field === field);
+
+          if (clickedFilter) {
+            let clickedFilterValues = clickedFilter.values;
+            let clickedFilterIndex = clickedFilterValues.indexOf(value);
+
+            if (clickedFilterIndex > -1) {
+              clickedFilterValues.splice(clickedFilterIndex, 1);
+            }
+
+            if (clickedFilterValues.length === 0) {
+              let clickedFilterIndex = currentFilters.indexOf(clickedFilter);
+              currentFilters.splice(clickedFilterIndex, 1);
+            }
+          }
+
+          patchState(store, {
+            filters: currentFilters,
+          });
+
+          this.loadByQuery(store.searchQuery());
+        }
       },
     };
   }),

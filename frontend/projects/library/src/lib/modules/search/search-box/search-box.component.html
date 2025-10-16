@@ -1,38 +1,36 @@
 <form>
-    <div class="relative w-full flex gap-2">
-      <p-inputgroup>
-        <input
-          [placeholder]="'search.input.placeholder' | translate"
-          class="border border-gray-400 focus:border-blue-400 rounded-full"
-          type="text"
-          pInputText
-          name="search"
-          [(ngModel)]="query"
-          (input)="onInput($event)"
-          (keydown)="onKeyDown($event)"
-        />
-        <p-inputgroup-addon>
-          <p-button severity="secondary" variant="text" (onClick)="onSearch()">
-            <ng-icon name="faSolidMagnifyingGlass" pButtonIcon></ng-icon>
-          </p-button>
-        </p-inputgroup-addon>
-      </p-inputgroup>
+  <div class="relative w-full flex gap-2">
+    <p-inputgroup>
+      <input
+        [placeholder]="'search.input.placeholder' | translate"
+        class="border border-gray-400 focus:border-blue-400 rounded-full"
+        type="text"
+        pInputText
+        name="search"
+        [(ngModel)]="query"
+        (input)="onInput($event)"
+        (keydown)="onKeyDown($event)"
+      />
+      <p-inputgroup-addon>
+        <p-button severity="secondary" variant="text" (onClick)="onSearch()">
+          <ng-icon name="faSolidMagnifyingGlass" pButtonIcon></ng-icon>
+        </p-button>
+      </p-inputgroup-addon>
+    </p-inputgroup>
 
-      @if (query) {
-        <button
-          type="button"
-          (click)="clearQuery()"
-          class="z-50 absolute right-35 top-1/2 transform -translate-y-1/2 w-[32px] h-[32px] rounded-full bg-primary text-white leading-[35px]"
-        >
-          <ng-icon name="faSolidXmark" />
-        </button>
-      }
+    @if (query) {
+      <button
+        type="button"
+        (click)="clearQuery()"
+        class="z-50 absolute right-35 top-1/2 transform -translate-y-1/2 w-[32px] h-[32px] rounded-full bg-primary text-white leading-[35px]"
+      >
+        <ng-icon name="faSolidXmark" />
+      </button>
+    }
 
-      <p-button severity="secondary">
-        <ng-icon name="faMap" pButtonIcon></ng-icon>
-        <span>Map</span>
-      </p-button>
-
-    </div>
-
+    <p-button severity="secondary">
+      <ng-icon name="faMap" pButtonIcon></ng-icon>
+      <span>Map</span>
+    </p-button>
+  </div>
 </form>
