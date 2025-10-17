@@ -1,11 +1,10 @@
 import {Component, computed, inject, Input, OnInit} from '@angular/core';
-import { SearchStore, AggregationTranslatePipe } from 'gn-library';
+import { SearchStore } from 'gn-library';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Accordion, AccordionContent, AccordionHeader, AccordionPanel } from 'primeng/accordion';
-import { Checkbox } from 'primeng/checkbox';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Accordion } from 'primeng/accordion';
 import { elasticsearch } from 'gn-api-client';
+import { AggregationsComponent } from '../aggregations-component/aggregations-component';
 
 interface BucketUI {
   key: string;
@@ -29,15 +28,9 @@ interface AggregationsAggregate {
   standalone: true,
   imports: [
     FormsModule,
-    AccordionPanel,
     Accordion,
     CommonModule,
-    Checkbox,
-    AccordionHeader,
-    AccordionContent,
-    TranslatePipe,
-    AggregationTranslatePipe,
-    AggregationTranslatePipe,
+    AggregationsComponent,
   ],
 })
 export class SidePanel implements OnInit {
@@ -65,6 +58,8 @@ export class SidePanel implements OnInit {
   }
 
   setSelected(groupKey: string, bucketKey: string, value: boolean) {
+    console.log('setSelected called with:', { groupKey, bucketKey, value });
+
     if (!this.selectedFilters[groupKey]) {
       this.selectedFilters[groupKey] = {};
     }
