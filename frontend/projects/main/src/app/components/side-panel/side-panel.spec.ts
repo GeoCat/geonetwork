@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FacetComponent } from './facet-component';
+import { SidePanel } from './side-panel';
 
 describe('FacetComponent', () => {
-  let component: FacetComponent;
-  let fixture: ComponentFixture<FacetComponent>;
+  let component: SidePanel;
+  let fixture: ComponentFixture<SidePanel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FacetComponent],
+      imports: [SidePanel],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FacetComponent);
+    fixture = TestBed.createComponent(SidePanel);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

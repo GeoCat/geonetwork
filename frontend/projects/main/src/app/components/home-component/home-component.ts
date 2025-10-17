@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { SearchBox, SearchContextDirective, SearchService, SearchStoreType } from 'gn-library';
 import { JsonPipe } from '@angular/common';
 import { SearchWelcomeText } from '../search-welcome-text/search-welcome-text';
-import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
+import { ButtonDirective, ButtonLabel } from 'primeng/button';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,6 @@ import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
     SearchContextDirective,
     SearchWelcomeText,
     ButtonLabel,
-    ButtonIcon,
     ButtonDirective,
   ],
   templateUrl: './home-component.html',

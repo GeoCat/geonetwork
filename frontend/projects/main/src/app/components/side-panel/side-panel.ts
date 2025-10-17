@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import {Component, computed, inject, Input, OnInit} from '@angular/core';
 import { SearchStore, AggregationTranslatePipe } from 'gn-library';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -23,9 +23,9 @@ interface AggregationsAggregate {
 }
 
 @Component({
-  selector: 'app-facet-component',
-  templateUrl: './facet-component.html',
-  styleUrl: './facet-component.scss',
+  selector: 'app-side-panel',
+  templateUrl: './side-panel.html',
+  styleUrl: './side-panel.scss',
   standalone: true,
   imports: [
     FormsModule,
@@ -40,7 +40,7 @@ interface AggregationsAggregate {
     AggregationTranslatePipe,
   ],
 })
-export class FacetComponent implements OnInit {
+export class SidePanel implements OnInit {
   readonly searchStore = inject(SearchStore);
 
   get aggregations(): Record<string, elasticsearch.AggregationsAggregate> {

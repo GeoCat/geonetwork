@@ -9,14 +9,14 @@
       <p-accordion-header>{{ key | translate }}</p-accordion-header>
       <p-accordion-content>
         @for (bucket of getBuckets(aggregations[key]); track $index) {
-          <div class="flex items-center">
+          <div class="flex items-center mb-4">
             <p-checkbox
               [binary]="true"
               [inputId]="key + '_' + bucket.key"
               [ngModel]="getSelected(key, bucket.key)"
               (ngModelChange)="setSelected(key, bucket.key, $event)"
             ></p-checkbox>
-            <label [for]="key + '_' + bucket.key"
+            <label class="ml-2" [for]="key + '_' + bucket.key"
               >{{ bucket.key | aggregationTranslate: key }} ({{ bucket.doc_count }})</label
             >
           </div>
