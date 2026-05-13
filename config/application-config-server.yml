@@ -6,6 +6,14 @@
 server:
   port: 8888
 
+geonetwork:
+  security:
+    provider: database
+    passwordSalt: secret-hash-salt=
+    databaseUserAuthProperty: USERNAME_OR_EMAIL
+
+debug: true
+
 spring:
   application:
     name: config-server
@@ -16,6 +24,14 @@ spring:
     username: ${JDBC_DATABASE_USERNAME:geonetwork}
     password: ${JDBC_DATABASE_PASSWORD:geonetwork}
     driver-class-name: ${JDBC_DATABASE_DRIVER:org.postgresql.Driver}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   cloud:
     config:
       server:
