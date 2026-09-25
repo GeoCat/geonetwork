@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    options {
+        // The buildpack cache is per branch (see Docker Build), so two builds
+        // of the same branch must not share it at the same time.
+        disableConcurrentBuilds()
+    }
     tools {
         jdk 'jdk-21'
     }
@@ -24,7 +29,10 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh "./mvnw -B -f src/apps/geonetwork/pom.xml spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${DOCKER_IMAGE_COMMIT}"
+                    // Build under the branch tag: the buildpack cache volumes are
+                    // named after the image, so a per-commit name left a new pair
+                    // of pack-cache-* volumes behind on every build.
+                    sh "./mvnw -B -f src/apps/geonetwork/pom.xml spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${DOCKER_IMAGE_BRANCH}"
                 }
             }
         }
@@ -35,9 +43,9 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("https://${env.REGISTRY}", 'docker-registry-credentials') {
-                        def newImage = docker.image("${env.DOCKER_IMAGE_COMMIT}")
+                        def newImage = docker.image("${env.DOCKER_IMAGE_BRANCH}")
                         newImage.push()
-                        newImage.push("${env.SAFE_BRANCH}")
+                        newImage.push("${env.SAFE_BRANCH}-${env.GIT_COMMIT[0..7]}")
                     }
                 }
             }
